@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/view/book_page.dart';
@@ -10,7 +11,10 @@ import 'package:vip_hotels/view/intro.dart';
 import 'package:vip_hotels/view/login.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -24,25 +28,25 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: '/login',
             page: ()=>Login(),
-          transitionDuration: Duration(milliseconds: 1000),
+          transitionDuration: const Duration(milliseconds: 1000),
           curve: Curves.fastOutSlowIn
         ),
         GetPage(
             name: '/home',
             page: ()=>Home(),
-            transitionDuration: Duration(milliseconds: 1000),
+            transitionDuration: const Duration(milliseconds: 1000),
             curve: Curves.fastOutSlowIn
         ),
         GetPage(
             name: '/carDetails',
             page: ()=>CarDetails(),
-            transitionDuration: Duration(milliseconds: 1000),
+            transitionDuration: const Duration(milliseconds: 1000),
             curve: Curves.fastOutSlowIn
         ),
         GetPage(
             name: '/book',
             page: ()=>BookPage(),
-            transitionDuration: Duration(milliseconds: 1000),
+            transitionDuration: const Duration(milliseconds: 1000),
             curve: Curves.fastOutSlowIn
         ),
       ],
