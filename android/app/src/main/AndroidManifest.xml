@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.GALLERY" />
 
    <application
-        android:label="vip_hotels"
+        android:label="Vip Hotels"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
