@@ -7,7 +7,6 @@ import 'package:vip_hotels/controller/login_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
-import 'package:vip_hotels/widget/backgroundImage.dart';
 import 'package:vip_hotels/widget/custom_logo.dart';
 import 'package:vip_hotels/widget/custom_sideBar.dart';
 import 'package:vip_hotels/widget/theme_circle.dart';
@@ -35,19 +34,29 @@ class Home extends StatelessWidget {
           body: SafeArea(
               child: Stack(
                 children: [
-                  BackgroundImage(),
+                  // BackgroundImage(),
                   Container(
-                    width: Get.width * 0.5,
+                    width: Get.width,
                     height: Get.height,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.black.withOpacity(0.9),
-                          Colors.black.withOpacity(0),
-                        ],
-                      ),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/images/homeBackground.jpg')
+                      )
                     ),
                   ),
+                  // Container(
+                  //   width: Get.width * 0.5,
+                  //   height: Get.height,
+                  //   decoration: BoxDecoration(
+                  //     gradient: LinearGradient(
+                  //       colors: [
+                  //         Colors.black.withOpacity(0.1),
+                  //         Colors.black.withOpacity(0),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -74,28 +83,28 @@ class Home extends StatelessWidget {
                    child: homeController.themeOpenPage.value ? ThemeCircle() : const Text(''),
                  ),
                   /// filter button
-                  AnimatedPositioned(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.fastOutSlowIn,
-                    right: 30,
-                    bottom: homeController.chooseBrand.value ? 40 : -Get.width * 0.06,
-                    child: GestureDetector(
-                      onTap: (){
-                        homeController.clearFilter();
-                      },
-                      child: Container(
-                        width: Get.width * 0.06,
-                        height: Get.width * 0.06,
-                        decoration: const BoxDecoration(
-                          color: AppStyle.primary,
-                          shape: BoxShape.circle
-                        ),
-                        child: const Center(
-                          child: Icon(Icons.filter_list_off_sharp,size: 35),
-                        ),
-                      ),
-                    ),
-                  )
+                  // AnimatedPositioned(
+                  //   duration: const Duration(milliseconds: 500),
+                  //   curve: Curves.fastOutSlowIn,
+                  //   right: 30,
+                  //   bottom: homeController.chooseBrand.value ? 40 : -Get.width * 0.06,
+                  //   child: GestureDetector(
+                  //     onTap: (){
+                  //       homeController.clearFilter();
+                  //     },
+                  //     child: Container(
+                  //       width: Get.width * 0.06,
+                  //       height: Get.width * 0.06,
+                  //       decoration: const BoxDecoration(
+                  //         color: AppStyle.primary,
+                  //         shape: BoxShape.circle
+                  //       ),
+                  //       child: const Center(
+                  //         child: Icon(Icons.filter_list_off_sharp,size: 35),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               )
           ),
@@ -700,20 +709,36 @@ class Home extends StatelessWidget {
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount: introController.brandList.length,
+          itemCount: introController.brandList.length + 1,
           itemBuilder: (BuildContext context, index){
-            return GestureDetector(
+            return index == 0
+                ? GestureDetector(
+                    onTap: (){
+                      homeController.clearFilter();
+                    },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      color: AppStyle.primary,
+                      shape: BoxShape.circle
+                    ),
+                    child: const Icon(Icons.filter_list_off),
+                  ),
+                )
+                : GestureDetector(
               onTap: (){
-                homeController.chooseCarFilter(introController.brandList[index].id  );
+                homeController.chooseCarFilter(introController.brandList[index - 1].id  );
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 50),
+                margin: const EdgeInsets.symmetric(horizontal: 40),
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.contain,
-                        image: NetworkImage(introController.brandList[index].image)
+                        image: NetworkImage(introController.brandList[index - 1].image)
                     )
                 ),
               ),

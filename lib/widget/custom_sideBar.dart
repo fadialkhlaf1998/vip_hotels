@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +7,7 @@ import 'package:vip_hotels/services/AppStyle.dart';
 
 class CustomSideBar extends StatelessWidget {
 
-  List<String> myIcon = ['search.svg', 'favorite.svg', 'theme.svg'];
+  List<String> myIcon = ['search.svg', 'favorite.svg'];
   HomeController homeController = Get.find();
 
   double width;

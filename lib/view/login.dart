@@ -1,6 +1,5 @@
 
 
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:vip_hotels/controller/login_controller.dart';
@@ -20,29 +19,41 @@ class Login extends StatelessWidget {
     return Obx((){
       return Scaffold(
         body: SafeArea(
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (overScroll) {
-              overScroll.disallowGlow();
-              return true;
-            },
-            child: SingleChildScrollView(
-                child: SizedBox(
-                  height: Get.height - (MediaQuery.of(context).padding.bottom + MediaQuery.of(context).padding.top),
-                  child: Row(
-                    children: [
-                      CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background.png'),
-                      Stack(
-                        alignment: Alignment.center,
+          child: Stack(
+            children: [
+              NotificationListener<OverscrollIndicatorNotification>(
+                onNotification: (overScroll) {
+                  overScroll.disallowIndicator();
+                  return true;
+                },
+                child: SingleChildScrollView(
+                    child: SizedBox(
+                      height: Get.height - (MediaQuery.of(context).padding.bottom + MediaQuery.of(context).padding.top),
+                      child: Row(
                         children: [
-                          CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
-                          _inputData(),
+                          CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background.png'),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
+                              _inputData(),
 
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                )
-            ),
+                    )
+                ),
+              ),
+              loginController.loading.value ? Container(
+                width: Get.width,
+                height: Get.height,
+                color: Colors.black.withOpacity(0.6),
+                child: const Center(
+                  child: CircularProgressIndicator(strokeWidth: 6),
+                ),
+              ) : const Center(),
+            ],
           ),
         ),
       );
@@ -100,6 +111,7 @@ class Login extends StatelessWidget {
             height: 45,
             text: 'GO NOW',
             onPressed: (){
+              FocusManager.instance.primaryFocus?.unfocus();
               loginController.login();
             },
             color: AppStyle.primary,

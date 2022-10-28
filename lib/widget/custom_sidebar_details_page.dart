@@ -1,6 +1,5 @@
 
 
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -57,7 +56,10 @@ class CustomSideBarDetailsPage extends StatelessWidget {
               SizedBox(height: space * 2),
               GestureDetector(
                 onTap: (){
-                  homeController.homeButton();
+                  // homeController.homeButton();
+                  homeController.selectIndexSidebar.value = -1;
+                  Get.back();
+
                 },
                 child: SizedBox(
                     width: width - 25,

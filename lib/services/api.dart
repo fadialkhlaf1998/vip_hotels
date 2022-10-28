@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/global.dart';
-import 'package:intl/intl.dart';
 
 class Api {
 
@@ -26,8 +25,7 @@ class Api {
       var data = await response.stream.bytesToString();
       AllData u = AllData.fromMap(jsonDecode(data));
       return u;
-    }
-    else {
+    } else {
       return null;
     }
   }
