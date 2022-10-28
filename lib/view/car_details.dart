@@ -23,6 +23,8 @@ class CarDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    detailsPageController.optionIndex.value = 0;
+
     return Obx((){
       return WillPopScope(
         onWillPop: ()async{
