@@ -84,11 +84,17 @@ class CarDetails extends StatelessWidget {
                   ],
                 ),
                 /// Car Image
-                const Positioned(
+                Positioned(
                   left: 50,
                   top: 20,
-                  child: SizedBox(
-                    child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
+                  child: GestureDetector(
+                    onTap: (){
+                      homeController.selectIndexSidebar.value = -1;
+                      Get.back();
+                    },
+                    child: const SizedBox(
+                      child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
+                    ),
                   ),
                 ),
                 AnimatedPositioned(
