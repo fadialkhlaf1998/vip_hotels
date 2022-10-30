@@ -77,6 +77,7 @@ class HomeController extends GetxController{
         searchOpenTextDelegate.value = true;
         brandOpenMenu.value = false;
         themeOpenPage.value = false;
+        goToTheTop();
       }
     }else if(selectIndexSidebar.value == 1){
       if(brandOpenMenu.value == true){
@@ -86,6 +87,7 @@ class HomeController extends GetxController{
         searchOpenTextDelegate.value = false;
         brandOpenMenu.value = true;
         themeOpenPage.value = false;
+        goToTheTop();
       }
     }else if(selectIndexSidebar.value == 2){
       if(themeOpenPage.value == true){

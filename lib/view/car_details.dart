@@ -84,6 +84,13 @@ class CarDetails extends StatelessWidget {
                   ],
                 ),
                 /// Car Image
+                const Positioned(
+                  left: 50,
+                  top: 20,
+                  child: SizedBox(
+                    child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
+                  ),
+                ),
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 700),
                   right: detailsPageController.optionChangeTimer.value ? -100 : 100,
