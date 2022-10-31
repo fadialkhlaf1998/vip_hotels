@@ -782,12 +782,11 @@ class CustomSearchClass extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     introController.searchCarList.clear();
-
     introController.searchCarList =
         introController.allCars.where((element) =>
             element.title.toLowerCase().contains(query)).toList();
 
-    return Container(
+    return query.isEmpty?Center():Container(
       margin: const EdgeInsets.all(20),
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -856,7 +855,76 @@ class CustomSearchClass extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Text('');
+    introController.searchCarList.clear();
+    introController.searchCarList =
+        introController.allCars.where((element) =>
+            element.title.toLowerCase().contains(query)).toList();
+
+    return query.isEmpty?Center():Container(
+        margin: const EdgeInsets.all(20),
+        child: GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 3/1
+          ),
+          itemCount: introController.searchCarList.length,
+          itemBuilder: (BuildContext context, index){
+            Car item = introController.searchCarList[index];
+            return  GestureDetector(
+              onTap: (){
+                if(item.options.isNotEmpty){
+                  Get.offNamed('/carDetails', arguments: [item]);
+                }
+              },
+              child: Card(
+                  color: Colors.white,
+                  child:Container(
+                      padding: const EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: Get.width * 0.14,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(item.image)
+                                )
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          Container(
+                            width: Get.width * 0.28,
+                            child:  Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: Image.network(item.brandImage),
+                                ),
+                                Text(
+                                    item.title,
+                                    maxLines: 2,
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                Text(item.price.toString() + ' AED'),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                  )
+              ),
+            );
+          },
+        )
+    );
   }
 
 }

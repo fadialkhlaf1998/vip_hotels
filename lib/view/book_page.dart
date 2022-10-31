@@ -82,7 +82,20 @@ class BookPage extends StatelessWidget {
                             child: CircularProgressIndicator(strokeWidth: 5,color: AppStyle.primary,),
                           ),
                         ) : const Center(),
-                  )
+                  ),
+                  Positioned(
+                    left: 50,
+                    top: 20,
+                    child: GestureDetector(
+                      onTap: (){
+                        // homeController.selectIndexSidebar.value = -1;
+                        Get.back();
+                      },
+                      child: const SizedBox(
+                        child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -287,7 +300,7 @@ class BookPage extends StatelessWidget {
     return Center(
       child: Container(
         width: Get.width * 0.35,
-        height: Get.height * 0.5,
+        height: 430,
         decoration: BoxDecoration(
             color: AppStyle.grey,
             borderRadius: BorderRadius.circular(15)
