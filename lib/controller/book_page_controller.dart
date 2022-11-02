@@ -8,10 +8,12 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/api.dart';
+import 'package:vip_hotels/view/success.dart';
 
 class BookPageController extends GetxController{
 
   RxBool saveDate = false.obs;
+  RxBool validate = false.obs;
   RxString range = ''.obs;
   RxBool calenderOpen = false.obs;
   final ImagePicker _picker = ImagePicker();
@@ -56,26 +58,36 @@ class BookPageController extends GetxController{
     return DateTime.parse(date);
   }
 
-  book(String carId,String? optionId) async {
-    if(range.isNotEmpty){
+  book(String carId,String? optionId,BuildContext context) async {
+    validate.value = true;
+
+
+    if(range.isNotEmpty && name.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&RegExp(r'\S+@\S+\.\S+').hasMatch(email.text)){
       loading.value = true;
       await Api.addOrder(from,to,carId,optionId,imageList, phone.text, email.text, name.text).then((value){
+        validate.value = false;
         if(value){
           loading.value = false;
-          Get.offNamed('/home');
+          // Get.offNamed('/home');
+          Get.off(()=>Success());
           print('success');
+          // AppStyle.successNotification(context, 'Your Book Has Been Successfully', 'We Will Confirm You By Email');
 
         }else{
+          AppStyle.errorNotification(context, 'Oops', 'Something Went Wrong');
           loading.value = false;
           print('failed');
         }
       });
     }else{
-     Get.snackbar(
-         'Warning', 'Please choose date',
-       margin: const EdgeInsets.only(top: 40, right: 150, left: 150),
-       backgroundColor: AppStyle.lightGrey
-     );
+      if(range.isEmpty ){
+        AppStyle.errorNotification(context, 'Warning', 'Please choose date');
+      }
+     // Get.snackbar(
+     //     'Warning', 'Please choose date',
+     //   margin: const EdgeInsets.only(top: 40, right: 150, left: 150),
+     //   backgroundColor: AppStyle.lightGrey
+     // );
     }
   }
 

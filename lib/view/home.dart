@@ -7,6 +7,7 @@ import 'package:vip_hotels/controller/login_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
+import 'package:vip_hotels/view/success.dart';
 import 'package:vip_hotels/widget/custom_logo.dart';
 import 'package:vip_hotels/widget/custom_sideBar.dart';
 import 'package:vip_hotels/widget/theme_circle.dart';
@@ -127,7 +128,7 @@ class Home extends StatelessWidget {
 
   _bottomBar(){
     return Container(
-      height: Get.height * 0.08,
+      height: 40,
       width: Get.width,
       decoration:  BoxDecoration(
           gradient: LinearGradient(
@@ -135,7 +136,7 @@ class Home extends StatelessWidget {
               end: Alignment.topCenter,
               colors: [
                 Colors.black,
-                Colors.black.withOpacity(0.4)
+                Colors.black.withOpacity(0.9)
               ]
           )
       ),
@@ -143,7 +144,7 @@ class Home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          CustomLogo(width: 0.18, height: 0.07, tag: 'tag'),
+          // CustomLogo(width: 0.18, height: 0.07, tag: 'tag'),
           GestureDetector(
             onTap: (){
               if(homeController.chooseBrand.value){
@@ -166,8 +167,8 @@ class Home extends StatelessWidget {
                 child: Text(
                   'All',
                   style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 27,
+                      color: Colors.white,
+                      fontSize: 22,
                     fontFamily: 'D-DIN-PRO',
                       fontWeight: FontWeight.bold
                   ),
@@ -206,8 +207,8 @@ class Home extends StatelessWidget {
                       child: Text(
                         introController.carCategory[index].title,
                         style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 27,
+                          color: Colors.white,
+                          fontSize: 22,
                           fontFamily: 'D-DIN-PRO',
                           fontWeight: FontWeight.bold
                         ),
@@ -263,11 +264,11 @@ class Home extends StatelessWidget {
               crossAxisCount: 3,
               crossAxisSpacing: 30,
               mainAxisSpacing: 30,
-              // childAspectRatio: 12/12
+              childAspectRatio: 3/4,
             ),
             itemCount: introController.allCars.length,
             itemBuilder: (BuildContext context, index){
-              return _carCard(index);
+              return _carCard(index,context);
             },
           ),
           SizedBox(height: Get.height * 0.11)
@@ -293,7 +294,7 @@ class Home extends StatelessWidget {
               crossAxisCount: 3,
               crossAxisSpacing: 30,
               mainAxisSpacing: 30,
-              // childAspectRatio: 12/12
+              childAspectRatio: 3/4,
             ),
             itemCount: homeController.filterCarList.length,
             itemBuilder: (BuildContext context, index){
@@ -307,180 +308,197 @@ class Home extends StatelessWidget {
   }
 
   _carCardFilter(index){
-    return Container(
-      decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: (){
+        if(homeController.filterCarList[index].options.isNotEmpty){
+          Get.toNamed('/carDetails', arguments: [homeController.filterCarList[index]]);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppStyle.grey.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(20)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              flex: 6,
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(homeController.filterCarList[index].image),
+                        )
+                    ),
+                  ),
+                  Hero(
+                    tag: homeController.filterCarList[index].carId,
+                    child: Container(
+                      width: Get.width * 0.04,
+                      height: Get.width * 0.04,
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(homeController.filterCarList[index].brandImage)
+                          )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 2,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      homeController.filterCarList[index].title,
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                    Text(
+                      'AED ${homeController.filterCarList[index].price} / Daily',
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: AppStyle.primary,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    )
+                ),
+                child: _carCardButtonFilter(index),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  _carCard(index,BuildContext context){
+    return GestureDetector(
+      onTap: (){
+
+        // AppStyle.successNotification(context, 'Your Book Has Been Successfully', 'We Will Confirm You By Email');
+        // Get.to(Success());
+        if(introController.allCars[index].options.isNotEmpty){
+          Get.toNamed('/carDetails', arguments: [introController.allCars[index]]);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
           color: AppStyle.grey.withOpacity(0.7),
           borderRadius: BorderRadius.circular(20)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            flex: 5,
-            child: Stack(
-              alignment: Alignment.topLeft,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              flex:6,
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(homeController.filterCarList[index].image),
+                        image: NetworkImage(introController.allCars[index].image),
                       )
-                  ),
-                ),
-                Hero(
-                  tag: homeController.filterCarList[index].carId,
-                  child: Container(
-                    width: Get.width * 0.04,
-                    height: Get.width * 0.04,
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(homeController.filterCarList[index].brandImage)
-                        )
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 3,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    homeController.filterCarList[index].title,
-                    maxLines: 2,
-                    style: const TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic
+                  Hero(
+                    tag: introController.allCars[index].carId,
+                    child: Container(
+                      width: Get.width * 0.04,
+                      height: Get.width * 0.04,
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(introController.allCars[index].brandImage)
+                          )
+                      ),
                     ),
-                  ),
-                  Text(
-                    'AED ${homeController.filterCarList[index].price} / Daily',
-                    style: const TextStyle(
-                        fontSize: 20,
-                        color: AppStyle.primary,
-                        fontStyle: FontStyle.italic
-                    ),
-                  ),
+                  )
                 ],
               ),
             ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
+            Flexible(
+              flex: 2,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      introController.allCars[index].title,
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontStyle: FontStyle.italic
+                      ),
+                    ),
+                    Text(
+                        'AED ${introController.allCars[index].price} / Daily',
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: AppStyle.primary,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.6),
                   borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(20),
                     bottomLeft: Radius.circular(20),
                   )
-              ),
-              child: _carCardButtonFilter(index),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-
-  _carCard(index){
-    return Container(
-      decoration: BoxDecoration(
-        color: AppStyle.grey.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(20)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            flex: 5,
-            child: Stack(
-              alignment: Alignment.topLeft,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(introController.allCars[index].image),
-                    )
-                  ),
                 ),
-                Hero(
-                  tag: introController.allCars[index].carId,
-                  child: Container(
-                    width: Get.width * 0.04,
-                    height: Get.width * 0.04,
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(introController.allCars[index].brandImage)
-                        )
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 3,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    introController.allCars[index].title,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic
-                    ),
-                  ),
-                  Text(
-                      'AED ${introController.allCars[index].price} / Daily',
-                    style: const TextStyle(
-                        fontSize: 20,
-                        color: AppStyle.primary,
-                        fontStyle: FontStyle.italic
-                    ),
-                  ),
-                ],
+                child: _carCardButton(index),
               ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                )
-              ),
-              child: _carCardButton(index),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -525,7 +543,7 @@ class Home extends StatelessWidget {
             },
             child: Container(
               decoration: const BoxDecoration(
-                  color: AppStyle.green,
+                  color: AppStyle.primary,
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(20)
                   )
@@ -535,7 +553,7 @@ class Home extends StatelessWidget {
                   'Rent Now',
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 18
                   ),
                 ),
@@ -555,6 +573,7 @@ class Home extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
+
               if(introController.allCars[index].options.isNotEmpty){
                 Get.toNamed('/carDetails', arguments: [introController.allCars[index]]);
               }
@@ -588,7 +607,7 @@ class Home extends StatelessWidget {
             },
             child: Container(
               decoration: const BoxDecoration(
-                color: AppStyle.green,
+                color: AppStyle.primary,
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(20)
                 )
@@ -598,8 +617,11 @@ class Home extends StatelessWidget {
                   'Rent Now',
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
-                      color: Colors.white,
-                      fontSize: 18
+                      color: Colors.black,
+                      fontSize: 18,
+                    // shadows: [
+                    //   Shadow(color: Colors.black,blurRadius: 1)
+                    // ]
                   ),
                 ),
               ),

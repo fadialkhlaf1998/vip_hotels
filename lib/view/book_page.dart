@@ -8,6 +8,7 @@ import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
 import 'package:vip_hotels/widget/custom_animated_textField.dart';
+import 'package:vip_hotels/widget/custom_animation_phone_field.dart';
 import 'package:vip_hotels/widget/custom_button.dart';
 import 'package:vip_hotels/widget/custom_image_container.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class BookPage extends StatelessWidget {
                         alignment: Alignment.center,
                         children: [
                           CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
-                          _bookDetails(),
+                          _bookDetails(context),
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             child: bookPageController.calenderOpen.value
@@ -124,7 +125,8 @@ class BookPage extends StatelessWidget {
           curve: Curves.fastOutSlowIn,
           width: Get.width * 0.5,
           height: Get.height,
-          color: Colors.black.withOpacity(bookPageController.range.isNotEmpty ? 0.7 : 0),
+          // color: Colors.black.withOpacity(bookPageController.range.isNotEmpty ? 0.7 : 0),
+          color: Colors.black.withOpacity(0.7),
         ),
         CustomAnimatedTextField(
           duration: 900,
@@ -134,19 +136,10 @@ class BookPage extends StatelessWidget {
           prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
           keyboardType: TextInputType.text,
           labelText: 'Enter your name',
-          right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+          // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+          right: Get.width * 0.1,
           bottom: Get.height * 0.5,
-        ),
-        CustomAnimatedTextField(
-          duration: 1100,
-          width: 0.3,
-          height: 60,
-          controller: bookPageController.phone,
-          prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
-          keyboardType: TextInputType.number,
-          labelText: 'Enter your phone',
-          right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-          bottom: Get.height * 0.4,
+          validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
         ),
         CustomAnimatedTextField(
           duration: 1500,
@@ -156,14 +149,32 @@ class BookPage extends StatelessWidget {
           prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
           keyboardType: TextInputType.emailAddress,
           labelText: 'Enter your email',
-          right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-          bottom: Get.height * 0.3,
+          // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+          right: Get.width * 0.1,
+          bottom: Get.height * 0.4,
+          validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+              (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
         ),
+
+        CustomAnimatedPhoneField(
+          duration: 1100,
+          width: 0.3,
+          height: 60,
+          controller: bookPageController.phone,
+          prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+          keyboardType: TextInputType.number,
+          labelText: 'Phone',
+          // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+          right:Get.width * 0.1,
+          bottom: Get.height * 0.3,
+          validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+        ),
+
       ],
     );
   }
 
-  _bookDetails(){
+  _bookDetails(BuildContext context){
     return SingleChildScrollView(
       child: SizedBox(
         width: Get.width * 0.45,
@@ -280,7 +291,7 @@ class BookPage extends StatelessWidget {
                 height: 50,
                 text: 'BOOK NOW',
                 onPressed: () async {
-                  await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString());
+                  await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
                   detailsPageController.optionId.value = -1;
                   detailsPageController.optionIndex.value = 0;
 

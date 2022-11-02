@@ -3,6 +3,8 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AppStyle{
 
@@ -18,6 +20,39 @@ class AppStyle{
       color: lightGrey,
   );
 
+  static errorNotification(context, title, subTitle){
+    return Get.snackbar(
+        title,
+        subTitle,
+        margin: const EdgeInsets.only(top: 20,left: 25,right: 25),
+        backgroundColor: Colors.red,
+        icon: const Icon(Icons.warning));
+  }
 
+  static successNotification(context,title, subTitle){
+    return Get.snackbar(
+        title,
+        subTitle,colorText: Colors.white,
+        margin: const EdgeInsets.only(top: 20,left: 25,right: 25),
+        backgroundColor: Colors.black.withOpacity(0.8),
+        icon: const Icon(Icons.check,color: Colors.white,),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.white.withOpacity(0.5),
+          blurRadius: 0.1
+        )
+      ]
+    );
+  }
+
+  static noteNotification(context,title, subTitle){
+    return Get.snackbar(
+        title,
+        subTitle,
+        margin: const EdgeInsets.only(top: 20,left: 25,right: 25),
+        backgroundColor: Colors.grey,
+        icon: const Icon(Icons.warning)
+    );
+  }
 
 }

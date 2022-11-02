@@ -15,7 +15,7 @@ class CustomAnimatedTextField extends StatelessWidget {
   String labelText;
   double right;
   double bottom;
-
+  bool validate;
 
   CustomAnimatedTextField({
       required this.duration,
@@ -26,7 +26,8 @@ class CustomAnimatedTextField extends StatelessWidget {
       required this.keyboardType,
       required this.labelText,
     required this.right,
-    required this.bottom
+    required this.bottom,
+    required this.validate
   });
 
   @override
@@ -49,14 +50,30 @@ class CustomAnimatedTextField extends StatelessWidget {
             errorStyle: const TextStyle(
                 color: Colors.red,
                 fontWeight: FontWeight.bold),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: validate?
+            OutlineInputBorder(
+                borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.red
+                ),
+                borderRadius: BorderRadius.circular(5)
+            )
+                :OutlineInputBorder(
                 borderSide: const BorderSide(
                     width: 2,
                     color: AppStyle.lightGrey
                 ),
                 borderRadius: BorderRadius.circular(5)
             ),
-            enabledBorder: OutlineInputBorder(
+            enabledBorder: validate?
+            OutlineInputBorder(
+                borderSide: const BorderSide(
+                    width: 2,
+                    color: Colors.red
+                ),
+                borderRadius: BorderRadius.circular(5)
+            )
+                :OutlineInputBorder(
                 borderSide: const BorderSide(
                     width: 2,
                     color: AppStyle.lightGrey),
