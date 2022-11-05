@@ -102,6 +102,7 @@ class HomeController extends GetxController{
   }
   
   homeButton(){
+    introController.allCars.clear();
     if(brandOpenMenu.value = true){
       for(int i = 0; i < introController.carCategory.length; i++){
         introController.allCars.addAll(introController.carCategory[i].cars!);

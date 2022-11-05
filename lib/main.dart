@@ -8,6 +8,7 @@ import 'package:vip_hotels/view/car_details.dart';
 import 'package:vip_hotels/view/home.dart';
 import 'package:vip_hotels/view/intro.dart';
 import 'package:vip_hotels/view/login.dart';
+import 'package:vip_hotels/view/mobile/book_page_mobile.dart';
 import 'package:vip_hotels/view/mobile/car_details_mobile.dart';
 import 'package:vip_hotels/view/mobile/home_mobile.dart';
 import 'package:vip_hotels/view/mobile/mobile_login.dart';
@@ -96,8 +97,8 @@ class MyAppMobile extends StatelessWidget {
               curve: Curves.fastOutSlowIn
           ),
           GetPage(
-              name: '/book',
-              page: ()=>BookPage(),
+              name: '/bookMobile',
+              page: ()=>BookPageMobile(),
               transitionDuration: const Duration(milliseconds: 1000),
               curve: Curves.fastOutSlowIn
           ),

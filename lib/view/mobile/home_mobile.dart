@@ -413,7 +413,7 @@ class HomeMobile extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
-              Get.toNamed('/book', arguments: [homeController.filterCarList[index]]);
+              Get.toNamed('/bookMobile', arguments: [homeController.filterCarList[index]]);
             },
             child: Container(
               decoration: const BoxDecoration(
@@ -476,7 +476,7 @@ class HomeMobile extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
-              Get.toNamed('/book', arguments: [introController.allCars[index]]);
+              Get.toNamed('/bookMobile', arguments: [introController.allCars[index]]);
             },
             child: Container(
               decoration: const BoxDecoration(
