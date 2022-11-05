@@ -102,8 +102,15 @@ class HomeController extends GetxController{
   }
   
   homeButton(){
+    if(brandOpenMenu.value = true){
+      for(int i = 0; i < introController.carCategory.length; i++){
+        introController.allCars.addAll(introController.carCategory[i].cars!);
+      }
+      loading.value = false;
+    }
     searchOpenTextDelegate.value = false;
     brandOpenMenu.value = false;
+    chooseBrand.value = false;
     themeOpenPage.value = false;
     selectIndexSidebar.value = -1;
     goToTheTop();
@@ -132,6 +139,8 @@ class HomeController extends GetxController{
     Api.filter([index], []).then((data){
       if(data != null){
         filterCarList.addAll(data);
+        print('------------');
+        print(filterCarList.length);
       }
       loading.value = false;
       chooseBrand.value = true;
@@ -171,6 +180,16 @@ class HomeController extends GetxController{
 
   goToTheTop(){
     scrollController.animateTo(0, duration: const Duration(milliseconds: 1000), curve: Curves.fastOutSlowIn);
+  }
+
+  logout(){
+    Global.clear();
+    if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
+      Get.offNamed('/login');
+    }else{
+      Get.offNamed('/loginMobile');
+    }
+
   }
 
   // filterSearchResults(String query) {

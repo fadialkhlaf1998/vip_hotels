@@ -10,7 +10,7 @@ import 'package:vip_hotels/widget/custom_logo.dart';
 import 'package:vip_hotels/widget/custom_text_field.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
+class LoginMobile extends StatelessWidget {
 
   LoginController loginController = Get.find();
 
@@ -29,17 +29,11 @@ class Login extends StatelessWidget {
                 child: SingleChildScrollView(
                     child: SizedBox(
                       height: Get.height - (MediaQuery.of(context).padding.bottom + MediaQuery.of(context).padding.top),
-                      child: Row(
+                      child: Stack(
+                        alignment: Alignment.center,
                         children: [
-                          CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background.png'),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
-                              _inputData(),
-
-                            ],
-                          ),
+                          CustomImageContainer(width: 1, height: 1, image: 'assets/images/login_background1.png'),
+                          _inputData(),
                         ],
                       ),
                     )
@@ -64,25 +58,29 @@ class Login extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Column(
           children: [
-            CustomLogo(width: 0.3, height: 0.3, tag: 'logo'),
+            CustomLogo(width: 0.7, height: 0.3, tag: 'logo'),
             const SizedBox(height: 20),
             RichText(
               text: const TextSpan(
                   text: 'Live the Luxury With ',
-                  style: AppStyle.defaultTextStyle,
+                  style: TextStyle(
+                    fontFamily: 'D-DIN-PRO',
+                    fontSize: 26,
+                    color: AppStyle.lightGrey,
+                  ),
                   children: [
-                    TextSpan(text: 'VIP', style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold, color: AppStyle.primary)),
+                    TextSpan(text: 'VIP', style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold, color: AppStyle.primary)),
                   ]
               ),
             ),
             const SizedBox(height: 25),
             CustomTextField(
-              width: 0.4,
+              width: 0.8,
               height: 55,
               controller: loginController.username,
               prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
@@ -94,16 +92,15 @@ class Login extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             CustomTextField(
-              width: 0.4,
+              width: 0.8,
               height: 55,
               controller: loginController.password,
               prefixIcon: const Icon(Icons.lock, color: AppStyle.primary),
               suffixIcon: GestureDetector(
                 onTap: (){
-                  print('-------');
                   loginController.showPassword.value = !loginController.showPassword.value;
                 },
-                child:  loginController.showPassword.value ? const Icon(Icons.visibility_off, color: AppStyle.primary) : const Icon(Icons.visibility, color: AppStyle.primary),
+                child: loginController.showPassword.value ? const Icon(Icons.visibility_off, color: AppStyle.primary) : const Icon(Icons.visibility, color: AppStyle.primary),
               ),
               hintText: 'Password',
               keyboardType: TextInputType.text,
@@ -112,7 +109,7 @@ class Login extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             CustomButton(
-                width: 0.1,
+                width: 0.4,
                 height: 45,
                 text: 'GO NOW',
                 onPressed: (){
@@ -131,16 +128,16 @@ class Login extends StatelessWidget {
             loginController.login();
           },
           child: const SizedBox(
-            height: 60,
-            child: Center(
-              child: Text(
+              height: 60,
+              child: Center(
+                child: Text(
                   'Login as guest',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14
+                  ),
                 ),
-              ),
-            )
+              )
           ),
         )
       ],

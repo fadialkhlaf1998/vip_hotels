@@ -2,7 +2,6 @@
 //
 //     final allData = allDataFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 AllData allDataFromMap(String str) => AllData.fromMap(json.decode(str));
@@ -176,7 +175,7 @@ class Car {
     brandImage: json["brand_image"],
     description: json["description"],
     id: json["id"],
-    oldPrice: json["old_price"],
+    oldPrice: json["old_price"] ?? -1,
     price: json["price"],
     hotelId: json["hotel_id"],
     options: List<Option>.from(json["options"].map((x) => Option.fromMap(x))),

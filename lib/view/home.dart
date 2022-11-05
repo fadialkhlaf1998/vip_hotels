@@ -7,8 +7,7 @@ import 'package:vip_hotels/controller/login_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
-import 'package:vip_hotels/view/success.dart';
-import 'package:vip_hotels/widget/custom_logo.dart';
+
 import 'package:vip_hotels/widget/custom_sideBar.dart';
 import 'package:vip_hotels/widget/theme_circle.dart';
 
@@ -240,7 +239,7 @@ class Home extends StatelessWidget {
       ),
       child: Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Image.network(Global.image),
         )
       ),

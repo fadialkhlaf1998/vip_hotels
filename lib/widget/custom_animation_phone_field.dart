@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:vip_hotels/controller/book_page_controller.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 
 class CustomAnimatedPhoneField extends StatelessWidget {

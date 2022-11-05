@@ -15,31 +15,64 @@ class LoginController extends GetxController{
   IntroController introController = Get.find();
 
   login() async {
+    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     introController.carCategory.clear();
     introController.brandList.clear();
     introController.allCars.clear();
     loading.value = true;
-    await  Api.login(username.text, password.text).then((data){
+    isTablet ?
+    await  Api.login(username.text, password.text).then((data) async {
       if(data != null){
         /// get data
-        Global.saveUserInformation(data.id.toString(), data.title, data.username, data.password, data.image, data.companyId,data.email);
+        print('ID');
+        print(data.id);
+        print('ID');
+        await Global.saveUserInformation(data.id.toString(), data.title, data.username, data.password, data.image, data.companyId,data.email);
         introController.carCategory.addAll(data.category);
         introController.brandList.addAll(data.brands);
         for(int i = 0; i < introController.carCategory.length; i++){
           introController.allCars.addAll(introController.carCategory[i].cars!);
         }
         loading.value = false;
-        Get.offAllNamed('/home');
+       Get.offAllNamed('/home') ;
       }else{
         loading.value = false;
         Get.snackbar(
             'Warning', 'Wrong email or password',
-            margin: const EdgeInsets.only(top: 40, right: 150, left: 150),
+            margin: isTablet ? const EdgeInsets.only(top: 40, right: 150, left: 150) : const EdgeInsets.only(top: 40, right: 20, left: 20),
+            backgroundColor: AppStyle.lightGrey
+        );
+      }
+    })
+        : await  Api.login('guest', 'guest').then((data) async {
+      if(data != null){
+        /// get data
+        print('ID');
+        print(data.id);
+        print('ID');
+        Global.image = data.image;
+        Global.id = data.id.toString();
+        Global.companyId = data.companyId;
+        introController.carCategory.addAll(data.category);
+        introController.brandList.addAll(data.brands);
+        for(int i = 0; i < introController.carCategory.length; i++){
+          introController.allCars.addAll(introController.carCategory[i].cars!);
+        }
+        loading.value = false;
+        Get.offAllNamed('/homeMobile') ;
+      }else{
+        loading.value = false;
+        Get.snackbar(
+            'Warning', 'Wrong email or password',
+            margin: isTablet ? const EdgeInsets.only(top: 40, right: 150, left: 150) : const EdgeInsets.only(top: 40, right: 20, left: 20),
             backgroundColor: AppStyle.lightGrey
         );
       }
     });
   }
+
+
+
 
 
 

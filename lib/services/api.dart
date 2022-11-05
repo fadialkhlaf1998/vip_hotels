@@ -31,6 +31,10 @@ class Api {
   }
 
   static Future<List<Car>?> filter(List<int> brandId, List<int> categoryId) async {
+    print('brandId ${brandId.toString()}');
+    print('category Id ${categoryId.toString()}');
+    print(Global.id);
+    print(Global.companyId);
     var headers = {
       'Content-Type': 'application/json',
     };
@@ -38,7 +42,8 @@ class Api {
     request.body = json.encode({
       "brands": brandId,
       "categoryies": categoryId,
-      "company_id": Global.companyId
+      "company_id": Global.companyId,
+      "hotel_id" : Global.id
     });
     request.headers.addAll(headers);
 

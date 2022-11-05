@@ -15,9 +15,6 @@ class Global {
 
   static saveUserInformation(String id, String title, String username, String password, String image, int companyId, String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('00000000000000000');
-    print(id);
-    print('00000000000000000');
     prefs.setString('id', id);
     prefs.setString('title', title);
     prefs.setString('username', username);
@@ -30,7 +27,6 @@ class Global {
   static Future<bool> loadUserInformation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    print(id);
     title = prefs.getString('title') ?? '';
     username = prefs.getString('username') ?? '';
     password = prefs.getString('password') ?? '';

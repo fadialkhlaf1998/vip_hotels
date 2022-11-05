@@ -70,6 +70,20 @@ class CustomSideBar extends StatelessWidget {
                   );
                 },
               ),
+              SizedBox(height: space),
+              GestureDetector(
+                onTap: (){
+                  // homeController.selectIndexSidebar.value = index;
+                  // homeController.homeButton();
+                  homeController.logout();
+                },
+                child: SizedBox(
+                    width: width - 25,
+                    height: width - 25,
+                    child: const Icon(Icons.logout, color: AppStyle.lightGrey, size: 35),
+                    // child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
+                ),
+              ),
             ],
           ),
       ),

@@ -1,7 +1,4 @@
-
-
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/api.dart';
@@ -16,6 +13,7 @@ class IntroController extends GetxController{
 
   @override
   void onInit() {
+    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     super.onInit();
     Future.delayed(const Duration(milliseconds: 1000)).then((_){
       Global.loadUserInformation().then((result){
@@ -32,10 +30,10 @@ class IntroController extends GetxController{
                 allCars.addAll(carCategory[i].cars!);
                 searchCarList.addAll(carCategory[i].cars!);
               }
-              Get.offNamed('/home');
+              isTablet ? Get.offNamed('/home') : Get.offNamed('/homeMobile');
             });
           }else{
-            Get.offNamed('/login');
+            isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
           }
         }
       });

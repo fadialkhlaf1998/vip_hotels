@@ -8,12 +8,22 @@ import 'package:vip_hotels/view/car_details.dart';
 import 'package:vip_hotels/view/home.dart';
 import 'package:vip_hotels/view/intro.dart';
 import 'package:vip_hotels/view/login.dart';
+import 'package:vip_hotels/view/mobile/car_details_mobile.dart';
+import 'package:vip_hotels/view/mobile/home_mobile.dart';
+import 'package:vip_hotels/view/mobile/mobile_login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
-    runApp(MyApp());
-  });
+  if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
+      runApp(const MyApp());
+    });
+  }else{
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
+      runApp(const MyAppMobile());
+    });
+  }
+
 }
 
 class MyApp extends StatelessWidget {
@@ -58,6 +68,50 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class MyAppMobile extends StatelessWidget {
+  const MyAppMobile({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+        getPages: [
+          GetPage(
+              name: '/loginMobile',
+              page: ()=>LoginMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/homeMobile',
+              page: ()=>HomeMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/CarDetailsMobile',
+              page: ()=>CarDetailsMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/book',
+              page: ()=>BookPage(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+        ],
+        theme: ThemeData(
+          fontFamily: 'conthrax',
+          primaryColor: generateMaterialColor(AppStyle.primary),
+          primarySwatch: generateMaterialColor(AppStyle.primary),
+        ),
+        home: Intro()
+    );
+  }
+}
+
 
 
 
