@@ -20,13 +20,9 @@ class LoginController extends GetxController{
     introController.brandList.clear();
     introController.allCars.clear();
     loading.value = true;
-    isTablet ?
     await  Api.login(username.text, password.text).then((data) async {
       if(data != null){
         /// get data
-        print('ID');
-        print(data.id);
-        print('ID');
         await Global.saveUserInformation(data.id.toString(), data.title, data.username, data.password, data.image, data.companyId,data.email);
         introController.carCategory.addAll(data.category);
         introController.brandList.addAll(data.brands);
@@ -34,7 +30,7 @@ class LoginController extends GetxController{
           introController.allCars.addAll(introController.carCategory[i].cars!);
         }
         loading.value = false;
-       Get.offAllNamed('/home') ;
+        isTablet ? Get.offAllNamed('/home') : Get.offAllNamed('/homeMobile') ;
       }else{
         loading.value = false;
         Get.snackbar(
@@ -43,13 +39,18 @@ class LoginController extends GetxController{
             backgroundColor: AppStyle.lightGrey
         );
       }
-    })
-        : await  Api.login('guest', 'guest').then((data) async {
+    });
+
+  }
+
+
+
+  loginAsGuest() async {
+    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
+
+    await  Api.login('guest', 'guest').then((data) async {
       if(data != null){
         /// get data
-        print('ID');
-        print(data.id);
-        print('ID');
         Global.image = data.image;
         Global.id = data.id.toString();
         Global.companyId = data.companyId;
@@ -59,7 +60,7 @@ class LoginController extends GetxController{
           introController.allCars.addAll(introController.carCategory[i].cars!);
         }
         loading.value = false;
-        Get.offAllNamed('/homeMobile') ;
+        isTablet ? Get.offAllNamed('/home') : Get.offAllNamed('/homeMobile');
       }else{
         loading.value = false;
         Get.snackbar(
@@ -70,10 +71,6 @@ class LoginController extends GetxController{
       }
     });
   }
-
-
-
-
 
 
 

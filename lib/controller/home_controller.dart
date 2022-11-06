@@ -33,9 +33,10 @@ class HomeController extends GetxController{
     selectImageIndex.value = await Global.getTheme();
     for(double i = 2.25; i < 5; i += 1.25){
       if(selectImageIndex.value == i.floor()){
-        angle.value = -i;
+        angle.value = -(i % 1);
       }
     }
+    // angle.value = await Global.getAngle();
   }
 
   forwardRotation()async {
@@ -63,7 +64,7 @@ class HomeController extends GetxController{
   selectionImageTheme(){
     themeOpenPage.value = false;
     selectIndexSidebar.value = -1;
-    Global.saveTheme(selectImageIndex.value);
+    Global.saveTheme(selectImageIndex.value, angle.value);
   }
 
 

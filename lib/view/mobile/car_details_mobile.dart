@@ -7,6 +7,7 @@ import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/api.dart';
 import 'package:vip_hotels/widget/backgroundImage.dart';
 import 'package:get/get.dart';
+import 'package:vip_hotels/widget/car_gallery_mobile.dart';
 
 import 'package:vip_hotels/widget/custom_logo.dart';
 
@@ -180,6 +181,7 @@ class CarDetailsMobile extends StatelessWidget {
                       height: Get.height * 0.3,
                       decoration: BoxDecoration(
                           image: DecorationImage(
+                            fit: BoxFit.contain,
                               image: NetworkImage('${Api.url}uploads/${car.options[detailsPageController.optionIndex.value].images.split(',')[0]}')
                           )
                       ),
@@ -190,6 +192,7 @@ class CarDetailsMobile extends StatelessWidget {
                   duration: const Duration(milliseconds: 500),
                   child: homeController.themeOpenPage.value ? ThemeCircleMobile() : const Text(''),
                 ),
+                CarGalleryMobile(carImage: car.options[detailsPageController.optionIndex.value].images)
               ],
             ),
           ),
@@ -215,14 +218,14 @@ class CarDetailsMobile extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-
+              detailsPageController.openGallery.value = true;
             },
             child: SizedBox(
                 width: 25,
                 height: 25,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: homeController.searchOpenTextDelegate.value
+                  child: detailsPageController.openGallery.value
                       ? SvgPicture.asset('assets/icons/gallery.svg', color: Colors.white, key: Key('0'),)
                       : SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.lightGrey,  key: Key('1'),),
                 )
@@ -230,7 +233,8 @@ class CarDetailsMobile extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-              homeController.homeButton();
+              // homeController.homeButton();
+              Get.back();
             },
             child: SizedBox(
                 width:   25,

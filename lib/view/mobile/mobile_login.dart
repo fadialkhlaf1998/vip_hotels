@@ -125,7 +125,7 @@ class LoginMobile extends StatelessWidget {
         GestureDetector(
           onTap: (){
             FocusManager.instance.primaryFocus?.unfocus();
-            loginController.login();
+            loginController.loginAsGuest();
           },
           child: const SizedBox(
               height: 60,

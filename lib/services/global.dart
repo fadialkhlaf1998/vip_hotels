@@ -48,9 +48,10 @@ class Global {
     prefs.remove('email');
   }
 
-  static saveTheme(int themeIndex) async {
+  static saveTheme(int themeIndex, double angle) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('theme', themeIndex);
+    prefs.setDouble('angle', angle);
   }
 
   static Future<int> getTheme() async {
