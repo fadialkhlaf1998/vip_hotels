@@ -47,7 +47,7 @@ class LoginController extends GetxController{
 
   loginAsGuest() async {
     bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
-
+    loading.value = true;
     await  Api.login('guest', 'guest').then((data) async {
       if(data != null){
         /// get data

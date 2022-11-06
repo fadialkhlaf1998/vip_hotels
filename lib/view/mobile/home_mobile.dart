@@ -49,7 +49,7 @@ class HomeMobile extends StatelessWidget {
                     children: [
                       _topBar(),
                       CustomBottomNavBar(
-                          height: 50,
+                          height: Get.height * 0.065,
                           color: Colors.black.withOpacity(0.8),
                           selectIndex: homeController.selectIndexSidebar.value,
                           space: 60
@@ -126,7 +126,7 @@ class HomeMobile extends StatelessWidget {
   _carList(context){
     return SizedBox(
       key: ValueKey(2),
-      width: Get.width * 0.9,
+      width: Get.width * 0.95,
       child: ListView(
         controller: homeController.scrollController,
         children: [
@@ -157,7 +157,7 @@ class HomeMobile extends StatelessWidget {
   _carFilterList(context){
     return SizedBox(
       key: ValueKey(1),
-      width: Get.width * 0.9,
+      width: Get.width * 0.95,
       child: ListView(
         controller: homeController.scrollController,
         children: [
@@ -245,7 +245,7 @@ class HomeMobile extends StatelessWidget {
                       homeController.filterCarList[index].title,
                       maxLines: 2,
                       style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           color: Colors.white,
                           fontStyle: FontStyle.italic
                       ),
@@ -253,7 +253,7 @@ class HomeMobile extends StatelessWidget {
                     Text(
                       'AED ${homeController.filterCarList[index].price} / Daily',
                       style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic
                       ),
@@ -341,7 +341,7 @@ class HomeMobile extends StatelessWidget {
                       introController.allCars[index].title,
                       maxLines: 2,
                       style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13,
                           color: Colors.white,
                           fontStyle: FontStyle.italic
                       ),
@@ -349,7 +349,7 @@ class HomeMobile extends StatelessWidget {
                     Text(
                       'AED ${introController.allCars[index].price} / Daily',
                       style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic
                       ),
@@ -522,7 +522,7 @@ class HomeMobile extends StatelessWidget {
                 );
               },
               child:   Container(
-                width: Get.width * 0.9 - 70,
+                width: Get.width * 0.95 - 70,
                 height: 45,
                 decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.6),
