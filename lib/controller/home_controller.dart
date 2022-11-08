@@ -23,8 +23,44 @@ class HomeController extends GetxController{
   RxBool chooseBrand = false.obs;
   RxBool loading = false.obs;
   RxInt brandId = 0 .obs;
+  RxInt brandIndex = 0 .obs;
   TextEditingController myController = TextEditingController();
+  RxInt lazyLoad = 0.obs;
+  RxInt lazyLoadFilter = 0.obs;
 
+  initLazyLoad(){
+    if(introController.allCars.length > 6){
+      lazyLoad.value = 6;
+    }else{
+      lazyLoad.value = introController.allCars.length;
+    }
+  }
+
+
+  addLazyLoad(){
+    if( 6 + lazyLoad.value<=introController.allCars.length){
+      lazyLoad.value += 6;
+    }else{
+      lazyLoad.value = introController.allCars.length;
+    }
+  }
+
+  initLazyLoadFilter(){
+    if(filterCarList.length > 6){
+      lazyLoadFilter.value = 6;
+    }else{
+      lazyLoadFilter.value = filterCarList.length;
+    }
+  }
+
+
+  addLazyLoadFilter(){
+    if( 6 + lazyLoadFilter.value<=filterCarList.length){
+      lazyLoadFilter.value += 6;
+    }else{
+      lazyLoadFilter.value = filterCarList.length;
+    }
+  }
 
 
   @override
@@ -36,8 +72,8 @@ class HomeController extends GetxController{
         angle.value = -(i % 1);
       }
     }
-    // angle.value = await Global.getAngle();
   }
+
 
   forwardRotation()async {
     if(angle.value > -0.75){
@@ -84,11 +120,13 @@ class HomeController extends GetxController{
       if(brandOpenMenu.value == true){
         brandOpenMenu.value = false;
         selectIndexSidebar.value = -1;
+        clearFilter();
       }else{
         searchOpenTextDelegate.value = false;
         brandOpenMenu.value = true;
         themeOpenPage.value = false;
         goToTheTop();
+
       }
     }else if(selectIndexSidebar.value == 2){
       if(themeOpenPage.value == true){
@@ -116,10 +154,12 @@ class HomeController extends GetxController{
     themeOpenPage.value = false;
     selectIndexSidebar.value = -1;
     goToTheTop();
+    clearFilter();
   }
 
   selectIndexBottomBar(index){
     introController.allCars.clear();
+    loading.value = true;
     if(index == -1){
       selectionIndexBottomBar.value = -1;
       for(int i = 0; i < introController.carCategory.length; i++){
@@ -129,6 +169,8 @@ class HomeController extends GetxController{
       selectionIndexBottomBar.value = index;
       introController.allCars.addAll(introController.carCategory[index].cars!);
     }
+    initLazyLoad();
+    loading.value = false;
     goToTheTop();
   }
 
@@ -137,13 +179,13 @@ class HomeController extends GetxController{
     loading.value = true;
     selectionIndexBottomBar.value = -1;
     filterCarList.clear();
-    brandId.value = index;
-    Api.filter([index], []).then((data){
+    brandId.value = introController.brandList[index].id ;
+    brandIndex.value = index;
+    Api.filter([brandId.value], []).then((data){
       if(data != null){
         filterCarList.addAll(data);
-        print('------------');
-        print(filterCarList.length);
       }
+      initLazyLoadFilter();
       loading.value = false;
       chooseBrand.value = true;
     });
@@ -160,6 +202,7 @@ class HomeController extends GetxController{
       if(data != null){
         filterCarList.addAll(data);
       }
+      initLazyLoadFilter();
       loading.value = false;
       chooseBrand.value = true;
     });
@@ -173,9 +216,12 @@ class HomeController extends GetxController{
     brandOpenMenu.value = false;
     selectIndexSidebar.value = -1;
     loading.value = true;
+    introController.allCars.clear();
     for(int i = 0; i < introController.carCategory.length; i++){
       introController.allCars.addAll(introController.carCategory[i].cars!);
     }
+    brandIndex.value = -1;
+    initLazyLoad();
     loading.value = false;
     goToTheTop();
   }
