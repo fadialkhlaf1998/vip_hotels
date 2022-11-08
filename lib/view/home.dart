@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/controller/home_controller.dart';
 import 'package:vip_hotels/controller/intro_controller.dart';
@@ -17,6 +18,10 @@ class Home extends StatelessWidget {
   DetailsPageController detailsPageController = Get.put(DetailsPageController());
   LoginController loginController = Get.find();
   IntroController introController = Get.find();
+
+  Home(){
+    homeController.initLazyLoad();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,9 +123,7 @@ class Home extends StatelessWidget {
     return  SizedBox(
       width: Get.width - 80, /// this number is the sum of sideBar width and divider width
       child: Center(
-        child: homeController.loading.value
-            ? const CircularProgressIndicator(strokeWidth: 6)
-            : homeController.chooseBrand.value ? _carFilterList(context) : _carList(context),
+        child: homeController.chooseBrand.value ? _carFilterList(context) : _carList(context),
       )
     );
   }
@@ -146,6 +149,7 @@ class Home extends StatelessWidget {
           // CustomLogo(width: 0.18, height: 0.07, tag: 'tag'),
           GestureDetector(
             onTap: (){
+              print('6666666S');
               if(homeController.chooseBrand.value){
                 homeController.chooseCarFilter(homeController.brandId.value);
               }else{
@@ -249,59 +253,90 @@ class Home extends StatelessWidget {
   _carList(context){
     return SizedBox(
       width: Get.width - 120,
-      child: ListView(
-        controller: homeController.scrollController,
-        children: [
-          SizedBox(height: Get.height * 0.11),
-          _searchTextField(context),
-          _brandMenu(),
-          const SizedBox(height: 20),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 30,
-              mainAxisSpacing: 30,
-              childAspectRatio: 3/4,
+      child: LazyLoadScrollView(
+        onEndOfPage: () => homeController.addLazyLoad(),
+        child: ListView(
+          controller: homeController.scrollController,
+          children: [
+            SizedBox(height: Get.height * 0.11),
+            _searchTextField(context),
+            _brandMenu(),
+            const SizedBox(height: 20),
+            homeController.loading.value
+                ? SizedBox(
+              width: Get.width - 120,
+              height: 200,
+              child: Center(child: const CircularProgressIndicator(strokeWidth: 6),),
+            )
+                :
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 30,
+                mainAxisSpacing: 30,
+                childAspectRatio: 3/4,
+              ),
+              itemCount: homeController.lazyLoad.value,
+              itemBuilder: (BuildContext context, index){
+                return _carCard(index,context);
+              },
             ),
-            itemCount: introController.allCars.length,
-            itemBuilder: (BuildContext context, index){
-              return _carCard(index,context);
-            },
-          ),
-          SizedBox(height: Get.height * 0.11)
-        ],
+            SizedBox(height: Get.height * 0.11)
+          ],
+        ),
       ),
     );
   }
 
   _carFilterList(context){
-    return SizedBox(
+    return
+           SizedBox(
       width: Get.width - 120,
-      child: ListView(
-        controller: homeController.scrollController,
-        children: [
-          SizedBox(height: Get.height * 0.11),
-          _searchTextField(context),
-          _brandMenu(),
-          const SizedBox(height: 20),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 30,
-              mainAxisSpacing: 30,
-              childAspectRatio: 3/4,
+      child: LazyLoadScrollView(
+        onEndOfPage: ()=>homeController.addLazyLoadFilter(),
+        child: ListView(
+          controller: homeController.scrollController,
+          children: [
+            SizedBox(height: Get.height * 0.11),
+            _searchTextField(context),
+            _brandMenu(),
+            const SizedBox(height: 20),
+            homeController.loading.value
+                ? SizedBox(
+              width: Get.width - 120,
+              height: 200,
+              child: Center(child: const CircularProgressIndicator(strokeWidth: 6),),
+            )
+                :
+            homeController.lazyLoadFilter == 0?SizedBox(
+              width: Get.width - 120,
+              height: 200,
+              child: Center(
+                child: Text("Oops No Cars For This Selection",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+              ),
+            )
+                :
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 30,
+                mainAxisSpacing: 30,
+                childAspectRatio: 3/4,
+              ),
+              itemCount: homeController.lazyLoadFilter.value,
+              itemBuilder: (BuildContext context, index){
+                print('lazy'+homeController.lazyLoadFilter.value.toString());
+                print('filter'+homeController.filterCarList.length.toString());
+                return _carCardFilter(index);
+              },
             ),
-            itemCount: homeController.filterCarList.length,
-            itemBuilder: (BuildContext context, index){
-              return _carCardFilter(index);
-            },
-          ),
-          SizedBox(height: Get.height * 0.11)
-        ],
+            SizedBox(height: Get.height * 0.11)
+          ],
+        ),
       ),
     );
   }
@@ -427,15 +462,44 @@ class Home extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 children: [
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
+                    width: Get.width * 0.3,
+                    height: Get.width * 0.3,
+                    decoration: const BoxDecoration(
+                      borderRadius:  BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
-                      image: DecorationImage(
+                      // image: DecorationImage(
+                      //   fit: BoxFit.cover,
+                      //   image: NetworkImage(introController.allCars[index].image),
+                      // )
+                    ),
+                    child: ClipRRect(
+                      borderRadius:  BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      child: Image.network(
                         fit: BoxFit.cover,
-                        image: NetworkImage(introController.allCars[index].image),
-                      )
+                        introController.allCars[index].image,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            width: Get.width * 0.3,
+                            height: Get.width * 0.3,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                    : 0,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Hero(
@@ -743,24 +807,39 @@ class Home extends StatelessWidget {
                     height: 60,
                     decoration: const BoxDecoration(
                       color: AppStyle.primary,
-                      shape: BoxShape.circle
+                      shape: BoxShape.circle,
                     ),
                     child: const Icon(Icons.filter_list_off),
                   ),
                 )
                 : GestureDetector(
               onTap: (){
-                homeController.chooseCarFilter(introController.brandList[index - 1].id  );
+                homeController.chooseCarFilter(index-1);
               },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 40),
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: NetworkImage(introController.brandList[index - 1].image)
-                    )
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  width: 80,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: homeController.brandIndex.value == index-1?AppStyle.primary:AppStyle.grey),
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Center(
+                    child: Container(
+                      // margin: const EdgeInsets.symmetric(horizontal: 40),
+                      width: 80,
+                      height: 60,
+
+                      decoration: BoxDecoration(
+
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: NetworkImage(introController.brandList[index - 1].image)
+                          )
+                      ),
+                    ),
+                  ),
                 ),
               ),
             );
