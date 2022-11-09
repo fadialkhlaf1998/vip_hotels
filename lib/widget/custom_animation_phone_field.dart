@@ -47,9 +47,10 @@ class _CustomAnimatedPhoneFieldState extends State<CustomAnimatedPhoneField> {
           border: Border.all(width: 2,color: widget.validate?Colors.red:AppStyle.lightGrey)
       ),
       child: InternationalPhoneNumberInput(
-        selectorConfig: SelectorConfig(
+        selectorConfig: const SelectorConfig(
           selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-          leadingPadding: 10
+          leadingPadding: 10,
+          trailingSpace: false
         ),
         inputBorder: OutlineInputBorder(
             borderSide: const BorderSide(
@@ -58,15 +59,12 @@ class _CustomAnimatedPhoneFieldState extends State<CustomAnimatedPhoneField> {
             ),
             borderRadius: BorderRadius.circular(5)
         ),
-
         maxLength: 11,
         onInputChanged: (value){
-
           setState(() {
             phoneNumber = value;
             widget.controller.text =  value.phoneNumber!;
           });
-          print(phoneNumber);
         },
         textStyle: const TextStyle(
           color: Colors.white,

@@ -20,6 +20,9 @@ class CarDetailsMobile extends StatelessWidget {
 
   Car car = Get.arguments[0];
 
+  CarDetailsMobile(){
+    detailsPageController.mainCarImageIndex.value = 1;
+  }
 
   @override
   Widget build(BuildContext context) {
