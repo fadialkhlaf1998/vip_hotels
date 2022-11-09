@@ -203,7 +203,7 @@ class CarDetailsMobile extends StatelessWidget {
 
   _bottomNavBar(){
     return Container(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       width: Get.width,
       height: 50,
       decoration: const BoxDecoration(

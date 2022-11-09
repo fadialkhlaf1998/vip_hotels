@@ -87,29 +87,6 @@ class Home extends StatelessWidget {
                    duration: const Duration(milliseconds: 500),
                    child: homeController.themeOpenPage.value ? ThemeCircle() : const Text(''),
                  ),
-                  /// filter button
-                  // AnimatedPositioned(
-                  //   duration: const Duration(milliseconds: 500),
-                  //   curve: Curves.fastOutSlowIn,
-                  //   right: 30,
-                  //   bottom: homeController.chooseBrand.value ? 40 : -Get.width * 0.06,
-                  //   child: GestureDetector(
-                  //     onTap: (){
-                  //       homeController.clearFilter();
-                  //     },
-                  //     child: Container(
-                  //       width: Get.width * 0.06,
-                  //       height: Get.width * 0.06,
-                  //       decoration: const BoxDecoration(
-                  //         color: AppStyle.primary,
-                  //         shape: BoxShape.circle
-                  //       ),
-                  //       child: const Center(
-                  //         child: Icon(Icons.filter_list_off_sharp,size: 35),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
                 ],
               )
           ),
@@ -121,7 +98,7 @@ class Home extends StatelessWidget {
 
   _mainObject(context){
     return  SizedBox(
-      width: Get.width - 80, /// this number is the sum of sideBar width and divider width
+      width: Get.width - 80,
       child: Center(
         child: homeController.chooseBrand.value ? _carFilterList(context) : _carList(context),
       )
@@ -149,7 +126,6 @@ class Home extends StatelessWidget {
           // CustomLogo(width: 0.18, height: 0.07, tag: 'tag'),
           GestureDetector(
             onTap: (){
-              print('6666666S');
               if(homeController.chooseBrand.value){
                 homeController.chooseCarFilter(homeController.brandId.value);
               }else{
@@ -264,9 +240,10 @@ class Home extends StatelessWidget {
             const SizedBox(height: 20),
             homeController.loading.value
                 ? SizedBox(
-              width: Get.width - 120,
-              height: 200,
-              child: Center(child: const CircularProgressIndicator(strokeWidth: 6),),
+                  width: Get.width - 120,
+                  height: 200,
+                  child: const Center(
+                    child: CircularProgressIndicator(strokeWidth: 6)),
             )
                 :
             GridView.builder(
@@ -291,8 +268,7 @@ class Home extends StatelessWidget {
   }
 
   _carFilterList(context){
-    return
-           SizedBox(
+    return SizedBox(
       width: Get.width - 120,
       child: LazyLoadScrollView(
         onEndOfPage: ()=>homeController.addLazyLoadFilter(),
@@ -304,17 +280,18 @@ class Home extends StatelessWidget {
             _brandMenu(),
             const SizedBox(height: 20),
             homeController.loading.value
-                ? SizedBox(
-              width: Get.width - 120,
-              height: 200,
-              child: Center(child: const CircularProgressIndicator(strokeWidth: 6),),
-            )
+                    ? SizedBox(
+                  width: Get.width - 120,
+                    height: 200,
+                       child: const Center(child: CircularProgressIndicator(strokeWidth: 6),),
+                 )
                 :
-            homeController.lazyLoadFilter == 0?SizedBox(
-              width: Get.width - 120,
-              height: 200,
-              child: Center(
-                child: Text("Oops No Cars For This Selection",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+            homeController.lazyLoadFilter.value == 0
+                ? SizedBox(
+                      width: Get.width - 120,
+                      height: 200,
+                      child: const Center(
+                        child: Text("Oops No Cars For This Selection",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
               ),
             )
                 :
@@ -329,8 +306,8 @@ class Home extends StatelessWidget {
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
-                print('lazy'+homeController.lazyLoadFilter.value.toString());
-                print('filter'+homeController.filterCarList.length.toString());
+                // print('lazy${homeController.lazyLoadFilter.value}');
+                // print('filter${homeController.filterCarList.length}');
                 return _carCardFilter(index);
               },
             ),
@@ -441,9 +418,6 @@ class Home extends StatelessWidget {
   _carCard(index,BuildContext context){
     return GestureDetector(
       onTap: (){
-
-        // AppStyle.successNotification(context, 'Your Book Has Been Successfully', 'We Will Confirm You By Email');
-        // Get.to(Success());
         if(introController.allCars[index].options.isNotEmpty){
           Get.toNamed('/carDetails', arguments: [introController.allCars[index]]);
         }
@@ -469,13 +443,9 @@ class Home extends StatelessWidget {
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
-                      // image: DecorationImage(
-                      //   fit: BoxFit.cover,
-                      //   image: NetworkImage(introController.allCars[index].image),
-                      // )
                     ),
                     child: ClipRRect(
-                      borderRadius:  BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
@@ -485,7 +455,7 @@ class Home extends StatelessWidget {
                         loadingBuilder: (BuildContext context, Widget child,
                             ImageChunkEvent? loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return Container(
+                          return SizedBox(
                             width: Get.width * 0.3,
                             height: Get.width * 0.3,
                             child: Center(
@@ -494,7 +464,7 @@ class Home extends StatelessWidget {
                                 value: loadingProgress.expectedTotalBytes != null
                                     ? loadingProgress.cumulativeBytesLoaded /
                                     loadingProgress.expectedTotalBytes!
-                                    : 0,
+                                    : null,
                               ),
                             ),
                           );
