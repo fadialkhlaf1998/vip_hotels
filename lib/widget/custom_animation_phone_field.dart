@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 
-class CustomAnimatedPhoneField extends StatelessWidget {
+class CustomAnimatedPhoneField extends StatefulWidget {
 
 
   int duration;
@@ -31,18 +31,26 @@ class CustomAnimatedPhoneField extends StatelessWidget {
   });
 
   @override
+  State<CustomAnimatedPhoneField> createState() => _CustomAnimatedPhoneFieldState();
+}
+
+class _CustomAnimatedPhoneFieldState extends State<CustomAnimatedPhoneField> {
+  PhoneNumber phoneNumber = PhoneNumber(isoCode: "AE");
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.width * width,
-      height: height,
+      width: Get.width * widget.width,
+      height: widget.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-          border: Border.all(width: 2,color: validate?Colors.red:AppStyle.lightGrey)
+          border: Border.all(width: 2,color: widget.validate?Colors.red:AppStyle.lightGrey)
       ),
       child: InternationalPhoneNumberInput(
-        // style: const TextStyle(
-        //   color: Colors.white,
-        // ),
+        selectorConfig: SelectorConfig(
+          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+          leadingPadding: 10
+        ),
         inputBorder: OutlineInputBorder(
             borderSide: const BorderSide(
                 width: 2,
@@ -50,15 +58,15 @@ class CustomAnimatedPhoneField extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(5)
         ),
+
         maxLength: 11,
         onInputChanged: (value){
-          // print(value.phoneNumber!.split(value.dialCode!)[1].length);
-          // if(value.phoneNumber!.split(value.dialCode!)[1].length <=9){
-          //
 
-          // }
-          controller.text =  value.phoneNumber!;
-          print(controller.text);
+          setState(() {
+            phoneNumber = value;
+            widget.controller.text =  value.phoneNumber!;
+          });
+          print(phoneNumber);
         },
         textStyle: const TextStyle(
           color: Colors.white,
@@ -66,8 +74,6 @@ class CustomAnimatedPhoneField extends StatelessWidget {
         selectorTextStyle: const TextStyle(
           color: Colors.grey,
         ),
-        // controller: controller,
-        // maxLength: 9,
         inputDecoration:  InputDecoration(
           counterText: "",
           errorStyle: const TextStyle(
@@ -92,8 +98,8 @@ class CustomAnimatedPhoneField extends StatelessWidget {
           //     fontSize: 14
           // ),
         ),
-        initialValue: PhoneNumber(isoCode: "AE",dialCode: "+971"),
-        keyboardType: keyboardType,
+        initialValue: phoneNumber,
+        keyboardType: widget.keyboardType,
       ),
     );
   }

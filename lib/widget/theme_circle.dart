@@ -18,96 +18,121 @@ class ThemeCircle extends StatefulWidget{
 class _ThemeCircleState extends State<ThemeCircle> with SingleTickerProviderStateMixin{
   HomeController homeController = Get.find();
 
+  bool left =true;
+
 
   @override
   Widget build(BuildContext context) {
     return Obx((){
-      return Container(
-        width: Get.width,
-        height: Get.height,
-        color: Colors.black.withOpacity(0.8),
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 50,bottom: 20),
-                  child: GestureDetector(
-                    onTap: () async {
-                      await homeController.backwardRotation();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 30, bottom: 20),
-                      child: Icon(Icons.arrow_back_ios, color: Colors.white,size: homeController.angle.value == 0 ? 0 : 40),
+      return GestureDetector(
+        onTap: () {
+          homeController.themeOpenPage.value = false;
+          homeController.selectIndexSidebar.value = 2;
+        },
+        onPanUpdate: (details) {
+          if (details.delta.dx > 0) {
+            left =false;
+          }
+          if (details.delta.dx < 0) {
+            left =true;
+          }
+        },
+        onPanEnd: (e){
+          if(left){
+            homeController.forwardRotation();
+          }else{
+            homeController.backwardRotation();
+          }
+        },
+        child: Container(
+          width: Get.width,
+          height: Get.height,
+          color: Colors.black.withOpacity(0.8),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50,bottom: 20),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await homeController.backwardRotation();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 30, bottom: 20),
+                        child: Icon(Icons.arrow_back_ios, color: Colors.white,size: homeController.angle.value == 0 ? 0 : 40),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 50,bottom: 20),
-                  child: GestureDetector(
-                    onTap: () async {
-                      await homeController.forwardRotation();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 30, bottom: 20),
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.white,size: homeController.angle.value == -0.75 ? 0 : 40),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50,bottom: 20),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await homeController.forwardRotation();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 30, bottom: 20),
+                        child: Icon(Icons.arrow_forward_ios, color: Colors.white,size: homeController.angle.value == -0.75 ? 0 : 40),
+                      ),
                     ),
+                  )
+                ],
+              ),
+              Positioned(
+                bottom: - Get.width * 0.30,
+                child:  AnimatedRotation(
+                  turns: homeController.angle.value,
+                  duration: const Duration(milliseconds: 1500),
+                  curve: Curves.fastOutSlowIn,
+                  child:  Container(
+                    width: Get.width * 0.60,
+                    height: Get.width * 0.60,
+                    // color: Colors.red,
+                    child: SvgPicture.asset('assets/icons/VIP Theme Navigator.svg',fit: BoxFit.cover,),
                   ),
-                )
-              ],
-            ),
-            Positioned(
-              bottom: - Get.width * 0.30,
-              child:  AnimatedRotation(
-                turns: homeController.angle.value,
-                duration: const Duration(milliseconds: 1500),
-                curve: Curves.fastOutSlowIn,
-                child:  Container(
-                  width: Get.width * 0.60,
-                  height: Get.width * 0.60,
-                  // color: Colors.red,
-                  child: SvgPicture.asset('assets/icons/VIP Theme Navigator.svg',fit: BoxFit.cover,),
                 ),
               ),
-            ),
-            Container(
-              width: Get.width * 0.5,
-              height: Get.width * 0.25,
-              decoration: const BoxDecoration(
-                color: AppStyle.lightGrey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(1000),
-                    topRight: Radius.circular(1000)
+              Container(
+                width: Get.width * 0.5,
+                height: Get.width * 0.25,
+                decoration: const BoxDecoration(
+                  color: AppStyle.lightGrey,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(1000),
+                      topRight: Radius.circular(1000)
+                  ),
                 ),
               ),
-            ),
-            AnimatedSwitcher(
-                duration: const Duration(milliseconds: 1000),
-                child: !homeController.switchImage.value ? _imageTheme()
-                    : Text('')
-            ),
-            _logoText(),
-          ],
+              AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 1000),
+                  child: !homeController.switchImage.value ? _imageTheme()
+                      : const Text('')
+              ),
+              _logoText(),
+            ],
+          ),
         ),
       );
     });
   }
-
   _imageTheme(){
-    return  Container(
-      width: Get.width * 0.5,
-      height: Get.width * 0.25,
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(1000),
-              topRight: Radius.circular(1000)
-          ),
-          image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage('assets/images/${homeController.themeImages[homeController.selectImageIndex.value - 1]}.png')
-          )
+    return  GestureDetector(
+
+      child: Container(
+        width: Get.width * 0.5,
+        height: Get.width * 0.25,
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(1000),
+                topRight: Radius.circular(1000)
+            ),
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/images/${homeController.themeImages[homeController.selectImageIndex.value - 1]}.png')
+            )
+        ),
       ),
     );
   }

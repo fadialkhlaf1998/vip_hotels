@@ -147,12 +147,16 @@ class HomeController extends GetxController{
         introController.allCars.addAll(introController.carCategory[i].cars!);
       }
       loading.value = false;
+      selectIndexSidebar.value = -1;
+      selectionIndexBottomBar.value = -1;
     }
     searchOpenTextDelegate.value = false;
     brandOpenMenu.value = false;
     chooseBrand.value = false;
     themeOpenPage.value = false;
     selectIndexSidebar.value = -1;
+    selectionIndexBottomBar.value = -1;
+
     goToTheTop();
     clearFilter();
   }

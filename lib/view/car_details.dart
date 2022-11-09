@@ -20,6 +20,10 @@ class CarDetails extends StatelessWidget {
 
   Car car = Get.arguments[0];
 
+  CarDetails(){
+    detailsPageController.mainCarImageIndex.value = 1;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +235,32 @@ class CarDetails extends StatelessWidget {
             ),
           ),
           CustomLogo(width: 0.15, height: 0.09, tag: 'tag'),
-          SizedBox(height: Get.height * 0.07),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: (){
+                  detailsPageController.openGallery.value = true;
+                },
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(width: 2, color: AppStyle.primary)
+                    )
+                  ),
+                  child: const Text(
+                    'More Images',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                        fontStyle: FontStyle.italic
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: Get.height * 0.05),
         ],
       ),
     );
