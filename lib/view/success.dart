@@ -5,16 +5,14 @@ import 'package:lottie/lottie.dart';
 class Success extends StatelessWidget {
 
   RxBool init = false.obs;
+  bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
+
 
   Success(){
-    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
-
-    Future.delayed(const Duration(milliseconds: 500)).then((value){
-      print('true --------');
+    Future.delayed(const Duration(milliseconds: 600)).then((value){
       init.value = true;
     });
-    Future.delayed(const Duration(seconds: 3)).then((value){
-      print('false --------');
+    Future.delayed(const Duration(seconds: 5)).then((value){
       init.value = false;
       isTablet
           ? Get.offNamed('/home')
@@ -39,23 +37,23 @@ class Success extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Spacer(),
-              const Text('We Successfully Added Your Booking.', style: TextStyle(
+              Text('We Successfully Added Your Booking.', style: TextStyle(
               color: Colors.white,
               fontFamily: 'D-DIN-PRO',
-              fontSize: 27,
+              fontSize: isTablet ?  27 : 18,
               fontWeight: FontWeight.bold
               )),
               const SizedBox(height: 20),
-              const Text('A Confirmation Email Will Be Sent To You.', style: TextStyle(
+              Text('A Confirmation Email Will Be Sent To You.', style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'D-DIN-PRO',
-                  fontSize: 27,
+                  fontSize: isTablet ?  27 : 18,
                   fontWeight: FontWeight.bold
               )),
               const SizedBox(height: 40),
               Obx(() =>  !init.value
                   ? const SizedBox(height: 300)
-                  : Lottie.asset("assets/tick.json",width: 300,height: 300,frameRate: FrameRate(1000))),
+                  : Lottie.asset("assets/tick.json",width: isTablet ?  300: 200,height: isTablet ?  300: 200,frameRate: FrameRate(1000))),
               const Spacer(),
             ],
           ),
