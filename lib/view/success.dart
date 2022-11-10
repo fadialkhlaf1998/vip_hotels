@@ -7,12 +7,18 @@ class Success extends StatelessWidget {
   RxBool init = false.obs;
 
   Success(){
+    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
+
     Future.delayed(const Duration(milliseconds: 500)).then((value){
+      print('true --------');
       init.value = true;
     });
-    Future.delayed(const Duration(seconds: 5)).then((value){
+    Future.delayed(const Duration(seconds: 3)).then((value){
+      print('false --------');
       init.value = false;
-      Get.offNamed('/home');
+      isTablet
+          ? Get.offNamed('/home')
+      :  Get.offNamed('/homeMobile');
     });
   }
 

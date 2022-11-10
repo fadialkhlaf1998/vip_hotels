@@ -306,8 +306,6 @@ class Home extends StatelessWidget {
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
-                // print('lazy${homeController.lazyLoadFilter.value}');
-                // print('filter${homeController.filterCarList.length}');
                 return _carCardFilter(index);
               },
             ),
