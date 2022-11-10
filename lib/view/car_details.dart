@@ -76,7 +76,8 @@ class CarDetails extends StatelessWidget {
                           width: Get.width * 0.35,
                           height: Get.height * 0.2,
                           child: SvgPicture.asset('assets/icons/triangle.svg',fit: BoxFit.contain),
-                        ),                      Container(
+                        ),
+                        Container(
                           width: Get.width * 0.15,
                           height: Get.height * 0.1,
                           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -118,6 +119,31 @@ class CarDetails extends StatelessWidget {
                           )
                       ),
                     ) : const Text(''),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: GestureDetector(
+                    onTap: (){
+                      detailsPageController.openGallery.value = true;
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 2),
+                      margin: EdgeInsets.only(bottom: Get.height * 0.07, right: 70),
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(width: 2, color: AppStyle.primary)
+                          )
+                      ),
+                      child: const Text(
+                        'More Images',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Align(
@@ -235,31 +261,6 @@ class CarDetails extends StatelessWidget {
             ),
           ),
           CustomLogo(width: 0.15, height: 0.09, tag: 'tag'),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: (){
-                  detailsPageController.openGallery.value = true;
-                },
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 2, color: AppStyle.primary)
-                    )
-                  ),
-                  child: const Text(
-                    'More Images',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                        fontStyle: FontStyle.italic
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           SizedBox(height: Get.height * 0.05),
         ],
       ),

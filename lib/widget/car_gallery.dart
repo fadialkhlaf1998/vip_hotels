@@ -35,7 +35,7 @@ class CarGallery extends StatelessWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1000),
             curve: Curves.fastOutSlowIn,
-            right:  detailsPageController.openGallery.value ? 30 : Get.width,
+            right:  detailsPageController.openGallery.value ? 25 : Get.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
