@@ -30,6 +30,8 @@ class LoginController extends GetxController{
           introController.allCars.addAll(introController.carCategory[i].cars!);
         }
         loading.value = false;
+        username.clear();
+        password.clear();
         isTablet ? Get.offAllNamed('/home') : Get.offAllNamed('/homeMobile') ;
       }else{
         loading.value = false;
@@ -48,6 +50,9 @@ class LoginController extends GetxController{
   loginAsGuest() async {
     bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     loading.value = true;
+    introController.carCategory.clear();
+    introController.brandList.clear();
+    introController.allCars.clear();
     await  Api.login('guest', 'guest').then((data) async {
       if(data != null){
         /// get data
@@ -60,6 +65,8 @@ class LoginController extends GetxController{
           introController.allCars.addAll(introController.carCategory[i].cars!);
         }
         loading.value = false;
+        username.clear();
+        password.clear();
         isTablet ? Get.offAllNamed('/home') : Get.offAllNamed('/homeMobile');
       }else{
         loading.value = false;
