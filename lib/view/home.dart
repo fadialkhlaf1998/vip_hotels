@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
@@ -10,7 +11,6 @@ import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
 
 import 'package:vip_hotels/widget/custom_sideBar.dart';
-import 'package:vip_hotels/widget/theme_circle.dart';
 
 class Home extends StatelessWidget {
 
@@ -50,18 +50,6 @@ class Home extends StatelessWidget {
                       )
                     ),
                   ),
-                  // Container(
-                  //   width: Get.width * 0.5,
-                  //   height: Get.height,
-                  //   decoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //       colors: [
-                  //         Colors.black.withOpacity(0.1),
-                  //         Colors.black.withOpacity(0),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -83,10 +71,8 @@ class Home extends StatelessWidget {
                       _bottomBar()
                     ],
                   ),
-                 AnimatedSwitcher(
-                   duration: const Duration(milliseconds: 500),
-                   child: homeController.themeOpenPage.value ? ThemeCircle() : const Text(''),
-                 ),
+                  logoutConfirm()
+
                 ],
               )
           ),
@@ -107,7 +93,7 @@ class Home extends StatelessWidget {
 
   _bottomBar(){
     return Container(
-      height: 40,
+      height: 45,
       width: Get.width,
       decoration:  BoxDecoration(
           gradient: LinearGradient(
@@ -127,7 +113,7 @@ class Home extends StatelessWidget {
           GestureDetector(
             onTap: (){
               if(homeController.chooseBrand.value){
-                homeController.chooseCarFilter(homeController.brandId.value);
+                homeController.chooseCarFilter(homeController.brandIndex.value);
               }else{
                 homeController.selectIndexBottomBar(-1);
               }
@@ -182,16 +168,25 @@ class Home extends StatelessWidget {
                             bottom: BorderSide(color: AppStyle.primary, width:  3)
                           ) : null
                     ),
-                    child: Center(
-                      child: Text(
-                        introController.carCategory[index].title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontFamily: 'D-DIN-PRO',
-                          fontWeight: FontWeight.bold
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          introController.carCategory[index].title,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontFamily: 'D-DIN-PRO',
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: 60,
+                          height: 40,
+                          child: SvgPicture.network(introController.carCategory[index].image, color: AppStyle.primary),
+                        )
+                      ],
                     ),
                   ),
                 );
@@ -817,6 +812,112 @@ class Home extends StatelessWidget {
     );
   }
 
+
+  logoutConfirm(){
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 1000),
+            child: homeController.logoutConfirm.value
+              ? Container(
+            width: Get.width,
+            height: Get.height,
+            color: Colors.black.withOpacity(0.6),
+          ) : const Text('')
+        ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.fastOutSlowIn,
+          width: Get.width * 0.5,
+          height: homeController.logoutConfirm.value ? Get.height * 0.4 : 0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppStyle.grey,
+          ),
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: Get.height * 0.4,
+              child:  Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: const Text(
+                      'Warning!',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 24
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    'Do you really want to log out?',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          homeController.logoutConfirm.value = false;
+                        },
+                        child: Container(
+                          width: Get.width * 0.25,
+                          height: 55,
+                          decoration: const BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20)
+                              )
+                          ),
+                          child: const Center(
+                            child: Text(
+                                'Cancel',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          homeController.logout();
+                        },
+                        child: Container(
+                          width: Get.width * 0.25,
+                          height: 55,
+                          decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(20)
+                              )
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Confirm',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )
+          ),
+        ),
+      ],
+    );
+  }
 
 
 }

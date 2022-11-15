@@ -7,7 +7,7 @@ import 'package:vip_hotels/services/AppStyle.dart';
 
 class CustomSideBar extends StatelessWidget {
 
-  List<String> myIcon = ['search.svg', 'favorite.svg'];
+  List<String> myIcon = ['search.svg'];
   HomeController homeController = Get.find();
 
   double width;
@@ -31,18 +31,6 @@ class CustomSideBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              GestureDetector(
-                onTap: (){
-                  // homeController.selectIndexSidebar.value = index;
-                  homeController.homeButton();
-                },
-                child: SizedBox(
-                    width: width - 25,
-                    height: width - 25,
-                    child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
-                ),
-              ),
-              SizedBox(height: space),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: myIcon.length,
@@ -73,15 +61,24 @@ class CustomSideBar extends StatelessWidget {
               SizedBox(height: space),
               GestureDetector(
                 onTap: (){
-                  // homeController.selectIndexSidebar.value = index;
-                  // homeController.homeButton();
-                  homeController.logout();
+                  homeController.homeButton();
+                },
+                child: SizedBox(
+                    width: width - 25,
+                    height: width - 25,
+                    child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
+                ),
+              ),
+              SizedBox(height: space * 2),
+              GestureDetector(
+                onTap: (){
+                  homeController.logoutConfirm.value = true;
+                  // homeController.logout();
                 },
                 child: SizedBox(
                     width: width - 25,
                     height: width - 25,
                     child: const Icon(Icons.logout, color: AppStyle.lightGrey, size: 35),
-                    // child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
                 ),
               ),
             ],

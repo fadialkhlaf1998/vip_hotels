@@ -26,11 +26,17 @@ class CarGallery extends StatelessWidget {
         children: [
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 700),
-            child: detailsPageController.openGallery.value ? Container(
+            child: detailsPageController.openGallery.value
+                ? GestureDetector(
+              onTap: (){
+                detailsPageController.openGallery.value = false;
+              },
+                  child: Container(
               width: Get.width,
               height: Get.height,
               color: Colors.black.withOpacity(0.5),
-            ) : const Center(),
+            ),
+                ) : const Center(),
           ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1000),

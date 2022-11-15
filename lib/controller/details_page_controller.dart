@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -15,7 +16,23 @@ class DetailsPageController extends GetxController{
   RxBool optionChangeTimer = false.obs;
   RxInt mainCarImageIndex = 1.obs;
   RxBool openGallery = false.obs;
+  RxBool changeColor = false.obs;
 
+
+  @override
+  void onInit() {
+    super.onInit();
+    change();
+  }
+
+  change() async {
+    while(true){
+      await Future.delayed(const Duration(milliseconds: 1300)).then((value){
+        changeColor.value = !changeColor.value;
+      });
+    }
+
+  }
 
   changeOptionColor(index){
     optionIndex.value = index;

@@ -12,7 +12,7 @@ class HomeController extends GetxController{
   RxList themeImages = ['Background 1','Background 2','Background 3','Background 4'].obs;
   RxInt selectIndexSidebar = (-1).obs;
   RxBool searchOpenTextDelegate = false.obs;
-  RxBool brandOpenMenu = false.obs;
+  RxBool brandOpenMenu = true.obs;
   RxBool themeOpenPage = false.obs;
   ScrollController scrollController = ScrollController();
   RxInt selectImageIndex = 1.obs;
@@ -23,10 +23,11 @@ class HomeController extends GetxController{
   RxBool chooseBrand = false.obs;
   RxBool loading = false.obs;
   RxInt brandId = 0 .obs;
-  RxInt brandIndex = 0 .obs;
+  RxInt brandIndex = (-1).obs;
   TextEditingController myController = TextEditingController();
   RxInt lazyLoad = 0.obs;
   RxInt lazyLoadFilter = 0.obs;
+  RxBool logoutConfirm = false.obs;
 
   initLazyLoad(){
     if(introController.allCars.length > 6){
@@ -109,6 +110,7 @@ class HomeController extends GetxController{
     if(selectIndexSidebar.value == 0){
       if(searchOpenTextDelegate.value == true){
         searchOpenTextDelegate.value = false;
+        brandOpenMenu.value = true;
         selectIndexSidebar.value = -1;
       }else{
         searchOpenTextDelegate.value = true;
@@ -142,23 +144,18 @@ class HomeController extends GetxController{
   
   homeButton(){
     introController.allCars.clear();
-    if(brandOpenMenu.value = true){
-      for(int i = 0; i < introController.carCategory.length; i++){
-        introController.allCars.addAll(introController.carCategory[i].cars!);
-      }
-      loading.value = false;
-      selectIndexSidebar.value = -1;
-      selectionIndexBottomBar.value = -1;
+    for(int i = 0; i < introController.carCategory.length; i++){
+      introController.allCars.addAll(introController.carCategory[i].cars!);
     }
+    loading.value = false;
     searchOpenTextDelegate.value = false;
-    brandOpenMenu.value = false;
     chooseBrand.value = false;
     themeOpenPage.value = false;
     selectIndexSidebar.value = -1;
     selectionIndexBottomBar.value = -1;
-
     goToTheTop();
-    clearFilter();
+    brandIndex.value = -1;
+    // clearFilter();
   }
 
   selectIndexBottomBar(index){
@@ -180,20 +177,22 @@ class HomeController extends GetxController{
 
 
   chooseCarFilter(index){
-    loading.value = true;
-    selectionIndexBottomBar.value = -1;
-    filterCarList.clear();
-    brandId.value = introController.brandList[index].id ;
-    brandIndex.value = index;
-    Api.filter([brandId.value], []).then((data){
-      if(data != null){
-        filterCarList.addAll(data);
-      }
-      initLazyLoadFilter();
-      loading.value = false;
-      chooseBrand.value = true;
-    });
-    goToTheTop();
+    if(loading.value != true){
+      loading.value = true;
+      selectionIndexBottomBar.value = -1;
+      filterCarList.clear();
+      brandId.value = introController.brandList[index].id ;
+      brandIndex.value = index;
+      Api.filter([brandId.value], []).then((data){
+        if(data != null){
+          filterCarList.addAll(data);
+        }
+        initLazyLoadFilter();
+        loading.value = false;
+        chooseBrand.value = true;
+      });
+      goToTheTop();
+    }
   }
 
 
@@ -217,7 +216,8 @@ class HomeController extends GetxController{
 
   clearFilter(){
     chooseBrand.value = false;
-    brandOpenMenu.value = false;
+    // brandOpenMenu.value = false;
+    selectIndexBottomBar(-1);
     selectIndexSidebar.value = -1;
     loading.value = true;
     introController.allCars.clear();
@@ -237,9 +237,9 @@ class HomeController extends GetxController{
   logout(){
     Global.clear();
     if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
-      Get.offNamed('/login');
+      Get.offAllNamed('/login');
     }else{
-      Get.offNamed('/loginMobile');
+      Get.offAllNamed('/loginMobile');
     }
 
   }

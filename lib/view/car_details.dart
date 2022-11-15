@@ -104,7 +104,7 @@ class CarDetails extends StatelessWidget {
                 ),
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 700),
-                  right: detailsPageController.optionChangeTimer.value ? -100 : 100,
+                  right: detailsPageController.optionChangeTimer.value ? -80 : 80,
                   curve: Curves.fastOutSlowIn,
                   bottom: 0,
                   child: AnimatedSwitcher(
@@ -127,23 +127,36 @@ class CarDetails extends StatelessWidget {
                     onTap: (){
                       detailsPageController.openGallery.value = true;
                     },
-                    child: Container(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      margin: EdgeInsets.only(bottom: Get.height * 0.07, right: 70),
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(width: 2, color: AppStyle.primary)
-                          )
-                      ),
-                      child: const Text(
-                        'More Images',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontStyle: FontStyle.italic
+                    child:Obx((){
+                      return  AnimatedContainer(
+                        duration: const Duration(milliseconds: 1400),
+                        curve: Curves.fastOutSlowIn,
+                        padding: const EdgeInsets.only(bottom: 2),
+                        margin: EdgeInsets.only(bottom: Get.height * 0.07, right: 70),
+                        decoration:  BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end:   Alignment.topCenter,
+                                colors: [
+                                  detailsPageController.changeColor.value ? AppStyle.primary : AppStyle.primary.withOpacity(0),
+                                  AppStyle.primary.withOpacity(0)
+                                ]
+                            ),
+                            border: const Border(
+                                bottom: BorderSide(width: 2, color: AppStyle.primary)
+                            )
                         ),
-                      ),
-                    ),
+                        child: const Text(
+                          'More Images',
+                          style: TextStyle(
+                            inherit: true,
+                            color: Colors.white ,
+                            fontSize: 24,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      );
+                    })
                   ),
                 ),
                 Align(

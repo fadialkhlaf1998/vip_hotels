@@ -232,10 +232,10 @@ class BookPage extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                     width: Get.width * 0.3,
-                    height: Get.height * 0.15,
+                    height: Get.height * 0.2,
                   color: Colors.transparent,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -255,15 +255,16 @@ class BookPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const Text(
-                        'Passport Copy, Hotel Reservation, Driving License',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: AppStyle.lightGrey,
-                          fontFamily: 'D-DIN-PRO',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                        ))
+                      const SizedBox(height: 10),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        children: [
+                          _iconContainer('Id', 'id'),
+                          _iconContainer('Passport', 'passport'),
+                          _iconContainer('Visa', 'visa'),
+                          _iconContainer('Driving license', 'driving-license'),
+                        ],
+                      ),
                     ],
                   )
               )
@@ -440,6 +441,26 @@ class BookPage extends StatelessWidget {
             const SizedBox(height: 20,)
           ],
         ),
+      ),
+    );
+  }
+
+  _iconContainer(String text, String icon){
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Image.asset('assets/icons/$icon.png', width: 35,height: 35),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 15
+            ),
+          ),
+        ],
       ),
     );
   }
