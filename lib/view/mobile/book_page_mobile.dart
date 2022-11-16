@@ -106,7 +106,7 @@ class BookPageMobile extends StatelessWidget {
             child:   Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(left: Get.width * 0.1),
+                padding: EdgeInsets.only(left: Get.width * 0.1, top: 20),
                 child: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
               ),
             ),
