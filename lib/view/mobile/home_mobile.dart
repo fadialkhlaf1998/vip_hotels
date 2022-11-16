@@ -27,7 +27,7 @@ class HomeMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
-        systemNavigationBarColor:   Colors.black,
+        systemNavigationBarColor: Colors.black,
         statusBarIconBrightness: Brightness.dark,
       statusBarBrightness: Brightness.dark
     ));
@@ -42,7 +42,7 @@ class HomeMobile extends StatelessWidget {
           return true;
         },
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.black,
           body: SafeArea(
               child: Stack(
                 children: [
