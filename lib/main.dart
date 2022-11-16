@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.black,
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.black,
-              statusBarIconBrightness: Brightness.dark,
-              statusBarBrightness: Brightness.dark,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light,
             ),
           ),
         ),
