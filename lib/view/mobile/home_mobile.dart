@@ -41,10 +41,7 @@ class HomeMobile extends StatelessWidget {
           return true;
         },
         child: Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            brightness: Brightness.dark,
-          ),
+          backgroundColor: Colors.white,
           body: SafeArea(
               child: Stack(
                 children: [
