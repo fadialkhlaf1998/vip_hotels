@@ -29,7 +29,9 @@ class CarDetailsMobile extends StatelessWidget {
     detailsPageController.optionIndex.value = 0;
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.light
+        systemNavigationBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark
     ));
     return Obx((){
       return WillPopScope(
@@ -44,6 +46,7 @@ class CarDetailsMobile extends StatelessWidget {
           }
         },
         child: Scaffold(
+          backgroundColor: Colors.black,
           body: SafeArea(
             child: Stack(
               alignment: Alignment.topCenter,

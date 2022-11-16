@@ -22,10 +22,13 @@ class BookPageMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.light
+        systemNavigationBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark
     ));
     return Obx((){
       return Scaffold(
+        backgroundColor: Colors.black,
         body: SafeArea(
           child: SingleChildScrollView(
             child: SizedBox(
