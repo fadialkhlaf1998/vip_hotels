@@ -60,19 +60,14 @@ class BookPageController extends GetxController{
 
   book(String carId,String? optionId,BuildContext context) async {
     validate.value = true;
-
-
     if(range.isNotEmpty && name.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&RegExp(r'\S+@\S+\.\S+').hasMatch(email.text)){
       loading.value = true;
       await Api.addOrder(from,to,carId,optionId,imageList, phone.text, email.text, name.text).then((value){
         validate.value = false;
         if(value){
           loading.value = false;
-          // Get.offNamed('/home');
           Get.off(()=>Success());
           print('success');
-          // AppStyle.successNotification(context, 'Your Book Has Been Successfully', 'We Will Confirm You By Email');
-
         }else{
           AppStyle.errorNotification(context, 'Oops', 'Something Went Wrong');
           loading.value = false;
@@ -83,11 +78,6 @@ class BookPageController extends GetxController{
       if(range.isEmpty ){
         AppStyle.errorNotification(context, 'Warning', 'Please choose date');
       }
-     // Get.snackbar(
-     //     'Warning', 'Please choose date',
-     //   margin: const EdgeInsets.only(top: 40, right: 150, left: 150),
-     //   backgroundColor: AppStyle.lightGrey
-     // );
     }
   }
 

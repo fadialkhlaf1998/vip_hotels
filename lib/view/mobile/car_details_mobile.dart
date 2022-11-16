@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/controller/home_controller.dart';
@@ -8,10 +9,9 @@ import 'package:vip_hotels/services/api.dart';
 import 'package:vip_hotels/widget/backgroundImage.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/widget/car_gallery_mobile.dart';
-
 import 'package:vip_hotels/widget/custom_logo.dart';
-
 import 'package:vip_hotels/widget/theme_circle_mobile.dart';
+
 
 class CarDetailsMobile extends StatelessWidget {
 
@@ -27,7 +27,10 @@ class CarDetailsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     detailsPageController.optionIndex.value = 0;
-
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light
+    ));
     return Obx((){
       return WillPopScope(
         onWillPop: ()async{
@@ -52,7 +55,7 @@ class CarDetailsMobile extends StatelessWidget {
                   children: [
                     Container(
                       width: Get.width,
-                      height: Get.height * 0.45,
+                      height: Get.height * 0.5,
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.7),
                         borderRadius: const BorderRadius.only(
@@ -107,7 +110,7 @@ class CarDetailsMobile extends StatelessWidget {
                           Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
                           SizedBox(
                                width: Get.width * 0.7,
-                               height: Get.height * 0.15,
+                               height: Get.height * 0.13,
                                child: SingleChildScrollView(
                                  child: Text(
                                    car.description,
@@ -119,6 +122,27 @@ class CarDetailsMobile extends StatelessWidget {
                                ),
                              ),
                           Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
+                          GestureDetector(
+                            onTap: (){
+                              if(detailsPageController.optionId.value == -1){
+                                detailsPageController.optionId.value = car.options.first.id;
+                              }
+                              Get.toNamed('/bookMobile', arguments: [car]);
+                            },
+                            child: Container(
+                              width: 120,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: AppStyle.primary,
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: const Center(
+                                child: Text(
+                                    'Book now',
+                                ),
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             width: Get.width * 0.8,
                             height: 40,
@@ -256,7 +280,7 @@ class CarDetailsMobile extends StatelessWidget {
                 height: 25,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: homeController.brandOpenMenu.value
+                  child: homeController.themeOpenPage.value
                       ? SvgPicture.asset('assets/icons/theme.svg', color: Colors.white, key: Key('0'),)
                       : SvgPicture.asset('assets/icons/theme.svg', color: AppStyle.lightGrey,  key: Key('1'),),
                 )

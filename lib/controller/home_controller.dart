@@ -149,6 +149,7 @@ class HomeController extends GetxController{
     }
     loading.value = false;
     searchOpenTextDelegate.value = false;
+    brandOpenMenu.value = true;
     chooseBrand.value = false;
     themeOpenPage.value = false;
     selectIndexSidebar.value = -1;

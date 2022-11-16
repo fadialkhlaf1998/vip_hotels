@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vip_hotels/controller/login_controller.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/widget/custom_button.dart';
@@ -16,6 +17,11 @@ class LoginMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: AppStyle.grey,
+        statusBarIconBrightness: Brightness.light
+
+    ));
     return Obx((){
       return Scaffold(
         body: SafeArea(

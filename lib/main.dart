@@ -76,7 +76,13 @@ class MyAppMobile extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp(
+        // theme: Theme.of(context).copyWith(
+        //     appBarTheme: Theme.of(context)
+        //         .appBarTheme
+        //         .copyWith(brightness: Brightness.light),
+        // ),
         getPages: [
           GetPage(
               name: '/loginMobile',

@@ -10,13 +10,13 @@ class Success extends StatelessWidget {
 
   Success(){
     Future.delayed(const Duration(milliseconds: 600)).then((value){
-      init.value = true;
+     init.value = true;
     });
     Future.delayed(const Duration(seconds: 5)).then((value){
       init.value = false;
       isTablet
-          ? Get.offNamed('/home')
-      :  Get.offNamed('/homeMobile');
+          ? Get.offAllNamed('/home')
+      :  Get.offAllNamed('/homeMobile');
     });
   }
 

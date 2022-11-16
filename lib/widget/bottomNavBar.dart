@@ -42,6 +42,7 @@ class CustomBottomNavBar extends StatelessWidget {
             onTap: (){
               if(homeController.searchOpenTextDelegate.value == true){
                 homeController.searchOpenTextDelegate.value = false;
+                homeController.brandOpenMenu.value = true;
                 homeController.selectIndexSidebar.value = -1;
               }else{
                 homeController.searchOpenTextDelegate.value = true;
@@ -74,27 +75,37 @@ class CustomBottomNavBar extends StatelessWidget {
           SizedBox(width: space),
           GestureDetector(
             onTap: (){
-              if(homeController.brandOpenMenu.value == true){
-                homeController.brandOpenMenu.value = false;
-                homeController.selectIndexSidebar.value = -1;
-              }else{
-                homeController.searchOpenTextDelegate.value = false;
-                homeController.brandOpenMenu.value = true;
-                homeController.themeOpenPage.value = false;
-                homeController.goToTheTop();
-              }
+              homeController.logoutConfirm.value = true;
             },
-            child: Container(
+            child: SizedBox(
                 width: 25,
                 height: 25,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: homeController.brandOpenMenu.value
-                      ? SvgPicture.asset('assets/icons/favorite.svg', color: Colors.white, key: Key('0'),)
-                      : SvgPicture.asset('assets/icons/favorite.svg', color: AppStyle.lightGrey,  key: Key('1'),),
-                )
+                child: SvgPicture.asset('assets/icons/logout.svg', color: AppStyle.lightGrey,)
             ),
           ),
+          // GestureDetector(
+          //   onTap: (){
+          //     if(homeController.brandOpenMenu.value == true){
+          //       homeController.brandOpenMenu.value = false;
+          //       homeController.selectIndexSidebar.value = -1;
+          //     }else{
+          //       homeController.searchOpenTextDelegate.value = false;
+          //       homeController.brandOpenMenu.value = true;
+          //       homeController.themeOpenPage.value = false;
+          //       homeController.goToTheTop();
+          //     }
+          //   },
+          //   child: Container(
+          //       width: 25,
+          //       height: 25,
+          //       child: AnimatedSwitcher(
+          //         duration: const Duration(milliseconds: 300),
+          //         child: homeController.brandOpenMenu.value
+          //             ? SvgPicture.asset('assets/icons/favorite.svg', color: Colors.white, key: Key('0'),)
+          //             : SvgPicture.asset('assets/icons/favorite.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+          //       )
+          //   ),
+          // ),
         ],
       ),
     );

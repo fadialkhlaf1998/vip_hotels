@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vip_hotels/controller/book_page_controller.dart';
@@ -14,11 +15,15 @@ import 'package:get/get.dart';
 class BookPageMobile extends StatelessWidget {
 
   Car car = Get.arguments[0];
-  BookPageController bookPageController = Get.put(BookPageController());
   DetailsPageController detailsPageController = Get.find();
+  BookPageController bookPageController = Get.put(BookPageController());
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light
+    ));
     return Obx((){
       return Scaffold(
         body: SafeArea(
@@ -28,40 +33,36 @@ class BookPageMobile extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  Row(
+                  Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            width: Get.width,
-                            height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(car.image)
-                              ),
-                            ),
+                      Container(
+                        width: Get.width,
+                        height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(car.image)
                           ),
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 1000),
-                            curve: Curves.fastOutSlowIn,
-                            width: Get.width,
-                            height: Get.height,
-                            color: Colors.black.withOpacity(0.7),
-                          ),
-                          _bookDetails(context),
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            child: bookPageController.calenderOpen.value
-                                ? Container(
-                              width:Get.width,
-                              height: Get.height,
-                              color: Colors.black.withOpacity(0.7),
-                              child: _pickDate(),
-                            ) : Text(''),
-                          ),
-                        ],
+                        ),
+                      ),
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 1000),
+                        curve: Curves.fastOutSlowIn,
+                        width: Get.width,
+                        height: Get.height,
+                        color: Colors.black.withOpacity(0.7),
+                      ),
+                      _bookDetails(context),
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: bookPageController.calenderOpen.value
+                            ? Container(
+                          width:Get.width,
+                          height: Get.height,
+                          color: Colors.black.withOpacity(0.7),
+                          child: _pickDate(),
+                        ) : Text(''),
                       ),
                     ],
                   ),
@@ -90,151 +91,181 @@ class BookPageMobile extends StatelessWidget {
   _bookDetails(BuildContext context){
     return SingleChildScrollView(
       child: Container(
-        height: Get.height * 0.7,
+        height: Get.height * 0.9,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Obx((){
-              return  GestureDetector(
-                onTap: (){
-                  bookPageController.calenderOpen.value = true;
-                },
-                child: Container(
-                  width: Get.width * 0.8,
-                  height: 45,
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: AppStyle.lightGrey, width: 2)
-                  ),
-                  child: Center(
-                    child: bookPageController.range.isEmpty
-                        ? const Text(
-                        'Pickup & Dropoff Date',
-                        style: TextStyle(
-                            color: AppStyle.lightGrey,
-                            fontFamily: 'D-DIN-PRO',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold
-                        ))
-                        :  Text(
-                        'From ${bookPageController.range.value.split('-')[0]} To ${bookPageController.range.value.split('-')[1]}',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'D-DIN-PRO',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold
-                        )),
-                  ),
-                ),
-              );
-            }),
-            DottedBorder(
-                color: AppStyle.primary,
-                dashPattern: const [10, 4],
-                strokeWidth: 2,
-                child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    width: Get.width * 0.78,
-                    height: Get.height * 0.15,
-                    color: Colors.transparent,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: (){
-                                bookPageController.selectImage();
-                              },
-                              child: SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.primary, width: 40,height: 40,fit: BoxFit.contain,),
-                            ),
-                            const SizedBox(width: 40),
-                            GestureDetector(
-                              onTap: (){
-                                bookPageController.selectPhotosFromCamera();
-                              },
-                              child: const Icon(Icons.camera_alt, color: AppStyle.primary,size: 45,),
-                            ),
-                          ],
+          GestureDetector(
+            onTap: (){
+              Get.back();
+            },
+            child:   Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: Get.width * 0.1),
+                child: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
+              ),
+            ),
+          ),
+            Container(
+              height: Get.height * 0.6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx((){
+                    return  GestureDetector(
+                      onTap: (){
+                        bookPageController.calenderOpen.value = true;
+                      },
+                      child: Container(
+                        width: Get.width * 0.8,
+                        height: 45,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: AppStyle.lightGrey, width: 2)
                         ),
-                        const Text(
-                            'Passport Copy, Hotel Reservation, Driving License',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: AppStyle.lightGrey,
-                                fontFamily: 'D-DIN-PRO',
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold
-                            ))
-                      ],
-                    )
-                )
-            ),
-            CustomAnimatedTextField(
-              duration: 900,
-              width: 0.8,
-              height: 50,
-              controller: bookPageController.name,
-              prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
-              keyboardType: TextInputType.text,
-              labelText: 'Enter your name',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right: Get.width * 0.1,
-              bottom: Get.height * 0.5,
-              validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
-            ),
-            CustomAnimatedTextField(
-              duration: 1500,
-              width: 0.8,
-              height: 50,
-              controller: bookPageController.email,
-              prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
-              keyboardType: TextInputType.emailAddress,
-              labelText: 'Enter your email',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right: Get.width * 0.1,
-              bottom: Get.height * 0.4,
-              validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
-                  (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
-            ),
-            CustomAnimatedPhoneField(
-              duration: 1100,
-              width: 0.8,
-              height: 52,
-              controller: bookPageController.phone,
-              prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
-              keyboardType: TextInputType.number,
-              labelText: 'Phone',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right:Get.width * 0.1,
-              bottom: Get.height * 0.3,
-              validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
-            ),
-            SizedBox(
-              height: Get.height * 0.1,
-              width: Get.width * 0.8,
-              child: Center(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: bookPageController.imageList.length,
-                  itemBuilder: (BuildContext context, index){
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      width: Get.height * 0.1,
-                      height: Get.height * 0.1,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: FileImage(bookPageController.imageList[index])
-                          )
+                        child: Center(
+                          child: bookPageController.range.isEmpty
+                              ? const Text(
+                              'Pickup & Dropoff Date',
+                              style: TextStyle(
+                                  color: AppStyle.lightGrey,
+                                  fontFamily: 'D-DIN-PRO',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                              ))
+                              :  Text(
+                              'From ${bookPageController.range.value.split('-')[0]} To ${bookPageController.range.value.split('-')[1]}',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'D-DIN-PRO',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                              )),
+                        ),
                       ),
                     );
-                  },
-                ),
+                  }),
+                  DottedBorder(
+                      color: AppStyle.primary,
+                      dashPattern: const [10, 4],
+                      strokeWidth: 2,
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          width: Get.width * 0.78,
+                          height: Get.height * 0.15,
+                          color: Colors.transparent,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      bookPageController.selectImage();
+                                    },
+                                    child: SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.primary, width: 35,height: 35,fit: BoxFit.contain,),
+                                  ),
+                                  const SizedBox(width: 40),
+                                  GestureDetector(
+                                    onTap: (){
+                                      bookPageController.selectPhotosFromCamera();
+                                    },
+                                    child: const Icon(Icons.camera_alt, color: AppStyle.primary,size: 40,),
+                                  ),
+                                ],
+                              ),
+                              Wrap(
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  _iconContainer('Id', 'id'),
+                                  _iconContainer('Passport', 'passport'),
+                                  _iconContainer('Visa', 'visa'),
+                                  _iconContainer('Driving license', 'driving-license'),
+                                ],
+                              ),
+                              // const Text(
+                              //     'Passport Copy, Hotel Reservation, Driving License',
+                              //     textAlign: TextAlign.center,
+                              //     style: TextStyle(
+                              //         color: AppStyle.lightGrey,
+                              //         fontFamily: 'D-DIN-PRO',
+                              //         fontSize: 15,
+                              //         fontWeight: FontWeight.bold
+                              //     ))
+                            ],
+                          )
+                      )
+                  ),
+                  CustomAnimatedTextField(
+                    duration: 900,
+                    width: 0.8,
+                    height: 50,
+                    controller: bookPageController.name,
+                    prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+                    keyboardType: TextInputType.text,
+                    labelText: 'Enter your name',
+                    // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                    right: Get.width * 0.1,
+                    bottom: Get.height * 0.5,
+                    validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
+                  ),
+                  CustomAnimatedTextField(
+                    duration: 1500,
+                    width: 0.8,
+                    height: 50,
+                    controller: bookPageController.email,
+                    prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+                    keyboardType: TextInputType.emailAddress,
+                    labelText: 'Enter your email',
+                    // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                    right: Get.width * 0.1,
+                    bottom: Get.height * 0.4,
+                    validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+                        (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
+                  ),
+                  CustomAnimatedPhoneField(
+                    duration: 1100,
+                    width: 0.8,
+                    height: 52,
+                    controller: bookPageController.phone,
+                    prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+                    keyboardType: TextInputType.number,
+                    labelText: 'Phone',
+                    // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                    right:Get.width * 0.1,
+                    bottom: Get.height * 0.3,
+                    validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.1,
+                    width: Get.width * 0.8,
+                    child: Center(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: bookPageController.imageList.length,
+                        itemBuilder: (BuildContext context, index){
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            width: Get.height * 0.1,
+                            height: Get.height * 0.1,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: FileImage(bookPageController.imageList[index])
+                                )
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             CustomButton(
@@ -245,14 +276,34 @@ class BookPageMobile extends StatelessWidget {
                   await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
                   detailsPageController.optionId.value = -1;
                   detailsPageController.optionIndex.value = 0;
-
                 },
                 color: AppStyle.primary,
                 borderRadius: 5,
                 textStyle: const TextStyle(color: Colors.black, fontSize: 14)
-            )
+            ),
+            const SizedBox(height: 0)
           ],
         ),
+      ),
+    );
+  }
+
+  _iconContainer(String text, String icon){
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Image.asset('assets/icons/$icon.png', width: 30,height: 30),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 13
+            ),
+          ),
+        ],
       ),
     );
   }

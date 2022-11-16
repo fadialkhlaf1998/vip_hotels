@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/controller/home_controller.dart';
@@ -28,7 +29,11 @@ class CarDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     detailsPageController.optionIndex.value = 0;
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light
 
+    ));
     return Obx((){
       return WillPopScope(
         onWillPop: ()async{
@@ -254,6 +259,9 @@ class CarDetails extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
+              if(detailsPageController.optionId.value == -1){
+                detailsPageController.optionId.value = car.options.first.id;
+              }
               Get.toNamed('/book', arguments: [car]);
             },
             child: Container(

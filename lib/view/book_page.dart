@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vip_hotels/controller/book_page_controller.dart';
@@ -22,6 +23,11 @@ class BookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light
+
+    ));
     return Obx((){
       return Scaffold(
         body: SafeArea(
@@ -302,7 +308,6 @@ class BookPage extends StatelessWidget {
                   await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
                   detailsPageController.optionId.value = -1;
                   detailsPageController.optionIndex.value = 0;
-
                 },
                 color: AppStyle.primary,
                 borderRadius: 5,

@@ -19,52 +19,65 @@ class _ThemeCircleState extends State<ThemeCircleMobile> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Obx((){
-      return Container(
-        width: Get.width,
-        height: Get.height,
-        color: Colors.black.withOpacity(0.8),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Positioned(
-              bottom: - Get.width * 0.45,
-              child:  AnimatedRotation(
-                turns: homeController.angle.value,
-                duration: const Duration(milliseconds: 1500),
-                curve: Curves.fastOutSlowIn,
-                child:  Container(
-                  width: Get.width * 0.9,
-                  height: Get.width * 0.9,
-                  // color: Colors.red,
-                  child: SvgPicture.asset('assets/icons/VIP Theme Navigator.svg',fit: BoxFit.cover,),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: Get.width * 0.7,
-                height: Get.width * 0.35,
-                decoration: const BoxDecoration(
-                  color: AppStyle.lightGrey,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(1000),
-                      topRight: Radius.circular(1000)
+      return Stack(
+        children: [
+         GestureDetector(
+           onTap: (){
+             homeController.themeOpenPage.value = false;
+           },
+           child:  Container(
+             width: Get.width,
+             height: Get.height,
+             color: Colors.black.withOpacity(0.8),
+           ),
+         ),
+          Container(
+            height: Get.height,
+            width: Get.width,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Positioned(
+                  bottom: - Get.width * 0.45,
+                  child:  AnimatedRotation(
+                    turns: homeController.angle.value,
+                    duration: const Duration(milliseconds: 1500),
+                    curve: Curves.fastOutSlowIn,
+                    child:  Container(
+                      width: Get.width * 0.9,
+                      height: Get.width * 0.9,
+                      // color: Colors.red,
+                      child: SvgPicture.asset('assets/icons/VIP Theme Navigator.svg',fit: BoxFit.cover,),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  bottom: 0,
+                  child: Container(
+                    width: Get.width * 0.7,
+                    height: Get.width * 0.35,
+                    decoration: const BoxDecoration(
+                      color: AppStyle.lightGrey,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(1000),
+                          topRight: Radius.circular(1000)
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 1000),
+                      child: !homeController.switchImage.value ? _imageTheme()
+                          : const Text('')
+                  ),
+                ),
+                _logoText(),
+              ],
             ),
-            Positioned(
-              bottom: 0,
-              child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 1000),
-                  child: !homeController.switchImage.value ? _imageTheme()
-                      : const Text('')
-              ),
-            ),
-            _logoText(),
-          ],
-        ),
+          ),
+        ],
       );
     });
   }

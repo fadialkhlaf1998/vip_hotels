@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
@@ -14,6 +15,7 @@ class HomeMobile extends StatelessWidget {
 
   HomeController homeController = Get.put(HomeController());
   DetailsPageController detailsPageController = Get.put(DetailsPageController());
+
   LoginController loginController = Get.find();
   IntroController introController = Get.find();
 
@@ -23,6 +25,11 @@ class HomeMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light
+
+    ));
     return Obx((){
       return WillPopScope(
         onWillPop: () async {
@@ -51,7 +58,7 @@ class HomeMobile extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _topBar(),
+                      _topBar(context),
                       CustomBottomNavBar(
                           height: Get.height * 0.065,
                           color: Colors.black.withOpacity(0.8),
@@ -61,10 +68,7 @@ class HomeMobile extends StatelessWidget {
                       // _bottomBar()
                     ],
                   ),
-                  // AnimatedSwitcher(
-                  //   duration: const Duration(milliseconds: 500),
-                  //   child: homeController.themeOpenPage.value ? ThemeCircle() : const Text(''),
-                  // ),
+                  logoutConfirm()
                 ],
               )
           ),
@@ -88,38 +92,123 @@ class HomeMobile extends StatelessWidget {
   }
 
 
-  _topBar(){
+  _topBar(context){
     return  Container(
-      height: Get.height * 0.1,
+      height: Get.height * 0.08 + 120,
       width: Get.width,
       decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [
                 Colors.black,
-                Colors.black.withOpacity(0.3),
+                Colors.black.withOpacity(0.8),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter
           )
       ),
-      child:  Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          const SizedBox(width: 40),
-          Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Image.network(Global.image),
-              )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // const SizedBox(width: 40),
+              Center(
+                  child: Container(
+                    width: Get.width * 0.8,
+                    height: Get.height * 0.08,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Image.network(Global.image),
+                  )
+              ),
+              // GestureDetector(
+              //   onTap: (){
+              //     homeController.logout();
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.symmetric(horizontal: 10),
+              //       child: Icon(Icons.logout, size: 20,color: Colors.white)),
+              // ),
+            ],
           ),
-          GestureDetector(
-            onTap: (){
-              homeController.logout();
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Icon(Icons.logout, size: 20,color: Colors.white)),
+          Container(
+            width: Get.width,
+            height: 40,
+            child: Center(
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: introController.carCategory.length + 1,
+                itemBuilder: (BuildContext context, index){
+                  return index == 0
+                      ? GestureDetector(
+                    onTap: (){
+                      if(homeController.chooseBrand.value){
+                        homeController.chooseCarFilter(homeController.brandIndex.value);
+                      }else{
+                        homeController.selectIndexBottomBar(-1);
+                      }
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: homeController.selectionIndexBottomBar.value == -1
+                            ? const  Border(
+                            bottom: BorderSide(color: AppStyle.primary, width:  2)
+                        ) : null,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'All',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontFamily: 'D-DIN-PRO',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                      : GestureDetector(
+                    onTap: (){
+                      if(homeController.chooseBrand.value){
+                        homeController.chooseCategoryForFilter(index - 1, introController.carCategory[index - 1].id);
+                      }else{
+                        homeController.selectIndexBottomBar(index - 1);
+                      }
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: homeController.selectionIndexBottomBar.value == index - 1
+                              ? const  Border(
+                              bottom: BorderSide(color: AppStyle.primary, width:  3)
+                          ) : null
+                      ),
+                      child: Center(
+                        child: Text(
+                          introController.carCategory[index - 1].title,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontFamily: 'D-DIN-PRO',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
+          const SizedBox(height: 10),
+          _searchTextField(context),
+          _brandMenu(),
         ],
       ),
     );
@@ -134,86 +223,86 @@ class HomeMobile extends StatelessWidget {
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.11),
-            Container(
-              width: Get.width,
-              height: 40,
-              child: Center(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: introController.carCategory.length + 1,
-                  itemBuilder: (BuildContext context, index){
-                    return index == 0
-                        ? GestureDetector(
-                      onTap: (){
-                        if(homeController.chooseBrand.value){
-                          homeController.chooseCarFilter(homeController.brandIndex.value);
-                        }else{
-                          homeController.selectIndexBottomBar(-1);
-                        }
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: homeController.selectionIndexBottomBar.value == -1
-                              ? const  Border(
-                              bottom: BorderSide(color: AppStyle.primary, width:  2)
-                          ) : null,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'All',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontFamily: 'D-DIN-PRO',
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                        : GestureDetector(
-                      onTap: (){
-                        if(homeController.chooseBrand.value){
-                          homeController.chooseCategoryForFilter(index - 1, introController.carCategory[index - 1].id);
-                        }else{
-                          homeController.selectIndexBottomBar(index - 1);
-                        }
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 40,
-                        decoration: BoxDecoration(
-                            border: homeController.selectionIndexBottomBar.value == index - 1
-                                ? const  Border(
-                                bottom: BorderSide(color: AppStyle.primary, width:  3)
-                            ) : null
-                        ),
-                        child: Center(
-                          child: Text(
-                            introController.carCategory[index - 1].title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontFamily: 'D-DIN-PRO',
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            _searchTextField(context),
-            _brandMenu(),
+            SizedBox(height: Get.height * 0.08 + 110),
+            // Container(
+            //   width: Get.width,
+            //   height: 40,
+            //   child: Center(
+            //     child: ListView.builder(
+            //       shrinkWrap: true,
+            //       scrollDirection: Axis.horizontal,
+            //       itemCount: introController.carCategory.length + 1,
+            //       itemBuilder: (BuildContext context, index){
+            //         return index == 0
+            //             ? GestureDetector(
+            //           onTap: (){
+            //             if(homeController.chooseBrand.value){
+            //               homeController.chooseCarFilter(homeController.brandIndex.value);
+            //             }else{
+            //               homeController.selectIndexBottomBar(-1);
+            //             }
+            //           },
+            //           child: AnimatedContainer(
+            //             duration: const Duration(milliseconds: 200),
+            //             padding: const EdgeInsets.symmetric(horizontal: 10),
+            //             height: 40,
+            //             decoration: BoxDecoration(
+            //               border: homeController.selectionIndexBottomBar.value == -1
+            //                   ? const  Border(
+            //                   bottom: BorderSide(color: AppStyle.primary, width:  2)
+            //               ) : null,
+            //             ),
+            //             child: const Center(
+            //               child: Text(
+            //                 'All',
+            //                 style: TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 15,
+            //                     fontFamily: 'D-DIN-PRO',
+            //                     fontWeight: FontWeight.bold
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         )
+            //             : GestureDetector(
+            //           onTap: (){
+            //             if(homeController.chooseBrand.value){
+            //               homeController.chooseCategoryForFilter(index - 1, introController.carCategory[index - 1].id);
+            //             }else{
+            //               homeController.selectIndexBottomBar(index - 1);
+            //             }
+            //           },
+            //           child: AnimatedContainer(
+            //             duration: const Duration(milliseconds: 200),
+            //             padding: const EdgeInsets.symmetric(horizontal: 10),
+            //             height: 40,
+            //             decoration: BoxDecoration(
+            //                 border: homeController.selectionIndexBottomBar.value == index - 1
+            //                     ? const  Border(
+            //                     bottom: BorderSide(color: AppStyle.primary, width:  3)
+            //                 ) : null
+            //             ),
+            //             child: Center(
+            //               child: Text(
+            //                 introController.carCategory[index - 1].title,
+            //                 style: const TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 15,
+            //                     fontFamily: 'D-DIN-PRO',
+            //                     fontWeight: FontWeight.bold
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         );
+            //       },
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 10),
+            // _searchTextField(context),
+            // _brandMenu(),
             const SizedBox(height: 20),
             homeController.loading.value
                 ? SizedBox(
@@ -253,88 +342,7 @@ class HomeMobile extends StatelessWidget {
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.11),
-            Container(
-              width: Get.width ,
-              height: 40,
-              // color: Colors.red,
-              child: Center(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  // physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: introController.carCategory.length + 1,
-                  itemBuilder: (BuildContext context, index){
-                    return index == 0
-                        ? GestureDetector(
-                      onTap: (){
-                        if(homeController.chooseBrand.value){
-                          homeController.chooseCarFilter(homeController.brandIndex.value);
-                        }else{
-                          homeController.selectIndexBottomBar(-1);
-                        }
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: homeController.selectionIndexBottomBar.value == -1
-                              ? const  Border(
-                              bottom: BorderSide(color: AppStyle.primary, width:  2)
-                          ) : null,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'All',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontFamily: 'D-DIN-PRO',
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                        : GestureDetector(
-                      onTap: (){
-                        if(homeController.chooseBrand.value){
-                          homeController.chooseCategoryForFilter(index - 1, introController.carCategory[index - 1].id);
-                        }else{
-                          homeController.selectIndexBottomBar(index - 1);
-                        }
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        height: 40,
-                        decoration: BoxDecoration(
-                            border: homeController.selectionIndexBottomBar.value == index - 1
-                                ? const  Border(
-                                bottom: BorderSide(color: AppStyle.primary, width:  3)
-                            ) : null
-                        ),
-                        child: Center(
-                          child: Text(
-                            introController.carCategory[index - 1].title,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontFamily: 'D-DIN-PRO',
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            _searchTextField(context),
-            _brandMenu(),
+            SizedBox(height: Get.height * 0.08 + 110),
             const SizedBox(height: 20),
             homeController.loading.value
                 ? SizedBox(
@@ -736,7 +744,7 @@ class HomeMobile extends StatelessWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 800),
       curve: Curves.fastOutSlowIn,
-      width: Get.width - 120,
+      width: Get.width * 0.9,
       height: homeController.searchOpenTextDelegate.value ? 45 : 0,
       child:  SingleChildScrollView(
         child: Row(
@@ -749,7 +757,7 @@ class HomeMobile extends StatelessWidget {
                 );
               },
               child:   Container(
-                width: Get.width * 0.95 - 70,
+                width: Get.width * 0.9 - 70,
                 height: 45,
                 decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.6),
@@ -867,6 +875,112 @@ class HomeMobile extends StatelessWidget {
     );
   }
 
+  logoutConfirm(){
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        AnimatedSwitcher(
+            duration: const Duration(milliseconds: 1000),
+            child: homeController.logoutConfirm.value
+                ? Container(
+              width: Get.width,
+              height: Get.height,
+              color: Colors.black.withOpacity(0.6),
+            ) : const Text('')
+        ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.fastOutSlowIn,
+          width: Get.width * 0.8,
+          height: homeController.logoutConfirm.value ? Get.height * 0.3 : 0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppStyle.grey,
+          ),
+          child: SingleChildScrollView(
+              child: SizedBox(
+                height: Get.height * 0.3,
+                child:  Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: const Text(
+                        'Warning!',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 18
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'Do you really want to log out?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            homeController.logoutConfirm.value = false;
+                          },
+                          child: Container(
+                            width: Get.width * 0.4,
+                            height: 45,
+                            decoration: const BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20)
+                                )
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            homeController.logout();
+                          },
+                          child: Container(
+                            width: Get.width * 0.4,
+                            height: 45,
+                            decoration: const BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(20)
+                                )
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'Confirm',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+          ),
+        ),
+      ],
+    );
+  }
 
 
 }
@@ -987,6 +1101,8 @@ class CustomSearchClass extends SearchDelegate {
         )
     );
   }
+
+
 
   @override
   Widget buildSuggestions(BuildContext context) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -20,11 +21,18 @@ class Home extends StatelessWidget {
   IntroController introController = Get.find();
 
   Home(){
-    homeController.initLazyLoad();
+    Future.delayed(const Duration(milliseconds: 300)).then((value) {
+      homeController.initLazyLoad();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light
+
+    ));
     return Obx((){
       return WillPopScope(
         onWillPop: () async {
@@ -67,7 +75,7 @@ class Home extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _topBar(),
+                      _topBar(context),
                       _bottomBar()
                     ],
                   ),
@@ -93,7 +101,7 @@ class Home extends StatelessWidget {
 
   _bottomBar(){
     return Container(
-      height: 45,
+      height: 50,
       width: Get.width,
       decoration:  BoxDecoration(
           gradient: LinearGradient(
@@ -198,25 +206,34 @@ class Home extends StatelessWidget {
     );
   }
 
-  _topBar(){
+  _topBar(context){
     return  Container(
-        height: Get.height * 0.1,
+        height: Get.height * 0.1 + 100,
         width: Get.width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.black,
-            Colors.black.withOpacity(0.3),
+            Colors.black.withOpacity(0.6),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter
         )
       ),
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Image.network(Global.image),
-        )
+      child: Column(
+        children: [
+          Center(
+            child: Container(
+              width: Get.width,
+              height: Get.height * 0.1,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Image.network(Global.image),
+            )
+          ),
+          const SizedBox(height: 10),
+          _searchTextField(context),
+          _brandMenu(),
+        ],
       ),
     );
   }
@@ -229,9 +246,7 @@ class Home extends StatelessWidget {
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.11),
-            _searchTextField(context),
-            _brandMenu(),
+            SizedBox(height: Get.height * 0.1 + 100),
             const SizedBox(height: 20),
             homeController.loading.value
                 ? SizedBox(
@@ -270,9 +285,9 @@ class Home extends StatelessWidget {
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.11),
-            _searchTextField(context),
-            _brandMenu(),
+            SizedBox(height: Get.height * 0.1 + 100),
+            // _searchTextField(context),
+            // _brandMenu(),
             const SizedBox(height: 20),
             homeController.loading.value
                     ? SizedBox(
@@ -536,6 +551,9 @@ class Home extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
               if(homeController.filterCarList[index].options.isNotEmpty){
                 Get.toNamed('/carDetails', arguments: [homeController.filterCarList[index]]);
               }
@@ -565,6 +583,9 @@ class Home extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
               Get.toNamed('/book', arguments: [homeController.filterCarList[index]]);
             },
             child: Container(
@@ -599,7 +620,9 @@ class Home extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
-
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
               if(introController.allCars[index].options.isNotEmpty){
                 Get.toNamed('/carDetails', arguments: [introController.allCars[index]]);
               }
@@ -629,6 +652,9 @@ class Home extends StatelessWidget {
           flex: 1,
           child: GestureDetector(
             onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
               Get.toNamed('/book', arguments: [introController.allCars[index]]);
             },
             child: Container(
