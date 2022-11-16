@@ -41,6 +41,7 @@ class HomeMobile extends StatelessWidget {
           return true;
         },
         child: Scaffold(
+          backgroundColor: Colors.black,
           body: SafeArea(
               child: Stack(
                 children: [
