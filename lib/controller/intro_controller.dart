@@ -15,7 +15,7 @@ class IntroController extends GetxController{
   void onInit() {
     bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     super.onInit();
-    await Future.delayed(const Duration(milliseconds: 1000)).then((_) async {
+    Future.delayed(const Duration(milliseconds: 1000)).then((_) async {
       Global.loadUserInformation().then((result) async {
         if(result){
           if(Global.username != '' && Global.password != ''){
