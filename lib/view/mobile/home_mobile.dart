@@ -27,8 +27,8 @@ class HomeMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.light
+        statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark
     ));
     return Obx((){
       return WillPopScope(
