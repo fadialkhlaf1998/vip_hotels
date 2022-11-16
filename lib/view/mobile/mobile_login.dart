@@ -24,6 +24,7 @@ class LoginMobile extends StatelessWidget {
     ));
     return Obx((){
       return Scaffold(
+        backgroundColor: AppStyle.grey,
         body: SafeArea(
           child: Stack(
             children: [
