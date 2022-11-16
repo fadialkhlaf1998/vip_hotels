@@ -34,21 +34,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        theme: ThemeData(
-          fontFamily: 'conthrax',
-          primaryColor: generateMaterialColor(AppStyle.primary),
-          primarySwatch: generateMaterialColor(AppStyle.primary),
-          appBarTheme: const AppBarTheme(
-            iconTheme: IconThemeData(color: Colors.black),
-            color: Colors.deepPurpleAccent,
-            foregroundColor: Colors.black,
-            systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: Colors.black,
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.light,
-            ),
-          ),
-        ),
       getPages: [
         GetPage(
             name: '/login',
@@ -75,6 +60,11 @@ class MyApp extends StatelessWidget {
             curve: Curves.fastOutSlowIn
         ),
       ],
+      theme: ThemeData(
+        fontFamily: 'conthrax',
+        primaryColor: generateMaterialColor(AppStyle.primary),
+        primarySwatch: generateMaterialColor(AppStyle.primary),
+      ),
       home: Intro()
     );
   }
