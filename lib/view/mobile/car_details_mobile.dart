@@ -111,7 +111,7 @@ class CarDetailsMobile extends StatelessWidget {
                             ],
                           ),
                           Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
-                          SizedBox(
+                          Container(
                                width: Get.width * 0.7,
                                height: Get.height * 0.13,
                                child: SingleChildScrollView(

@@ -222,17 +222,19 @@ class CarDetails extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: Get.height * 0.2,
+          Container(
+            height:  car.description != "" ? Get.height * 0.2 : Get.height * 0.1,
             width: Get.width * 0.4,
             child: SingleChildScrollView(
-              child:  Text(
-                car.description,
-                textAlign: TextAlign.justify,
-                style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    // fontStyle: FontStyle.italic
+              child:  Center(
+                child: Text(
+                  car.description != "" ? car.description : 'No description',
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      // fontStyle: FontStyle.italic
+                  ),
                 ),
               ),
             ),

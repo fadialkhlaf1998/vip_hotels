@@ -166,18 +166,18 @@ class Car {
   List<Option> options;
 
   factory Car.fromMap(Map<String, dynamic> json) => Car(
-    carId: json["car_id"],
-    image: json["image"],
-    title: json["title"],
-    year: json["year"],
-    doors: json["doors"],
-    seets: json["seets"],
-    brandImage: json["brand_image"],
-    description: json["description"],
-    id: json["id"],
+    carId: json["car_id"] ?? -1,
+    image: json["image"] ?? "",
+    title: json["title"] ?? "",
+    year: json["year"] ?? "",
+    doors: json["doors"] ?? "",
+    seets: json["seets"] ?? "",
+    brandImage: json["brand_image"] ?? "",
+    description: json["description"] ?? "",
+    id: json["id"] ?? -1,
     oldPrice: json["old_price"] ?? -1,
-    price: json["price"],
-    hotelId: json["hotel_id"],
+    price: json["price"] ?? -1,
+    hotelId: json["hotel_id"] ?? -1,
     options: List<Option>.from(json["options"].map((x) => Option.fromMap(x))),
   );
 
