@@ -32,7 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
-  flutter_svg: ^1.1.5
+  flutter_svg: ^1.0.0
   http: ^0.13.5
   dotted_border: ^2.0.0+3
   syncfusion_flutter_datepicker: ^20.2.46
@@ -42,7 +42,7 @@ dependencies:
   lottie: ^1.4.3
   lazy_load_scrollview: ^1.3.0
   scrollable_positioned_list:
-
+  flutter_html: ^3.0.0-alpha.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

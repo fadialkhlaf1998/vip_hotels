@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/controller/home_controller.dart';
@@ -223,20 +224,27 @@ class CarDetails extends StatelessWidget {
             ),
           ),
           Container(
-            height:  car.description != "" ? Get.height * 0.2 : Get.height * 0.1,
+            height: car.description.isNotEmpty ? Get.height * 0.2 : Get.height * 0.1,
             width: Get.width * 0.4,
+            // color: Colors.red,
             child: SingleChildScrollView(
-              child:  Center(
-                child: Text(
-                  car.description != "" ? car.description : 'No description',
-                  textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      // fontStyle: FontStyle.italic
-                  ),
-                ),
+              child: Html(
+                data: car.description,
+                style: {
+                  '*' : Style(
+                    color: Colors.white
+                  )
+                },
               ),
+              // child:  Text(
+              //   car.description,// != "" ? car.description : 'No description',
+              //   textAlign: TextAlign.justify,
+              //   style: const TextStyle(
+              //       fontSize: 14,
+              //       color: Colors.white,
+              //       // fontStyle: FontStyle.italic
+              //   ),
+              // ),
             ),
           ),
           SizedBox(
