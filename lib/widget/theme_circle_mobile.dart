@@ -115,7 +115,7 @@ class _ThemeCircleState extends State<ThemeCircleMobile> with SingleTickerProvid
                 child: SvgPicture.asset('assets/icons/triangle.svg',fit: BoxFit.contain),
               ),
               Container(
-                width: Get.width * 0.3,
+                width: Get.width * 0.28,
                 height: Get.height * 0.1,
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Image.network(Global.image, fit: BoxFit.contain),
@@ -169,27 +169,28 @@ class _ThemeCircleState extends State<ThemeCircleMobile> with SingleTickerProvid
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20,bottom: 20),
-                child: GestureDetector(
-                  onTap: () async {
-                    await homeController.backwardRotation();
-                  },
+              GestureDetector(
+                onTap: () async {
+                  await homeController.backwardRotation();
+                },
+                child: Container(
+                  color: Colors.transparent,
+
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 30, bottom: 20),
-                    child: Icon(Icons.arrow_back_ios, color: Colors.white,size: homeController.angle.value == 0 ? 0 : 25),
+                    padding: const EdgeInsets.only(left: 30,bottom: 20, top: 20),
+                    child: Icon(Icons.arrow_back_ios, color: Colors.white,size: homeController.angle.value == 0 ? 0 : 30),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20,bottom: 20),
-                child: GestureDetector(
-                  onTap: () async {
-                    await homeController.forwardRotation();
-                  },
+              GestureDetector(
+                onTap: () async {
+                  await homeController.forwardRotation();
+                },
+                child: Container(
+                  color: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 30, bottom: 20),
-                    child: Icon(Icons.arrow_forward_ios, color: Colors.white,size: homeController.angle.value == -0.75 ? 0 : 25),
+                    padding: const EdgeInsets.only(right: 30,bottom: 20,top: 20),
+                    child: Icon(Icons.arrow_forward_ios, color: Colors.white,size: homeController.angle.value == -0.75 ? 0 : 30),
                   ),
                 ),
               )

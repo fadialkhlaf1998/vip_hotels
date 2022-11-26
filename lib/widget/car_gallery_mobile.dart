@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/api.dart';
@@ -14,6 +15,7 @@ class CarGalleryMobile extends StatelessWidget {
     required this.carImage
   });
 
+  bool left =true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +41,42 @@ class CarGalleryMobile extends StatelessWidget {
             curve: Curves.fastOutSlowIn,
             top: 120,
             right:  detailsPageController.openGallery.value ? 20 : Get.width,
-            child: Container(
-              margin: const EdgeInsets.only(top: 40),
-              width: Get.width * 0.9,
-              height: Get.height * 0.4,
-              decoration: BoxDecoration(
-                  color: AppStyle.lightGrey.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage('${Api.url}uploads/${carImage.split(',')[detailsPageController.mainCarImageIndex.value]}')
-                  )
+            child: GestureDetector(
+              onTap: (){
+                print('fadi');
+              },
+              onPanUpdate: (details) {
+                if (details.delta.dx > 0) {
+                  left =false;
+                }
+                if (details.delta.dx < 0) {
+                  left =true;
+                }
+              },
+              onPanEnd: (e){
+                if(left){
+                  if(detailsPageController.mainCarImageIndex.value+1  < carImage.split(',').length ){
+                    detailsPageController.mainCarImageIndex.value += 1;
+                    detailsPageController.scrollToItem(detailsPageController.mainCarImageIndex.value, carImage.split(',').length);
+                  }
+                }else if(detailsPageController.mainCarImageIndex.value -1 > 0){
+                  detailsPageController.mainCarImageIndex.value -= 1;
+                  detailsPageController.scrollToItem(detailsPageController.mainCarImageIndex.value, carImage.split(',').length);
+                }
+
+              },
+              child: Container(
+                margin: const EdgeInsets.only(top: 40),
+                width: Get.width * 0.9,
+                height: Get.height * 0.4,
+                decoration: BoxDecoration(
+                    color: AppStyle.lightGrey.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage('${Api.url}uploads/${carImage.split(',')[detailsPageController.mainCarImageIndex.value]}')
+                    )
+                ),
               ),
             ),
           ),
@@ -61,7 +88,8 @@ class CarGalleryMobile extends StatelessWidget {
                 width: Get.width,
                 height: Get.height * 0.12,
                 child: Center(
-                  child: ListView.builder(
+                  child: ScrollablePositionedList.builder(
+                    itemScrollController: detailsPageController.itemScrollController,
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemCount: carImage.split(',').length - 1,
