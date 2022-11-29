@@ -263,7 +263,7 @@ class Home extends StatelessWidget {
                 crossAxisCount: 3,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 30,
-                childAspectRatio: 3/4,
+                childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoad.value,
               itemBuilder: (BuildContext context, index){
@@ -312,7 +312,7 @@ class Home extends StatelessWidget {
                 crossAxisCount: 3,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 30,
-                childAspectRatio: 3/4,
+                childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
@@ -384,17 +384,18 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       homeController.filterCarList[index].title,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           color: Colors.white,
                           fontStyle: FontStyle.italic
                       ),
+
                     ),
                     Text(
                       'AED ${homeController.filterCarList[index].price} / Daily',
                       style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic
                       ),
@@ -506,9 +507,9 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       introController.allCars[index].title,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: const TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         color: Colors.white,
                         fontStyle: FontStyle.italic
                       ),
@@ -516,7 +517,7 @@ class Home extends StatelessWidget {
                     Text(
                         'AED ${introController.allCars[index].price} / Daily',
                       style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic
                       ),

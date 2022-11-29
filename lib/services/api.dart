@@ -24,6 +24,13 @@ class Api {
     if (response.statusCode == 200) {
       var data = await response.stream.bytesToString();
       AllData u = AllData.fromMap(jsonDecode(data));
+      Global.id = u.id.toString();
+      Global.title = u.title;
+      Global.image = u.image;
+      Global.password = u.password;
+      Global.username = u.username;
+      Global.email = u.email;
+      Global.companyId = u.companyId;
       return u;
     } else {
       return null;
