@@ -342,7 +342,7 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              flex: 6,
+              flex: 4,
               child: Stack(
                 alignment: Alignment.topLeft,
                 children: [
@@ -384,7 +384,7 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       homeController.filterCarList[index].title,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,
@@ -440,7 +440,7 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              flex:6,
+              flex:4,
               child: Stack(
                 alignment: Alignment.topLeft,
                 children: [
@@ -489,7 +489,8 @@ class Home extends StatelessWidget {
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(introController.allCars[index].brandImage)
+                              image: NetworkImage(introController.allCars[index].brandImage),
+
                           )
                       ),
                     ),
@@ -507,7 +508,7 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       introController.allCars[index].title,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: const TextStyle(
                         fontSize: 20,
                         color: Colors.white,
