@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/controller/home_controller.dart';
@@ -112,19 +113,36 @@ class CarDetailsMobile extends StatelessWidget {
                           ),
                           Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
                           Container(
-                               width: Get.width * 0.7,
-                               height: Get.height * 0.13,
-                               child: SingleChildScrollView(
-                                 child: Text(
-                                   car.description,
-                                   style: const TextStyle(
-                                       color: Colors.white,
-                                       fontSize: 12
-                                   ),
-                                 ),
-                               ),
-                             ),
-                          Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
+                            height: car.description.length > 10 ? Get.height * 0.13 : 0,
+                            width: Get.width * 0.7,
+                            child: SingleChildScrollView(
+                              child: Html(
+                                data: car.description,
+                                style: {
+                                  '*' : Style(
+                                      color: Colors.white,
+                                    fontSize: FontSize(12)
+                                  )
+                                },
+                              ),
+                            ),
+                          ),
+                          // Container(
+                          //      width: Get.width * 0.7,
+                          //      height: Get.height * 0.13,
+                          //      child: SingleChildScrollView(
+                          //        child: Text(
+                          //          car.description,
+                          //          style: const TextStyle(
+                          //              color: Colors.white,
+                          //              fontSize: 12
+                          //          ),
+                          //        ),
+                          //      ),
+                          //    ),
+                          car.description.length > 10
+                              ? Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1)
+                          : Text(''),
                           GestureDetector(
                             onTap: (){
                               if(detailsPageController.optionId.value == -1){

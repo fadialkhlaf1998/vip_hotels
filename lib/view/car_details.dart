@@ -224,9 +224,8 @@ class CarDetails extends StatelessWidget {
             ),
           ),
           Container(
-            height: car.description.isNotEmpty ? Get.height * 0.2 : Get.height * 0.1,
+            height: car.description.length > 10 ? Get.height * 0.2 : 0,
             width: Get.width * 0.4,
-            // color: Colors.red,
             child: SingleChildScrollView(
               child: Html(
                 data: car.description,
