@@ -15,28 +15,38 @@ class IntroController extends GetxController{
   void onInit() {
     bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     super.onInit();
-    Future.delayed(const Duration(milliseconds: 1000)).then((_) async {
-      Global.loadUserInformation().then((result) async {
-        if(result){
-          if(Global.username != '' && Global.password != ''){
-            carCategory.clear();
-            brandList.clear();
-            allCars.clear();
-            searchCarList.clear();
-            await Api.login(Global.username, Global.password).then((data){
-              carCategory.addAll(data!.category);
-              brandList.addAll(data.brands);
-              for(int i = 0; i < carCategory.length; i++){
-                allCars.addAll(carCategory[i].cars!);
-                searchCarList.addAll(carCategory[i].cars!);
-              }
-              isTablet ? Get.offNamed('/home') : Get.offNamed('/homeMobile');
-            });
-          }else{
-            isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
-          }
-        }
-      });
-    });
+    getData(isTablet);
+  }
+
+
+  getData(bool isTablet)async{
+      bool result = await Global.loadUserInformation();
+      if(Global.username != '' && Global.password != ''){
+        carCategory.clear();
+        brandList.clear();
+        allCars.clear();
+        searchCarList.clear();
+        bool res = await getLoginData();
+        isTablet ? Get.offNamed('/home') : Get.offNamed('/homeMobile');
+      }else{
+        isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
+      }
+
+  }
+
+  Future<bool> getLoginData()async{
+    AllData? data= await Api.login(Global.username, Global.password);
+    if(data == null){
+      return await getLoginData();
+    }else{
+      carCategory.addAll(data.category);
+      brandList.addAll(data.brands);
+      for(int i = 0; i < carCategory.length; i++){
+        allCars.addAll(carCategory[i].cars!);
+        searchCarList.addAll(carCategory[i].cars!);
+      }
+      return true;
+    }
+
   }
 }
