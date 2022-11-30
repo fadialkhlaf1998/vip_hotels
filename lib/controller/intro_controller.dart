@@ -16,8 +16,9 @@ class IntroController extends GetxController{
     bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     super.onInit();
     Future.delayed(const Duration(milliseconds: 1000)).then((_) async {
-      Global.loadUserInformation().then((_)async{
-        if(Global.username != '' && Global.password != ''){
+      Global.loadUserInformation().then((result) async {
+        if(result){
+          if(Global.username != '' && Global.password != ''){
             carCategory.clear();
             brandList.clear();
             allCars.clear();
@@ -34,6 +35,7 @@ class IntroController extends GetxController{
           }else{
             isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
           }
+        }
       });
     });
   }
