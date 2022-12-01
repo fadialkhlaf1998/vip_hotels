@@ -100,10 +100,10 @@ class CarGallery extends StatelessWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1000),
             curve: Curves.ease,
-            bottom: detailsPageController.openGallery.value ? 20 : - Get.height * 0.17,
+            bottom: detailsPageController.openGallery.value ? 50 : - Get.height * 0.17,
             child: SizedBox(
                 width: Get.width * 0.8,
-                height: Get.height * 0.17,
+                height: Get.height * 0.12,
                 child: Center(
                   child: ScrollablePositionedList.builder(
                     scrollDirection: Axis.horizontal,

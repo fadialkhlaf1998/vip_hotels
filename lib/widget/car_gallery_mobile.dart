@@ -39,7 +39,7 @@ class CarGalleryMobile extends StatelessWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1000),
             curve: Curves.fastOutSlowIn,
-            top: 120,
+            bottom: Get.height * 0.4,
             right:  detailsPageController.openGallery.value ? 20 : Get.width,
             child: GestureDetector(
               onTap: (){
@@ -68,7 +68,7 @@ class CarGalleryMobile extends StatelessWidget {
               child: Container(
                 margin: const EdgeInsets.only(top: 40),
                 width: Get.width * 0.9,
-                height: Get.height * 0.4,
+                height: Get.height * 0.3,
                 decoration: BoxDecoration(
                     color: AppStyle.lightGrey.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(10),
@@ -83,10 +83,10 @@ class CarGalleryMobile extends StatelessWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1000),
             curve: Curves.ease,
-            bottom: detailsPageController.openGallery.value ? 80 : - Get.height * 0.17,
+            bottom: detailsPageController.openGallery.value ? 100 : - Get.height * 0.17,
             child: SizedBox(
                 width: Get.width,
-                height: Get.height * 0.12,
+                height: Get.height * 0.09,
                 child: Center(
                   child: ScrollablePositionedList.builder(
                     itemScrollController: detailsPageController.itemScrollController,
@@ -100,8 +100,8 @@ class CarGalleryMobile extends StatelessWidget {
                         },
                         child: AnimatedContainer(
                           duration: const Duration(milliseconds: 400),
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          width: Get.width * 0.2,
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          width: Get.width * 0.3,
                           decoration: BoxDecoration(
                             color: AppStyle.lightGrey.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(10),
@@ -141,7 +141,7 @@ class CarGalleryMobile extends StatelessWidget {
             ),
           ),
          AnimatedPositioned(
-           bottom:  detailsPageController.openGallery.value ? 15 : - Get.height * 0.17,
+           bottom:  detailsPageController.openGallery.value ? 40 : - Get.height * 0.17,
            duration: const Duration(milliseconds: 1000),
            curve: Curves.fastOutSlowIn,
            child:  GestureDetector(
