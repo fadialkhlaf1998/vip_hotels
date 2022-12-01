@@ -83,7 +83,7 @@ class CarGalleryMobile extends StatelessWidget {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 1000),
             curve: Curves.ease,
-            bottom: detailsPageController.openGallery.value ? 100 : - Get.height * 0.17,
+            bottom: detailsPageController.openGallery.value ? Get.height * 0.25 : - Get.height * 0.17,
             child: SizedBox(
                 width: Get.width,
                 height: Get.height * 0.09,
@@ -141,7 +141,7 @@ class CarGalleryMobile extends StatelessWidget {
             ),
           ),
          AnimatedPositioned(
-           bottom:  detailsPageController.openGallery.value ? 40 : - Get.height * 0.17,
+           bottom:  detailsPageController.openGallery.value ? Get.height * 0.15 : - Get.height * 0.17,
            duration: const Duration(milliseconds: 1000),
            curve: Curves.fastOutSlowIn,
            child:  GestureDetector(
