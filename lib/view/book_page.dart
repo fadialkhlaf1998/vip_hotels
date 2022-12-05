@@ -34,7 +34,8 @@ class BookPage extends StatelessWidget {
           builder: (context, oriented){
             return Obx((){
               return SingleChildScrollView(
-                child: SizedBox(
+                physics: NeverScrollableScrollPhysics(),
+                child: Container(
                   height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
                   child: Stack(
                     alignment: Alignment.topCenter,
