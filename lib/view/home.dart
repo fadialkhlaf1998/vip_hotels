@@ -33,8 +33,7 @@ class Home extends StatelessWidget {
         statusBarIconBrightness: Brightness.light
 
     ));
-    return Obx((){
-      return WillPopScope(
+    return WillPopScope(
         onWillPop: () async {
           if(homeController.themeOpenPage.value){
             homeController.themeOpenPage.value = false;
@@ -45,50 +44,99 @@ class Home extends StatelessWidget {
         },
         child: Scaffold(
           body: SafeArea(
-              child: Stack(
-                children: [
-                  // BackgroundImage(),
-                  Container(
-                    width: Get.width,
-                    height: Get.height,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/images/homeBackground.jpg')
-                      )
-                    ),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 10),
-                      CustomSideBar(
-                        width: 60,
-                        color: Colors.transparent,
-                        selectIndex: homeController.selectIndexSidebar.value,
-                        space: 40,
-                      ),
-                      const VerticalDivider(color: AppStyle.lightGrey,indent: 100,endIndent: 100,width: 10,thickness: 1.5),
-                      _mainObject(context),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _topBar(context),
-                      _bottomBar()
-                    ],
-                  ),
-                  logoutConfirm()
+              child: OrientationBuilder(
+                builder: (context, orientation){
+                  print(orientation);
+                  return orientation == Orientation.portrait
+                      ? Obx((){
+                        return _portraitWidget(context);
+                  })
+                      : Obx((){
+                        return  Stack(
+                          children: [
+                            // BackgroundImage(),
+                            Container(
+                              width: Get.width,
+                              height: Get.height,
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage('assets/images/homeBackground.jpg')
+                                  )
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const SizedBox(width: 10),
+                                CustomSideBar(
+                                  width: 60,
+                                  color: Colors.transparent,
+                                  selectIndex: homeController.selectIndexSidebar.value,
+                                  space: 40,
+                                ),
+                                const VerticalDivider(color: AppStyle.lightGrey,indent: 100,endIndent: 100,width: 10,thickness: 1.5),
+                                _mainObject(context),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _topBar(context),
+                                _bottomBar()
+                              ],
+                            ),
+                            logoutConfirm()
 
-                ],
+                          ],
+                        );
+                  });
+                },
               )
           ),
         ),
       );
-    });
+
   }
 
+  _portraitWidget(context){
+    return Stack(
+      children: [
+        Container(
+          width: Get.width,
+          height: Get.height,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/homeBackground.jpg')
+              )
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(width: 10),
+            CustomSideBar(
+              width: 60,
+              color: Colors.transparent,
+              selectIndex: homeController.selectIndexSidebar.value,
+              space: 40,
+            ),
+            const VerticalDivider(color: AppStyle.lightGrey,indent: 100,endIndent: 100,width: 10,thickness: 1.5),
+            _mainObjectPortrait(context),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _topBar(context),
+            _bottomBar()
+          ],
+        ),
+        logoutConfirm()
+      ],
+    );
+  }
 
   _mainObject(context){
     return  SizedBox(
@@ -96,6 +144,326 @@ class Home extends StatelessWidget {
       child: Center(
         child: homeController.chooseBrand.value ? _carFilterList(context) : _carList(context),
       )
+    );
+  }
+
+  _mainObjectPortrait(context){
+    return  SizedBox(
+        width: Get.width - 80,
+        child: Center(
+          child: homeController.chooseBrand.value ? _carFilterListPortrait(context) : _carListPortrait(context),
+        )
+    );
+  }
+
+  _carListPortrait(context){
+    return SizedBox(
+      width: Get.width - 120,
+      child: LazyLoadScrollView(
+        onEndOfPage: () => homeController.addLazyLoad(),
+        child: ListView(
+          controller: homeController.scrollController,
+          children: [
+            SizedBox(height: Get.height * 0.1 + 100),
+            const SizedBox(height: 20),
+            homeController.loading.value
+                ? SizedBox(
+              width: Get.width - 120,
+              height: 200,
+              child: const Center(
+                  child: CircularProgressIndicator(strokeWidth: 6)),
+            )
+                :
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio: 3/3,
+              ),
+              itemCount: homeController.lazyLoad.value,
+              itemBuilder: (BuildContext context, index){
+                return _carCardPortrait(index,context);
+              },
+            ),
+            SizedBox(height: Get.height * 0.11)
+          ],
+        ),
+      ),
+    );
+  }
+
+  _carFilterListPortrait(context){
+    return SizedBox(
+      width: Get.width - 120,
+      child: LazyLoadScrollView(
+        onEndOfPage: ()=>homeController.addLazyLoadFilter(),
+        child: ListView(
+          controller: homeController.scrollController,
+          children: [
+            SizedBox(height: Get.height * 0.1 + 100),
+            // _searchTextField(context),
+            // _brandMenu(),
+            const SizedBox(height: 20),
+            homeController.loading.value
+                ? SizedBox(
+              width: Get.width - 120,
+              height: 200,
+              child: const Center(child: CircularProgressIndicator(strokeWidth: 6),),
+            )
+                :
+            homeController.lazyLoadFilter.value == 0
+                ? SizedBox(
+              width: Get.width - 120,
+              height: 200,
+              child: const Center(
+                child: Text("Oops No Cars For This Selection",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+              ),
+            )
+                :
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio: 3/3,
+              ),
+              itemCount: homeController.lazyLoadFilter.value,
+              itemBuilder: (BuildContext context, index){
+                return _carCardFilterPortrait(index);
+              },
+            ),
+            SizedBox(height: Get.height * 0.11)
+          ],
+        ),
+      ),
+    );
+  }
+
+  _carCardFilterPortrait(index){
+    return GestureDetector(
+      onTap: (){
+        if(homeController.filterCarList[index].options.isNotEmpty){
+          Get.toNamed('/carDetails', arguments: [homeController.filterCarList[index]]);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppStyle.grey.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(20)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              flex: 4,
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(homeController.filterCarList[index].image),
+                        )
+                    ),
+                  ),
+                  Hero(
+                    tag: homeController.filterCarList[index].carId,
+                    child: Container(
+                      width: Get.width * 0.04,
+                      height: Get.width * 0.04,
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(homeController.filterCarList[index].brandImage)
+                          )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Flexible(
+              flex: 3,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      homeController.filterCarList[index].title,
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic
+                      ),
+
+                    ),
+                    Text(
+                      'AED ${homeController.filterCarList[index].price} / Daily',
+                      style: const TextStyle(
+                          fontSize: 14,
+                          color: AppStyle.primary,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    )
+                ),
+                child: _carCardButtonFilterPortrait(index),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  _carCardPortrait(index,BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        if(introController.allCars[index].options.isNotEmpty){
+          Get.toNamed('/carDetails', arguments: [introController.allCars[index]]);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppStyle.grey.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(20)
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              flex:4,
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  Container(
+                    width: Get.width * 0.3,
+                    height: Get.width * 0.3,
+                    decoration: const BoxDecoration(
+                      borderRadius:  BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      child: Image.network(
+                        fit: BoxFit.cover,
+                        introController.allCars[index].image,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return SizedBox(
+                            width: Get.width * 0.3,
+                            height: Get.width * 0.3,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Hero(
+                    tag: introController.allCars[index].carId,
+                    child: Container(
+                      width: Get.width * 0.04,
+                      height: Get.width * 0.04,
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(introController.allCars[index].brandImage),
+
+                          )
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Flexible(
+                flex: 3,
+                child: OrientationBuilder(
+                  builder: (context, orientation){
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            introController.allCars[index].title,
+                            maxLines: 2,
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                          Text(
+                            'AED ${introController.allCars[index].price} / Daily',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                color: AppStyle.primary,
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                    borderRadius: const BorderRadius.only(
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    )
+                ),
+                child: _carCardButtonPortrait(index),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -261,8 +629,8 @@ class Home extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 30,
-                mainAxisSpacing: 30,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
                 childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoad.value,
@@ -310,8 +678,8 @@ class Home extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 30,
-                mainAxisSpacing: 30,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
                 childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoadFilter.value,
@@ -423,7 +791,6 @@ class Home extends StatelessWidget {
     );
   }
 
-
   _carCard(index,BuildContext context){
     return GestureDetector(
       onTap: (){
@@ -490,7 +857,6 @@ class Home extends StatelessWidget {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(introController.allCars[index].brandImage),
-
                           )
                       ),
                     ),
@@ -500,32 +866,36 @@ class Home extends StatelessWidget {
             ),
             Flexible(
               flex: 2,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      introController.allCars[index].title,
-                      maxLines: 2,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic
-                      ),
+              child: OrientationBuilder(
+                builder: (context, orientation){
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          introController.allCars[index].title,
+                          maxLines: 2,
+                          style: const TextStyle(
+                              fontSize: 21,
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                        Text(
+                          'AED ${introController.allCars[index].price} / Daily',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: AppStyle.primary,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                        'AED ${introController.allCars[index].price} / Daily',
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: AppStyle.primary,
-                          fontStyle: FontStyle.italic
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  );
+                },
+              )
             ),
             Flexible(
               flex: 1,
@@ -614,6 +984,144 @@ class Home extends StatelessWidget {
     );
   }
 
+  _carCardButtonFilterPortrait(index){
+    return Row(
+      children: [
+        Flexible(
+          flex: 1,
+          child: GestureDetector(
+            onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
+              if(homeController.filterCarList[index].options.isNotEmpty){
+                Get.toNamed('/carDetails', arguments: [homeController.filterCarList[index]]);
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: homeController.filterCarList[index].options.isNotEmpty ? Colors.white : Colors.grey,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                  )
+              ),
+              child: Center(
+                child: Text(
+                  'Car Details',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: homeController.filterCarList[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
+                      fontSize: 15
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Flexible(
+          flex: 1,
+          child: GestureDetector(
+            onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
+              Get.toNamed('/book', arguments: [homeController.filterCarList[index]]);
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: AppStyle.primary,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(20)
+                  )
+              ),
+              child: const Center(
+                child: Text(
+                  'Rent Now',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.black,
+                      fontSize: 15
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  _carCardButtonPortrait(index){
+    return Row(
+      children: [
+        Flexible(
+          flex: 1,
+          child: GestureDetector(
+            onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
+              if(introController.allCars[index].options.isNotEmpty){
+                Get.toNamed('/carDetails', arguments: [introController.allCars[index]]);
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: introController.allCars[index].options.isNotEmpty ? Colors.white : Colors.grey,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                  )
+              ),
+              child: Center(
+                child: Text(
+                  'Car Details',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: introController.allCars[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
+                      fontSize: 15
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Flexible(
+          flex: 1,
+          child: GestureDetector(
+            onTap: (){
+              homeController.searchOpenTextDelegate.value = false;
+              homeController.brandOpenMenu.value = true;
+              homeController.selectIndexSidebar.value = -1;
+              Get.toNamed('/book', arguments: [introController.allCars[index]]);
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: AppStyle.primary,
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(20)
+                  )
+              ),
+              child: const Center(
+                child: Text(
+                  'Rent Now',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.black,
+                    fontSize: 15,
+                    // shadows: [
+                    //   Shadow(color: Colors.black,blurRadius: 1)
+                    // ]
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   _carCardButton(index){
     return Row(

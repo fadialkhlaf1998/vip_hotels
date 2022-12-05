@@ -28,88 +28,167 @@ class BookPage extends StatelessWidget {
         statusBarIconBrightness: Brightness.light
 
     ));
-    return Obx((){
-      return Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Row(
+    return Scaffold(
+      body: SafeArea(
+        child: OrientationBuilder(
+          builder: (context, oriented){
+            return Obx((){
+              return SingleChildScrollView(
+                child: SizedBox(
+                  height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      _carImageAndInputData(context),
-                      Stack(
-                        alignment: Alignment.center,
+                      Row(
                         children: [
-                          CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
-                          _bookDetails(context),
-                          AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            child: bookPageController.calenderOpen.value
-                                ? Container(
-                              width:Get.width * 0.5,
-                              height: Get.height,
-                              color: Colors.black.withOpacity(0.7),
-                              child: _pickDate(),
-                            ) : Text(''),
+                          oriented == Orientation.portrait ? _carImageAndInputDataPortrait(context) : _carImageAndInputData(context),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
+                              oriented == Orientation.portrait ? _bookDetailsPortrait(context) : _bookDetails(context),
+                              AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                child: bookPageController.calenderOpen.value
+                                    ? Container(
+                                  width:Get.width * 0.5,
+                                  height: Get.height,
+                                  color: Colors.black.withOpacity(0.7),
+                                  child: _pickDate(),
+                                ) : Text(''),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      SizedBox(
-                        width: Get.width * 0.35,
-                        height: Get.height * 0.2,
-                        child: SvgPicture.asset('assets/icons/triangle.svg', fit: BoxFit.contain,),
+                      Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          SizedBox(
+                            width: Get.width * 0.35,
+                            height: Get.height * 0.2,
+                            child: SvgPicture.asset('assets/icons/triangle.svg', fit: BoxFit.contain,alignment: Alignment.topCenter),
+                          ),
+                          Container(
+                            width: oriented == Orientation.portrait ? Get.width * 0.15 : Get.width * 0.12,
+                            height: Get.height * 0.1,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(Global.image)
+                                )
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        width: Get.width * 0.12,
-                        height: Get.height * 0.1,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(Global.image)
-                            )
-                        ),
-                      ),
-                    ],
-                  ),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child: bookPageController.loading.value
-                        ? Container(
-                      width: Get.width,
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: bookPageController.loading.value
+                            ? Container(
+                          width: Get.width,
                           height: Get.height,
                           color: Colors.black.withOpacity(0.5),
                           child: const Center(
                             child: CircularProgressIndicator(strokeWidth: 5,color: AppStyle.primary,),
                           ),
                         ) : const Center(),
-                  ),
-                  Positioned(
-                    left: 50,
-                    top: 20,
-                    child: GestureDetector(
-                      onTap: (){
-                        // homeController.selectIndexSidebar.value = -1;
-                        Get.back();
-                      },
-                      child: const SizedBox(
-                        child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
                       ),
-                    ),
+                      Positioned(
+                        left: 50,
+                        top: 20,
+                        child: GestureDetector(
+                          onTap: (){
+                            // homeController.selectIndexSidebar.value = -1;
+                            Get.back();
+                          },
+                          child: const SizedBox(
+                            child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              );
+            });
+          },
+        )
+      ),
+    );
+  }
+
+  _carImageAndInputDataPortrait(context){
+    return  Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: Get.width * 0.5,
+          height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(car.image)
             ),
           ),
         ),
-      );
-    });
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.fastOutSlowIn,
+          width: Get.width * 0.5,
+          height: Get.height,
+          // color: Colors.black.withOpacity(bookPageController.range.isNotEmpty ? 0.7 : 0),
+          color: Colors.black.withOpacity(0.7),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomAnimatedTextField(
+              duration: 900,
+              width: 0.4,
+              height: 70,
+              controller: bookPageController.name,
+              prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+              keyboardType: TextInputType.text,
+              labelText: 'Enter your name',
+              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+              right: Get.width * 0.1,
+              bottom: Get.height * 0.5,
+              validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
+            ),
+            const SizedBox(height: 20),
+            CustomAnimatedTextField(
+              duration: 1500,
+              width: 0.4,
+              height: 70,
+              controller: bookPageController.email,
+              prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+              keyboardType: TextInputType.emailAddress,
+              labelText: 'Enter your email',
+              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+              right: Get.width * 0.1,
+              bottom: Get.height * 0.4,
+              validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+                  (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
+            ),
+            const SizedBox(height: 20),
+            CustomAnimatedPhoneField(
+              duration: 1100,
+              width: 0.4,
+              height: 70,
+              controller: bookPageController.phone,
+              prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+              keyboardType: TextInputType.number,
+              labelText: 'Phone',
+              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+              right:Get.width * 0.1,
+              bottom: Get.height * 0.3,
+              validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+            ),
+          ],
+        ),
+
+      ],
+    );
   }
 
   _carImageAndInputData(context){
@@ -184,6 +263,138 @@ class BookPage extends StatelessWidget {
         ),
 
       ],
+    );
+  }
+
+  _bookDetailsPortrait(BuildContext context){
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: Get.width * 0.45,
+        height: Get.height * 0.7,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CustomLogo(width: 0.2, height: 0.15, tag: 'logo'),
+            Obx((){
+              return  GestureDetector(
+                onTap: (){
+                  bookPageController.calenderOpen.value = true;
+                },
+                child: Container(
+                  width: Get.width * 0.4,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: AppStyle.lightGrey, width: 2)
+                  ),
+                  child: Center(
+                    child: bookPageController.range.isEmpty
+                        ? const Text(
+                        'Pickup & Dropoff Date',
+                        style: TextStyle(
+                            color: AppStyle.lightGrey,
+                            fontFamily: 'D-DIN-PRO',
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                        ))
+                        :  Text(
+                        'From ${bookPageController.range.value.split('-')[0]} To ${bookPageController.range.value.split('-')[1]}',
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'D-DIN-PRO',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        )),
+                  ),
+                ),
+              );
+            }),
+            DottedBorder(
+                color: AppStyle.primary,
+                dashPattern: const [10, 4],
+                strokeWidth: 2,
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    width: Get.width * 0.4,
+                    height: Get.height * 0.2,
+                    color: Colors.transparent,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                bookPageController.selectImage();
+                              },
+                              child: SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.primary, width: 40,height: 40,fit: BoxFit.contain,),
+                            ),
+                            const SizedBox(width: 40),
+                            GestureDetector(
+                              onTap: (){
+                                bookPageController.selectPhotosFromCamera();
+                              },
+                              child: const Icon(Icons.camera_alt, color: AppStyle.primary,size: 45,),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          children: [
+                            _iconContainer('Id', 'id'),
+                            _iconContainer('Passport', 'passport'),
+                            _iconContainer('Visa', 'visa'),
+                            _iconContainer('Driving license', 'driving-license'),
+                          ],
+                        ),
+                      ],
+                    )
+                )
+            ),
+            Container(
+              height: Get.height * 0.1,
+              width: Get.width * 0.3,
+              child: Center(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: bookPageController.imageList.length,
+                  itemBuilder: (BuildContext context, index){
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      width: Get.height * 0.1,
+                      height: Get.height * 0.1,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: FileImage(bookPageController.imageList[index])
+                          )
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            CustomButton(
+                width: 0.3,
+                height: 50,
+                text: 'BOOK NOW',
+                onPressed: () async {
+                  await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
+                  detailsPageController.optionId.value = -1;
+                  detailsPageController.optionIndex.value = 0;
+                },
+                color: AppStyle.primary,
+                borderRadius: 5,
+                textStyle: const TextStyle(color: Colors.black, fontSize: 19)
+            )
+          ],
+        ),
+      ),
     );
   }
 

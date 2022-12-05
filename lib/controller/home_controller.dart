@@ -30,8 +30,8 @@ class HomeController extends GetxController{
   RxBool logoutConfirm = false.obs;
 
   initLazyLoad(){
-    if(introController.allCars.length > 6){
-      lazyLoad.value = 6;
+    if(introController.allCars.length > 12){
+      lazyLoad.value = 12;
     }else{
       lazyLoad.value = introController.allCars.length;
     }
@@ -47,8 +47,8 @@ class HomeController extends GetxController{
   }
 
   initLazyLoadFilter(){
-    if(filterCarList.length > 6){
-      lazyLoadFilter.value = 6;
+    if(filterCarList.length > 12){
+      lazyLoadFilter.value = 12;
     }else{
       lazyLoadFilter.value = filterCarList.length;
     }

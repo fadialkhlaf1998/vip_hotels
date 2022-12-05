@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'dart:math';
-
 import 'package:vip_hotels/controller/home_controller.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
-import 'package:vip_hotels/widget/custom_logo.dart';
 
 
 class ThemeCircle extends StatefulWidget{
@@ -146,12 +143,12 @@ class _ThemeCircleState extends State<ThemeCircle> with SingleTickerProviderStat
             Container(
               width: Get.width * 0.35,
               height: Get.height * 0.2,
-              child: SvgPicture.asset('assets/icons/triangle.svg',fit: BoxFit.contain),
+              child: SvgPicture.asset('assets/icons/triangle.svg',fit: BoxFit.contain, alignment: Alignment.topCenter,),
             ),
             Container(
               width: Get.width * 0.15,
               height: Get.height * 0.1,
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              margin: EdgeInsets.only(top: 5),
               child: Image.network(Global.image, fit: BoxFit.contain),
             ),
           ],
@@ -181,7 +178,7 @@ class _ThemeCircleState extends State<ThemeCircle> with SingleTickerProviderStat
             homeController.selectionImageTheme();
           },
           child: Container(
-            width: Get.width * 0.1,
+            width: 150,
             height: Get.height * 0.05,
             decoration: BoxDecoration(
               color: AppStyle.primary,

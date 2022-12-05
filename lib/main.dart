@@ -16,14 +16,21 @@ import 'package:vip_hotels/view/mobile/mobile_login.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
-      runApp(const MyApp());
-    });
+    runApp(const MyApp());
   }else{
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
-      runApp(const MyAppMobile());
+          runApp(const MyAppMobile());
     });
   }
+  //   SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
+  //     runApp(const MyApp());
+  //   });
+  // }else{
+  //   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
+  //     runApp(const MyAppMobile());
+  //   });
+  // }
+
 
 }
 
