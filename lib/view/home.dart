@@ -179,8 +179,8 @@ class Home extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
                 childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoad.value,
@@ -228,8 +228,8 @@ class Home extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
                 childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoadFilter.value,
@@ -429,7 +429,7 @@ class Home extends StatelessWidget {
                             introController.allCars[index].title,
                             maxLines: 2,
                             style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 15,
                                 color: Colors.white,
                                 fontStyle: FontStyle.italic
                             ),
@@ -1011,7 +1011,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: homeController.filterCarList[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
-                      fontSize: 15
+                      fontSize: 13
                   ),
                 ),
               ),
@@ -1041,7 +1041,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.black,
-                      fontSize: 15
+                      fontSize: 13
                   ),
                 ),
               ),
@@ -1079,7 +1079,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: introController.allCars[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
-                      fontSize: 15
+                      fontSize: 13
                   ),
                 ),
               ),
@@ -1109,7 +1109,7 @@ class Home extends StatelessWidget {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.black,
-                    fontSize: 15,
+                    fontSize: 13,
                     // shadows: [
                     //   Shadow(color: Colors.black,blurRadius: 1)
                     // ]

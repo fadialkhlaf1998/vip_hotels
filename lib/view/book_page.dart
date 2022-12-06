@@ -26,7 +26,6 @@ class BookPage extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.black,
         statusBarIconBrightness: Brightness.light
-
     ));
     return Scaffold(
       body: SafeArea(
@@ -34,8 +33,8 @@ class BookPage extends StatelessWidget {
           builder: (context, oriented){
             return Obx((){
               return SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                child: Container(
+                physics: const NeverScrollableScrollPhysics(),
+                child: SizedBox(
                   height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
                   child: Stack(
                     alignment: Alignment.topCenter,
