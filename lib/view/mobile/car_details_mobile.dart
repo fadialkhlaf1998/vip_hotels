@@ -7,6 +7,7 @@ import 'package:vip_hotels/controller/home_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/api.dart';
+import 'package:vip_hotels/services/global.dart';
 import 'package:vip_hotels/widget/backgroundImage.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/widget/car_gallery_mobile.dart';
@@ -96,15 +97,15 @@ class CarDetailsMobile extends StatelessWidget {
                                       maxLines: 2,
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18
+                                        fontSize: 17
                                       ),
                                     ),
                                   ),
                                   Text(
-                                      '${car.price.toString()} AED',
+                                      Global.guest ? 'Rent: *** AED' : '${car.price.toString()} AED',
                                     style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 16
+                                        fontSize: 14
                                     ),
                                   )
                                 ],
@@ -127,42 +128,65 @@ class CarDetailsMobile extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // Container(
-                          //      width: Get.width * 0.7,
-                          //      height: Get.height * 0.13,
-                          //      child: SingleChildScrollView(
-                          //        child: Text(
-                          //          car.description,
-                          //          style: const TextStyle(
-                          //              color: Colors.white,
-                          //              fontSize: 12
-                          //          ),
-                          //        ),
-                          //      ),
-                          //    ),
                           car.description.length > 10
                               ? Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1)
                           : Text(''),
-                          GestureDetector(
-                            onTap: (){
-                              if(detailsPageController.optionId.value == -1){
-                                detailsPageController.optionId.value = car.options.first.id;
-                              }
-                              Get.toNamed('/bookMobile', arguments: [car]);
-                            },
-                            child: Container(
-                              width: 120,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: AppStyle.primary,
-                                borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: const Center(
-                                child: Text(
-                                    'Book now',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: (){
+                                  if(detailsPageController.optionId.value == -1){
+                                    detailsPageController.optionId.value = car.options.first.id;
+                                  }
+                                  Get.toNamed('/bookMobile', arguments: [car]);
+                                },
+                                child: Container(
+                                  width: 120,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: AppStyle.primary,
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Book now',
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              const SizedBox(width: 20),
+                              car.shareLink.isNotEmpty
+                              ? GestureDetector(
+                                onTap: () async {
+                                  if(detailsPageController.optionId.value == -1){
+                                    detailsPageController.optionId.value = car.options.first.id;
+                                  }
+                                  await detailsPageController.shareCar(car.image, car.title, car.shareLink);
+                                },
+                                child: Container(
+                                  width: 120,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                          'Share',
+                                        ),
+                                        SizedBox(width: 5),
+                                        Icon(Icons.share, color: AppStyle.grey)
+                                      ],
+                                    ),
+                                  )
+                                ),
+                              )
+                              : const Center(),
+                            ],
                           ),
                           SizedBox(
                             width: Get.width * 0.8,

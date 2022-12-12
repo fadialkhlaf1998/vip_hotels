@@ -16,6 +16,7 @@ import 'package:vip_hotels/widget/custom_logo.dart';
 import 'package:vip_hotels/widget/custom_sidebar_details_page.dart';
 import 'package:vip_hotels/widget/theme_circle.dart';
 
+// ignore: must_be_immutable
 class CarDetails extends StatelessWidget {
 
   HomeController homeController = Get.find();
@@ -23,7 +24,7 @@ class CarDetails extends StatelessWidget {
 
   Car car = Get.arguments[0];
 
-  CarDetails(){
+  CarDetails({super.key}){
     detailsPageController.mainCarImageIndex.value = 1;
   }
 
@@ -31,7 +32,8 @@ class CarDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     detailsPageController.optionIndex.value = 0;
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
         statusBarIconBrightness: Brightness.light
 
@@ -83,7 +85,7 @@ class CarDetails extends StatelessWidget {
                           Stack(
                             alignment: Alignment.topCenter,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: Get.width * 0.35,
                                 height:  Get.height * 0.2,
                                 child: SvgPicture.asset('assets/icons/triangle.svg',fit: BoxFit.contain, alignment: Alignment.topCenter),
@@ -226,7 +228,7 @@ class CarDetails extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
+                SizedBox(
                   width: Get.width * 0.4,
                   child: Text(
                     car.title,
@@ -238,7 +240,7 @@ class CarDetails extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: car.description.length > 10 ? Get.height * 0.2 : 0,
                   width: Get.width * 0.4,
                   child: SingleChildScrollView(
@@ -250,15 +252,6 @@ class CarDetails extends StatelessWidget {
                         )
                       },
                     ),
-                    // child:  Text(
-                    //   car.description,// != "" ? car.description : 'No description',
-                    //   textAlign: TextAlign.justify,
-                    //   style: const TextStyle(
-                    //       fontSize: 14,
-                    //       color: Colors.white,
-                    //       // fontStyle: FontStyle.italic
-                    //   ),
-                    // ),
                   ),
                 ),
                 SizedBox(
@@ -272,43 +265,79 @@ class CarDetails extends StatelessWidget {
                     ],
                   ),
                 ),
-               Container(
+                SizedBox(
                  width: Get.width * 0.4,
                  child: Text(
-                   'AED ${car.price.toString()} / Daily',
+                   !Global.guest ? 'AED ${car.price.toString()} / Daily' : 'AED **** / Daily',
+                   // 'AED ${car.price.toString()} / Daily',
                    textAlign: TextAlign.center,
                    style: const TextStyle(
-                       fontSize: 24,
+                       fontSize: 23,
                        color: Colors.white,
                        fontStyle: FontStyle.italic,
                        fontWeight: FontWeight.bold
                    ),
                  ),
                ),
-                GestureDetector(
-                  onTap: (){
-                    if(detailsPageController.optionId.value == -1){
-                      detailsPageController.optionId.value = car.options.first.id;
-                    }
-                    Get.toNamed('/book', arguments: [car]);
-                  },
-                  child: Container(
-                    width: Get.width * 0.2,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: AppStyle.primary,
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Book now',
-                        style: TextStyle(
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+               Row(
+                 children: [
+                   GestureDetector(
+                     onTap: (){
+                       if(detailsPageController.optionId.value == -1){
+                         detailsPageController.optionId.value = car.options.first.id;
+                       }
+                       Get.toNamed('/book', arguments: [car]);
+                     },
+                     child: Container(
+                       width: Get.width * 0.16,
+                       height: 50,
+                       decoration: BoxDecoration(
+                           color: AppStyle.primary,
+                           borderRadius: BorderRadius.circular(5)
+                       ),
+                       child: const Center(
+                         child: Text(
+                           'Book now',
+                           style: TextStyle(
+                             fontSize: 17,
+                           ),
+                         ),
+                       ),
+                     ),
+                   ),
+                   const SizedBox(width: 15),
+                   car.shareLink.isNotEmpty
+                       ? GestureDetector(
+                     onTap: () async {
+                       if(detailsPageController.optionId.value == -1){
+                         detailsPageController.optionId.value = car.options.first.id;
+                       }
+                       await detailsPageController.shareCar(car.image, car.title, car.shareLink);
+                     },
+                     child: Container(
+                       width: Get.width * 0.16,
+                       height: 50,
+                       decoration: BoxDecoration(
+                           color: Colors.white,
+                           borderRadius: BorderRadius.circular(5)
+                       ),
+                       child:  Center(
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: const [
+                             Text(
+                               'Share',
+                             ),
+                             SizedBox(width: 5),
+                             Icon(Icons.share, color: AppStyle.grey)
+                           ],
+                         ),
+                       )
+                     ),
+                   )
+                   : const Center(),
+                 ],
+               ),
               ],
             ),
           ),
@@ -352,7 +381,7 @@ class CarDetails extends StatelessWidget {
           SizedBox(
             width: Get.width * 0.4,
             child: Text(
-              '${car.title}',
+              car.title,
               style: const TextStyle(
                   fontSize: 30,
                   color: Colors.white,
@@ -360,7 +389,7 @@ class CarDetails extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: car.description.length > 10 ? Get.height * 0.2 : 0,
             width: Get.width * 0.4,
             child: SingleChildScrollView(
@@ -372,15 +401,6 @@ class CarDetails extends StatelessWidget {
                   )
                 },
               ),
-              // child:  Text(
-              //   car.description,// != "" ? car.description : 'No description',
-              //   textAlign: TextAlign.justify,
-              //   style: const TextStyle(
-              //       fontSize: 14,
-              //       color: Colors.white,
-              //       // fontStyle: FontStyle.italic
-              //   ),
-              // ),
             ),
           ),
           SizedBox(
@@ -395,38 +415,101 @@ class CarDetails extends StatelessWidget {
             ),
           ),
           Text(
-            'AED ${car.price.toString()} / Daily',
+            !Global.guest ? 'AED ${car.price.toString()} / Daily' : 'AED **** / Daily',
+            // 'AED ${car.price.toString()} / Daily',
             style: const TextStyle(
-                fontSize: 33,
+                fontSize: 31,
                 color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold
             ),
           ),
-          GestureDetector(
-            onTap: (){
-              if(detailsPageController.optionId.value == -1){
-                detailsPageController.optionId.value = car.options.first.id;
-              }
-              Get.toNamed('/book', arguments: [car]);
-            },
-            child: Container(
-              width: Get.width * 0.12,
-              height: Get.height * 0.05,
-              decoration: BoxDecoration(
-                  color: AppStyle.primary,
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: const Center(
-                child: Text(
-                  'Book now',
-                  style: TextStyle(
-                    fontSize: 17,
+          Row(
+            children: [
+              GestureDetector(
+                onTap: (){
+                  if(detailsPageController.optionId.value == -1){
+                    detailsPageController.optionId.value = car.options.first.id;
+                  }
+                  Get.toNamed('/book', arguments: [car]);
+                },
+                child: Container(
+                  width: Get.width * 0.15,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: AppStyle.primary,
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Book now',
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              const SizedBox(width: 15),
+              car.shareLink.isNotEmpty
+                  ? GestureDetector(
+                onTap: () async {
+                  if(detailsPageController.optionId.value == -1){
+                    detailsPageController.optionId.value = car.options.first.id;
+                  }
+                  await detailsPageController.shareCar(car.image, car.title, car.shareLink);
+                },
+                child: Container(
+                    width: Get.width * 0.15,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child:  Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Share',
+                            style: TextStyle(
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(Icons.share, color: AppStyle.grey)
+                        ],
+                      ),
+                    )
+                ),
+              )
+              : const Center(),
+            ],
           ),
+          // GestureDetector(
+          //   onTap: (){
+          //     if(detailsPageController.optionId.value == -1){
+          //       detailsPageController.optionId.value = car.options.first.id;
+          //     }
+          //     Get.toNamed('/book', arguments: [car]);
+          //   },
+          //   child: Container(
+          //     width: Get.width * 0.12,
+          //     height: Get.height * 0.05,
+          //     decoration: BoxDecoration(
+          //         color: AppStyle.primary,
+          //         borderRadius: BorderRadius.circular(5)
+          //     ),
+          //     child: const Center(
+          //       child: Text(
+          //         'Book now',
+          //         style: TextStyle(
+          //           fontSize: 17,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           CustomLogo(width: 0.15, height: 0.09, tag: 'tag'),
           SizedBox(height: Get.height * 0.05),
         ],

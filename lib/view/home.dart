@@ -13,6 +13,7 @@ import 'package:vip_hotels/services/global.dart';
 
 import 'package:vip_hotels/widget/custom_sideBar.dart';
 
+// ignore: must_be_immutable
 class Home extends StatelessWidget {
 
   HomeController homeController = Get.put(HomeController());
@@ -20,7 +21,7 @@ class Home extends StatelessWidget {
   LoginController loginController = Get.find();
   IntroController introController = Get.find();
 
-  Home(){
+  Home({super.key}){
     Future.delayed(const Duration(milliseconds: 300)).then((value) {
       homeController.initLazyLoad();
     });
@@ -46,7 +47,6 @@ class Home extends StatelessWidget {
           body: SafeArea(
               child: OrientationBuilder(
                 builder: (context, orientation){
-                  print(orientation);
                   return orientation == Orientation.portrait
                       ? Obx((){
                         return _portraitWidget(context);
@@ -311,7 +311,8 @@ class Home extends StatelessWidget {
 
                     ),
                     Text(
-                      'AED ${homeController.filterCarList[index].price} / Daily',
+                      !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
+                      // 'AED ${homeController.filterCarList[index].price} / Daily',
                       style: const TextStyle(
                           fontSize: 14,
                           color: AppStyle.primary,
@@ -435,7 +436,8 @@ class Home extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'AED ${introController.allCars[index].price} / Daily',
+                            !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
+                            // 'AED ${introController.allCars[index].price} / Daily',
                             style: const TextStyle(
                                 fontSize: 14,
                                 color: AppStyle.primary,
@@ -557,7 +559,7 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Container(
+                        SizedBox(
                           width: 60,
                           height: 40,
                           child: SvgPicture.network(introController.carCategory[index].image, color: AppStyle.primary),
@@ -761,7 +763,8 @@ class Home extends StatelessWidget {
 
                     ),
                     Text(
-                      'AED ${homeController.filterCarList[index].price} / Daily',
+                      !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
+                      // 'AED ${homeController.filterCarList[index].price} / Daily',
                       style: const TextStyle(
                           fontSize: 18,
                           color: AppStyle.primary,
@@ -884,7 +887,8 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'AED ${introController.allCars[index].price} / Daily',
+                          !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
+                          // 'AED ${introController.allCars[index].price} / Daily',
                           style: const TextStyle(
                               fontSize: 18,
                               color: AppStyle.primary,
@@ -1316,9 +1320,9 @@ class Home extends StatelessWidget {
                 homeController.chooseCarFilter(index-1);
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   width: 80,
                   decoration: BoxDecoration(
                       border: Border.all(color: homeController.brandIndex.value == index-1?AppStyle.primary:AppStyle.grey),
@@ -1427,13 +1431,13 @@ class Home extends StatelessWidget {
                         child: Container(
                           width: Get.width * 0.25,
                           height: 55,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.only(
                                   bottomRight: Radius.circular(20)
                               )
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'Confirm',
                               style: TextStyle(
@@ -1466,7 +1470,7 @@ class CustomSearchClass extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -1477,7 +1481,7 @@ class CustomSearchClass extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
@@ -1491,7 +1495,7 @@ class CustomSearchClass extends SearchDelegate {
         introController.allCars.where((element) =>
             element.title.toLowerCase().contains(query)).toList();
 
-    return query.isEmpty?Center():Container(
+    return query.isEmpty ? const Center():Container(
       margin: const EdgeInsets.all(20),
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -1529,7 +1533,7 @@ class CustomSearchClass extends SearchDelegate {
                           ),
                         ),
                         const SizedBox(width: 15),
-                       Container(
+                       SizedBox(
                          width: Get.width * 0.28,
                          child:  Column(
                            mainAxisAlignment: MainAxisAlignment.center,
@@ -1543,8 +1547,8 @@ class CustomSearchClass extends SearchDelegate {
                              Text(
                                  item.title,
                                  maxLines: 2,
-                                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                             Text(item.price.toString() + ' AED'),
+                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                             Text('${item.price} AED'),
                            ],
                          ),
                        )
@@ -1565,7 +1569,7 @@ class CustomSearchClass extends SearchDelegate {
         introController.allCars.where((element) =>
             element.title.toLowerCase().contains(query)).toList();
 
-    return query.isEmpty?Center():Container(
+    return query.isEmpty? const Center():Container(
         margin: const EdgeInsets.all(20),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -1603,7 +1607,7 @@ class CustomSearchClass extends SearchDelegate {
                             ),
                           ),
                           const SizedBox(width: 15),
-                          Container(
+                          SizedBox(
                             width: Get.width * 0.28,
                             child:  Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1617,8 +1621,8 @@ class CustomSearchClass extends SearchDelegate {
                                 Text(
                                     item.title,
                                     maxLines: 2,
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                Text(item.price.toString() + ' AED'),
+                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                Text('${item.price} AED'),
                               ],
                             ),
                           )

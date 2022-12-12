@@ -85,7 +85,32 @@ class Api {
       request.files.add(await http.MultipartFile.fromPath('files', images[i].path));
     }
 
-    // request.files.add(await http.MultipartFile.fromPath('files', '/C:/Users/Fadi haddad/Pictures/Screenshots/Screenshot (1).png'));
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      return true;
+    }
+    else {
+      print(response.reasonPhrase);
+      return false;
+    }
+
+  }
+
+  static Future addOrderGuest(String carName, String name, String email, String phone, String msg) async {
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+    var request = http.Request('POST', Uri.parse('${url}api/orders/guest-order'));
+    request.body = json.encode({
+      "car": carName,
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "msg": msg
+    });
+    request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 

@@ -137,6 +137,7 @@ class Brand {
 class Car {
   Car({
     required this.carId,
+    required this.shareLink,
     required this.image,
     required this.title,
     required this.year,
@@ -152,6 +153,7 @@ class Car {
   });
 
   int carId;
+  String shareLink;
   String image;
   String title;
   String year;
@@ -167,6 +169,7 @@ class Car {
 
   factory Car.fromMap(Map<String, dynamic> json) => Car(
     carId: json["car_id"] ?? -1,
+    shareLink: json["share_link"] ?? "",
     image: json["image"] ?? "",
     title: json["title"] ?? "",
     year: json["year"] ?? "",
@@ -183,6 +186,7 @@ class Car {
 
   Map<String, dynamic> toMap() => {
     "car_id": carId,
+    "share_link" : shareLink,
     "image": image,
     "title": title,
     "year": year,

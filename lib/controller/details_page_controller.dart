@@ -1,9 +1,13 @@
 
+import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DetailsPageController extends GetxController{
 
@@ -49,6 +53,18 @@ class DetailsPageController extends GetxController{
         curve: Curves.fastOutSlowIn,
         duration: const Duration(milliseconds: 1000)
     );
+  }
+
+  shareCar(String image, String name, String shareLink) async {
+    final url = Uri.parse(image);
+    final response = await http.get(url);
+    final bytes = response.bodyBytes;
+
+    final temp = await getTemporaryDirectory();
+    final path = '${temp.path}/image.jpg';
+    File(path).writeAsBytesSync(bytes);
+
+    await Share.shareFiles([path], text: '$name \n\n $shareLink');
   }
 
 }

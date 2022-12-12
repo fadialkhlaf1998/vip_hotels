@@ -23,7 +23,7 @@ class BookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
         statusBarIconBrightness: Brightness.light
     ));
@@ -135,10 +135,11 @@ class BookPage extends StatelessWidget {
           curve: Curves.fastOutSlowIn,
           width: Get.width * 0.5,
           height: Get.height,
-          // color: Colors.black.withOpacity(bookPageController.range.isNotEmpty ? 0.7 : 0),
-          color: Colors.black.withOpacity(0.7),
+          color: Colors.black.withOpacity(Global.guest ? 0 : 0.7),
         ),
-        Column(
+        Global.guest
+            ? const Center()
+        : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -210,10 +211,11 @@ class BookPage extends StatelessWidget {
           curve: Curves.fastOutSlowIn,
           width: Get.width * 0.5,
           height: Get.height,
-          // color: Colors.black.withOpacity(bookPageController.range.isNotEmpty ? 0.7 : 0),
-          color: Colors.black.withOpacity(0.7),
+          color: Colors.black.withOpacity( Global.guest ? 0 : 0.7),
         ),
-        Column(
+        Global.guest
+        ? const Center()
+        : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -261,7 +263,6 @@ class BookPage extends StatelessWidget {
             ),
           ],
         ),
-
       ],
     );
   }
@@ -275,7 +276,9 @@ class BookPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CustomLogo(width: 0.2, height: 0.15, tag: 'logo'),
-            Obx((){
+            Global.guest
+            ? const Center()
+            : Obx((){
               return  GestureDetector(
                 onTap: (){
                   bookPageController.calenderOpen.value = true;
@@ -310,7 +313,9 @@ class BookPage extends StatelessWidget {
                 ),
               );
             }),
-            DottedBorder(
+            Global.guest
+                ? const Center()
+                : DottedBorder(
                 color: AppStyle.primary,
                 dashPattern: const [10, 4],
                 strokeWidth: 2,
@@ -354,7 +359,91 @@ class BookPage extends StatelessWidget {
                     )
                 )
             ),
-            Container(
+            Global.guest
+                ?  Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomAnimatedTextField(
+                  duration: 900,
+                  width: 0.4,
+                  height: 60,
+                  controller: bookPageController.name,
+                  prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+                  keyboardType: TextInputType.text,
+                  labelText: 'Enter your name',
+                  // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                  right: Get.width * 0.1,
+                  bottom: Get.height * 0.5,
+                  validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
+                ),
+                const SizedBox(height: 20),
+                CustomAnimatedTextField(
+                  duration: 1500,
+                  width: 0.4,
+                  height: 60,
+                  controller: bookPageController.email,
+                  prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+                  keyboardType: TextInputType.emailAddress,
+                  labelText: 'Enter your email',
+                  // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                  right: Get.width * 0.1,
+                  bottom: Get.height * 0.4,
+                  validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+                      (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
+                ),
+                const SizedBox(height: 20),
+                CustomAnimatedPhoneField(
+                  duration: 1100,
+                  width: 0.4,
+                  height: 60,
+                  controller: bookPageController.phone,
+                  prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+                  keyboardType: TextInputType.number,
+                  labelText: 'Phone',
+                  // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                  right:Get.width * 0.1,
+                  bottom: Get.height * 0.3,
+                  validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: Get.width * 0.4,
+                  height: Get.height * 0.12,
+                  child: TextField(
+                    // keyboardType: TextInputType.multiline,
+                    expands: true,
+                    maxLines: null,
+                    controller: bookPageController.msg,
+                    decoration:  InputDecoration(
+                      counterText: "",
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2,
+                              color: AppStyle.lightGrey
+                          ),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2,
+                              color: AppStyle.lightGrey),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      prefixIcon: const Icon(Icons.message, color: AppStyle.primary,),
+                      labelText: 'Message',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13
+                      ),
+                    ),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            )
+                : const Center(),
+            SizedBox(
               height: Get.height * 0.1,
               width: Get.width * 0.3,
               child: Center(
@@ -382,11 +471,17 @@ class BookPage extends StatelessWidget {
             CustomButton(
                 width: 0.3,
                 height: 50,
-                text: 'BOOK NOW',
+                text: Global.guest ? 'INQUIRE NOW' : 'BOOK NOW',
                 onPressed: () async {
-                  await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
-                  detailsPageController.optionId.value = -1;
-                  detailsPageController.optionIndex.value = 0;
+                  if(Global.guest){
+                    bookPageController.addOrderGuest(car.title);
+                  }else {
+                    await bookPageController.book(car.carId.toString(),
+                        detailsPageController.optionId.value.toString(),
+                        context);
+                    detailsPageController.optionId.value = -1;
+                    detailsPageController.optionIndex.value = 0;
+                  }
                 },
                 color: AppStyle.primary,
                 borderRadius: 5,
@@ -402,12 +497,14 @@ class BookPage extends StatelessWidget {
     return SingleChildScrollView(
       child: SizedBox(
         width: Get.width * 0.45,
-        height: Get.height * 0.7,
+        height: Get.height * 0.75,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             CustomLogo(width: 0.2, height: 0.15, tag: 'logo'),
-           Obx((){
+            Global.guest
+            ? const Center()
+            : Obx((){
              return  GestureDetector(
                onTap: (){
                  bookPageController.calenderOpen.value = true;
@@ -442,7 +539,9 @@ class BookPage extends StatelessWidget {
                ),
              );
            }),
-            DottedBorder(
+            Global.guest
+                ? const Center()
+                : DottedBorder(
                 color: AppStyle.primary,
                 dashPattern: const [10, 4],
                 strokeWidth: 2,
@@ -486,7 +585,91 @@ class BookPage extends StatelessWidget {
                   )
               )
             ),
-            Container(
+            Global.guest
+            ?  Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomAnimatedTextField(
+                  duration: 900,
+                  width: 0.3,
+                  height: 60,
+                  controller: bookPageController.name,
+                  prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+                  keyboardType: TextInputType.text,
+                  labelText: 'Enter your name',
+                  // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                  right: Get.width * 0.1,
+                  bottom: Get.height * 0.5,
+                  validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
+                ),
+                const SizedBox(height: 20),
+                CustomAnimatedTextField(
+                  duration: 1500,
+                  width: 0.3,
+                  height: 60,
+                  controller: bookPageController.email,
+                  prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+                  keyboardType: TextInputType.emailAddress,
+                  labelText: 'Enter your email',
+                  // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                  right: Get.width * 0.1,
+                  bottom: Get.height * 0.4,
+                  validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+                      (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
+                ),
+                const SizedBox(height: 20),
+                CustomAnimatedPhoneField(
+                  duration: 1100,
+                  width: 0.3,
+                  height: 60,
+                  controller: bookPageController.phone,
+                  prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+                  keyboardType: TextInputType.number,
+                  labelText: 'Phone',
+                  // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                  right:Get.width * 0.1,
+                  bottom: Get.height * 0.3,
+                  validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: Get.width * 0.3,
+                  height: Get.height * 0.12,
+                  child: TextField(
+                    // keyboardType: TextInputType.multiline,
+                    expands: true,
+                    maxLines: null,
+                    controller: bookPageController.msg,
+                    decoration:  InputDecoration(
+                      counterText: "",
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2,
+                              color: AppStyle.lightGrey
+                          ),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 2,
+                              color: AppStyle.lightGrey),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      prefixIcon: const Icon(Icons.message, color: AppStyle.primary,),
+                      labelText: 'Message',
+                      labelStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13
+                      ),
+                    ),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            )
+            : const Center(),
+            SizedBox(
               height: Get.height * 0.1,
               width: Get.width * 0.3,
               child: Center(
@@ -514,11 +697,18 @@ class BookPage extends StatelessWidget {
             CustomButton(
                 width: 0.3,
                 height: 50,
-                text: 'BOOK NOW',
+                text: Global.guest ? 'INQUIRE NOW' : 'BOOK NOW',
                 onPressed: () async {
-                  await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
-                  detailsPageController.optionId.value = -1;
-                  detailsPageController.optionIndex.value = 0;
+                  if(Global.guest){
+                    bookPageController.addOrderGuest(car.title);
+                  }else {
+                    await bookPageController.book(
+                        car.carId.toString(),
+                        detailsPageController.optionId.value.toString(),
+                        context);
+                    detailsPageController.optionId.value = -1;
+                    detailsPageController.optionIndex.value = 0;
+                  }
                 },
                 color: AppStyle.primary,
                 borderRadius: 5,

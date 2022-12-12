@@ -24,6 +24,7 @@ class BookPageController extends GetxController{
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
+  TextEditingController msg = TextEditingController();
 
 
   void onSelectionDateChanges(var args) {
@@ -84,6 +85,42 @@ class BookPageController extends GetxController{
   confirmDates(){
     saveDate.value = true;
     calenderOpen.value = false;
+  }
+
+  Future addOrderGuest(String carName) async {
+    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
+    if(name.text.isEmpty || email.text.isEmpty || phone.text.isEmpty){
+      validate.value = true;
+      Get.snackbar(
+          'Warning', 'Checked fields are required',
+          margin: isTablet ? const EdgeInsets.only(top: 40, right: 150, left: 150) : const EdgeInsets.only(top: 40, right: 20, left: 20),
+          backgroundColor: AppStyle.lightGrey
+      );
+      return false;
+    }else{
+      loading.value = true;
+      await Api.addOrderGuest(carName, name.text, email.text, phone.text, msg.text).then((value){
+        if(value){
+          Get.snackbar(
+              'Success', 'Your request is being processed',
+              margin: isTablet ? const EdgeInsets.only(top: 40, right: 150, left: 150) : const EdgeInsets.only(top: 40, right: 20, left: 20),
+              backgroundColor: AppStyle.green
+          );
+          validate.value = false;
+          loading.value = false;
+          Future.delayed(const Duration(milliseconds: 100)).then((value){
+            isTablet ? Get.offAllNamed('/home') : Get.offAllNamed('/homeMobile');
+          });
+        }else{
+          Get.snackbar(
+              'Warning', 'Something went wrong',
+              margin: isTablet ? const EdgeInsets.only(top: 40, right: 150, left: 150) : const EdgeInsets.only(top: 40, right: 20, left: 20),
+              backgroundColor: AppStyle.lightGrey
+          );
+          loading.value = false;
+        }
+      });
+    }
   }
 
 

@@ -7,6 +7,8 @@ import 'package:vip_hotels/controller/book_page_controller.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
+import 'package:vip_hotels/services/api.dart';
+import 'package:vip_hotels/services/global.dart';
 import 'package:vip_hotels/widget/custom_animated_textField.dart';
 import 'package:vip_hotels/widget/custom_animation_phone_field.dart';
 import 'package:vip_hotels/widget/custom_button.dart';
@@ -65,7 +67,7 @@ class BookPageMobile extends StatelessWidget {
                           height: Get.height,
                           color: Colors.black.withOpacity(0.7),
                           child: _pickDate(),
-                        ) : Text(''),
+                        ) : const Text(''),
                       ),
                     ],
                   ),
@@ -93,7 +95,7 @@ class BookPageMobile extends StatelessWidget {
 
   _bookDetails(BuildContext context){
     return SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         height: Get.height * 0.9,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +105,7 @@ class BookPageMobile extends StatelessWidget {
             onTap: (){
               Get.back();
             },
-            child:   Align(
+            child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: Get.width * 0.1, top: 20),
@@ -111,12 +113,14 @@ class BookPageMobile extends StatelessWidget {
               ),
             ),
           ),
-            Container(
+            SizedBox(
               height: Get.height * 0.6,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Obx((){
+                  Global.guest
+                      ? const Center()
+                      : Obx((){
                     return  GestureDetector(
                       onTap: (){
                         bookPageController.calenderOpen.value = true;
@@ -151,7 +155,9 @@ class BookPageMobile extends StatelessWidget {
                       ),
                     );
                   }),
-                  DottedBorder(
+                  Global.guest
+                      ? const Center()
+                      : DottedBorder(
                       color: AppStyle.primary,
                       dashPattern: const [10, 4],
                       strokeWidth: 2,
@@ -190,19 +196,25 @@ class BookPageMobile extends StatelessWidget {
                                   _iconContainer('Driving license', 'driving-license'),
                                 ],
                               ),
-                              // const Text(
-                              //     'Passport Copy, Hotel Reservation, Driving License',
-                              //     textAlign: TextAlign.center,
-                              //     style: TextStyle(
-                              //         color: AppStyle.lightGrey,
-                              //         fontFamily: 'D-DIN-PRO',
-                              //         fontSize: 15,
-                              //         fontWeight: FontWeight.bold
-                              //     ))
                             ],
                           )
                       )
                   ),
+                  Global.guest
+                      ? SizedBox(
+                    width: Get.width * 0.8,
+                    child: Text(
+                      car.title,
+                      maxLines: 3,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18
+                      ),
+                    ),
+                  )
+                      : const Center(),
+                  const SizedBox(height: 20),
                   CustomAnimatedTextField(
                     duration: 900,
                     width: 0.8,
@@ -243,6 +255,41 @@ class BookPageMobile extends StatelessWidget {
                     bottom: Get.height * 0.3,
                     validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
                   ),
+                  Global.guest
+                  ? SizedBox(
+                    width: Get.width * 0.8,
+                    height: Get.height * 0.15,
+                    child: TextField(
+                      // keyboardType: TextInputType.multiline,
+                      expands: true,
+                      maxLines: null,
+                      controller: bookPageController.msg,
+                      decoration:  InputDecoration(
+                        counterText: "",
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 2,
+                                color: AppStyle.lightGrey
+                            ),
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 2,
+                                color: AppStyle.lightGrey),
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        prefixIcon: const Icon(Icons.message, color: AppStyle.primary,),
+                        labelText: 'Message',
+                        labelStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13
+                        ),
+                      ),
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  )
+                  : const Center(),
                   SizedBox(
                     height: Get.height * 0.1,
                     width: Get.width * 0.8,
@@ -274,11 +321,15 @@ class BookPageMobile extends StatelessWidget {
             CustomButton(
                 width: 0.5,
                 height: 40,
-                text: 'BOOK NOW',
+                text: Global.guest ? 'INQUIRE NOW' : 'BOOK NOW',
                 onPressed: () async {
-                  await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
-                  detailsPageController.optionId.value = -1;
-                  detailsPageController.optionIndex.value = 0;
+                  if(Global.guest){
+                     bookPageController.addOrderGuest(car.title);
+                  }else{
+                    await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
+                    detailsPageController.optionId.value = -1;
+                    detailsPageController.optionIndex.value = 0;
+                  }
                 },
                 color: AppStyle.primary,
                 borderRadius: 5,
@@ -297,13 +348,13 @@ class BookPageMobile extends StatelessWidget {
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Image.asset('assets/icons/$icon.png', width: 30,height: 30),
+          Image.asset('assets/icons/$icon.png', width: 25,height: 25),
           const SizedBox(width: 5),
           Text(
             text,
             style: const TextStyle(
                 color: Colors.grey,
-                fontSize: 13
+                fontSize: 12
             ),
           ),
         ],

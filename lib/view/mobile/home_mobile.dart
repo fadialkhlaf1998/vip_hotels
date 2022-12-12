@@ -11,6 +11,7 @@ import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
 import 'package:vip_hotels/widget/bottomNavBar.dart';
 
+// ignore: must_be_immutable
 class HomeMobile extends StatelessWidget {
 
   HomeController homeController = Get.put(HomeController());
@@ -19,7 +20,7 @@ class HomeMobile extends StatelessWidget {
   LoginController loginController = Get.find();
   IntroController introController = Get.find();
 
-  HomeMobile(){
+  HomeMobile({super.key}){
     homeController.initLazyLoad();
   }
 
@@ -82,7 +83,7 @@ class HomeMobile extends StatelessWidget {
 
 
   _mainObject(context){
-    return  Container(
+    return  SizedBox(
         width: Get.width,
         child: Center(
           child: AnimatedSwitcher(
@@ -132,7 +133,7 @@ class HomeMobile extends StatelessWidget {
               // ),
             ],
           ),
-          Container(
+          SizedBox(
             width: Get.width,
             height: 40,
             child: Center(
@@ -219,93 +220,13 @@ class HomeMobile extends StatelessWidget {
   _carList(context){
     return SizedBox(
       key: const ValueKey(2),
-      width: Get.width * 0.95,
+      width: Get.width * 0.9,
       child: LazyLoadScrollView(
         onEndOfPage: () => homeController.addLazyLoad(),
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.08 + 110),
-            // Container(
-            //   width: Get.width,
-            //   height: 40,
-            //   child: Center(
-            //     child: ListView.builder(
-            //       shrinkWrap: true,
-            //       scrollDirection: Axis.horizontal,
-            //       itemCount: introController.carCategory.length + 1,
-            //       itemBuilder: (BuildContext context, index){
-            //         return index == 0
-            //             ? GestureDetector(
-            //           onTap: (){
-            //             if(homeController.chooseBrand.value){
-            //               homeController.chooseCarFilter(homeController.brandIndex.value);
-            //             }else{
-            //               homeController.selectIndexBottomBar(-1);
-            //             }
-            //           },
-            //           child: AnimatedContainer(
-            //             duration: const Duration(milliseconds: 200),
-            //             padding: const EdgeInsets.symmetric(horizontal: 10),
-            //             height: 40,
-            //             decoration: BoxDecoration(
-            //               border: homeController.selectionIndexBottomBar.value == -1
-            //                   ? const  Border(
-            //                   bottom: BorderSide(color: AppStyle.primary, width:  2)
-            //               ) : null,
-            //             ),
-            //             child: const Center(
-            //               child: Text(
-            //                 'All',
-            //                 style: TextStyle(
-            //                     color: Colors.white,
-            //                     fontSize: 15,
-            //                     fontFamily: 'D-DIN-PRO',
-            //                     fontWeight: FontWeight.bold
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         )
-            //             : GestureDetector(
-            //           onTap: (){
-            //             if(homeController.chooseBrand.value){
-            //               homeController.chooseCategoryForFilter(index - 1, introController.carCategory[index - 1].id);
-            //             }else{
-            //               homeController.selectIndexBottomBar(index - 1);
-            //             }
-            //           },
-            //           child: AnimatedContainer(
-            //             duration: const Duration(milliseconds: 200),
-            //             padding: const EdgeInsets.symmetric(horizontal: 10),
-            //             height: 40,
-            //             decoration: BoxDecoration(
-            //                 border: homeController.selectionIndexBottomBar.value == index - 1
-            //                     ? const  Border(
-            //                     bottom: BorderSide(color: AppStyle.primary, width:  3)
-            //                 ) : null
-            //             ),
-            //             child: Center(
-            //               child: Text(
-            //                 introController.carCategory[index - 1].title,
-            //                 style: const TextStyle(
-            //                     color: Colors.white,
-            //                     fontSize: 15,
-            //                     fontFamily: 'D-DIN-PRO',
-            //                     fontWeight: FontWeight.bold
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(height: 10),
-            // _searchTextField(context),
-            // _brandMenu(),
-            const SizedBox(height: 20),
+            SizedBox(height: Get.height * 0.08 + 130),
             homeController.loading.value
                 ? SizedBox(
                   width: Get.width - 120,
@@ -318,10 +239,10 @@ class HomeMobile extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 3/3,
+                childAspectRatio: 6/4
               ),
               itemCount: homeController.lazyLoad.value,
               itemBuilder: (BuildContext context, index){
@@ -337,8 +258,8 @@ class HomeMobile extends StatelessWidget {
 
   _carFilterList(context){
     return SizedBox(
-      key: ValueKey(1),
-      width: Get.width * 0.95,
+      key: const ValueKey(1),
+      width: Get.width * 0.9,
       child: LazyLoadScrollView(
         onEndOfPage: ()=>homeController.addLazyLoadFilter(),
         child: ListView(
@@ -368,10 +289,10 @@ class HomeMobile extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 3/3,
+                childAspectRatio: 6/4,
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
@@ -445,15 +366,15 @@ class HomeMobile extends StatelessWidget {
                       homeController.filterCarList[index].title,
                       maxLines: 1,
                       style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 15,
                           color: Colors.white,
                           fontStyle: FontStyle.italic
                       ),
                     ),
                     Text(
-                      'AED ${homeController.filterCarList[index].price} / Daily',
+                      !Global.guest ? 'Rent: AED ${introController.allCars[index].price} / Daily' : 'Rent: AED **** / Daily',
                       style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic
                       ),
@@ -501,21 +422,9 @@ class HomeMobile extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.topLeft,
                 children: [
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //       borderRadius: const BorderRadius.only(
-                  //         topLeft: Radius.circular(20),
-                  //         topRight: Radius.circular(20),
-                  //       ),
-                  //       image: DecorationImage(
-                  //         fit: BoxFit.cover,
-                  //         image: NetworkImage(introController.allCars[index].image),
-                  //       )
-                  //   ),
-                  // ),
                   Container(
-                    width: Get.width * 0.5,
-                    height: Get.width * 0.5,
+                    width: Get.width * 0.9,
+                    height: Get.height * 0.2,
                     decoration: const BoxDecoration(
                       borderRadius:  BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -535,7 +444,7 @@ class HomeMobile extends StatelessWidget {
                           if (loadingProgress == null) return child;
                           return SizedBox(
                             width: Get.width * 0.3,
-                            height: Get.width * 0.3,
+                            height: Get.height * 0.2,
                             child: Center(
                               child: CircularProgressIndicator(
                                 strokeWidth: 3,
@@ -578,15 +487,16 @@ class HomeMobile extends StatelessWidget {
                       introController.allCars[index].title,
                       maxLines: 2,
                       style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 15,
                           color: Colors.white,
                           fontStyle: FontStyle.italic
                       ),
                     ),
+
                     Text(
-                      'AED ${introController.allCars[index].price} / Daily',
+                      !Global.guest ? 'Rent: AED ${introController.allCars[index].price} / Daily' : 'Rent: AED **** / Daily',
                       style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic,
                       ),
@@ -639,7 +549,7 @@ class HomeMobile extends StatelessWidget {
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: homeController.filterCarList[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
-                      fontSize: 11
+                      fontSize: 12
                   ),
                 ),
               ),
@@ -666,7 +576,7 @@ class HomeMobile extends StatelessWidget {
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.black,
-                      fontSize: 11
+                      fontSize: 12
                   ),
                 ),
               ),
@@ -702,7 +612,7 @@ class HomeMobile extends StatelessWidget {
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
                       color: introController.allCars[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
-                      fontSize: 11
+                      fontSize: 12
                   ),
                 ),
               ),
@@ -729,7 +639,7 @@ class HomeMobile extends StatelessWidget {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.black,
-                    fontSize: 11,
+                    fontSize: 12,
                     // shadows: [
                     //   Shadow(color: Colors.black,blurRadius: 1)
                     // ]
@@ -1015,20 +925,6 @@ class CustomSearchClass extends SearchDelegate {
   }
 
 
-  // @override
-  // ThemeData appBarTheme(BuildContext context) {
-  //   final ThemeData theme = Theme.of(context).copyWith(
-  //     textTheme: const TextTheme(
-  //       headline6: TextStyle(
-  //         color: Colors.black,
-  //         fontSize: 18.0,
-  //         fontFamily: 'conthrax',
-  //       ),
-  //     ),
-  //   );
-  //   return theme;
-  // }
-
   @override
   Widget buildResults(BuildContext context) {
     // introController.searchCarList.clear();
@@ -1076,7 +972,7 @@ class CustomSearchClass extends SearchDelegate {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Container(
+                          SizedBox(
                             width: Get.width * 0.28,
                             child:  Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1115,7 +1011,7 @@ class CustomSearchClass extends SearchDelegate {
             element.title.toLowerCase().contains(query)).toList();
 
     return query.isEmpty
-        ? Center()
+        ? const Center()
         : Container(
         margin: const EdgeInsets.all(5),
         child: GridView.builder(
@@ -1154,7 +1050,7 @@ class CustomSearchClass extends SearchDelegate {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          Container(
+                          SizedBox(
                             width: Get.width * 0.28,
                             child:  Column(
                               mainAxisAlignment: MainAxisAlignment.center,

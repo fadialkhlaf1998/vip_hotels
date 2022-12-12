@@ -11,6 +11,7 @@ class Global {
   static String image = '';
   static String email = '';
   static int companyId = -1;
+  static bool guest = false;
 
 
   static saveUserInformation(String id, String title, String username, String password, String image, int companyId, String email) async {
