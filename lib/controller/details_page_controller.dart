@@ -21,7 +21,7 @@ class DetailsPageController extends GetxController{
   RxInt mainCarImageIndex = 1.obs;
   RxBool openGallery = false.obs;
   RxBool changeColor = false.obs;
-
+  RxBool loading = false.obs;
 
   @override
   void onInit() {
@@ -56,6 +56,7 @@ class DetailsPageController extends GetxController{
   }
 
   shareCar(String image, String name, String shareLink) async {
+    loading.value = true;
     final url = Uri.parse(image);
     final response = await http.get(url);
     final bytes = response.bodyBytes;
@@ -63,8 +64,8 @@ class DetailsPageController extends GetxController{
     final temp = await getTemporaryDirectory();
     final path = '${temp.path}/image.jpg';
     File(path).writeAsBytesSync(bytes);
-
     await Share.shareFiles([path], text: '$name \n\n $shareLink');
+    loading.value = false;
   }
 
 }

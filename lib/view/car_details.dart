@@ -18,182 +18,192 @@ import 'package:vip_hotels/widget/theme_circle.dart';
 
 // ignore: must_be_immutable
 class CarDetails extends StatelessWidget {
-
   HomeController homeController = Get.find();
   DetailsPageController detailsPageController = Get.find();
 
   Car car = Get.arguments[0];
 
-  CarDetails({super.key}){
+  CarDetails({super.key}) {
     detailsPageController.mainCarImageIndex.value = 1;
   }
-
 
   @override
   Widget build(BuildContext context) {
     detailsPageController.optionIndex.value = 0;
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
-        statusBarIconBrightness: Brightness.light
-
-    ));
+        statusBarIconBrightness: Brightness.light));
     return WillPopScope(
-      onWillPop: ()async{
-        if(homeController.themeOpenPage.value || detailsPageController.openGallery.value){
+      onWillPop: () async {
+        if (homeController.themeOpenPage.value ||
+            detailsPageController.openGallery.value) {
           homeController.themeOpenPage.value = false;
           homeController.selectIndexSidebar.value = -1;
           detailsPageController.openGallery.value = false;
           return false;
-        }else{
+        } else {
           return true;
         }
       },
       child: Scaffold(
-        body: SafeArea(
-            child: OrientationBuilder(
-              builder: (context, oriented){
-                return Obx((){
-                  return Stack(
-                    alignment: Alignment.topCenter,
+        body: SafeArea(child: OrientationBuilder(
+          builder: (context, oriented) {
+            return Obx(() {
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  BackgroundImage(),
+                  /// car details
+                  Row(
                     children: [
-                      BackgroundImage(),
-                      /// car details
-                      Row(
-                        children: [
-                          oriented == Orientation.portrait
-                              ? _carDetailsPortrait()
-                              :  _carDetails(),
-                        ],
+                      oriented == Orientation.portrait
+                          ? _carDetailsPortrait()
+                          : _carDetails(),
+                    ],
+                  ),
+                  /// sideBar and logo
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: Get.height,
+                        child: Center(
+                          child: CustomSideBarDetailsPage(
+                            width: 60,
+                            color: Colors.transparent,
+                            selectIndex:
+                                homeController.selectIndexSidebar.value,
+                            space: 40,
+                          ),
+                        ),
                       ),
-                      /// sideBar and logo
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Stack(
+                        alignment: Alignment.topCenter,
                         children: [
                           SizedBox(
-                            height: Get.height,
-                            child: Center(
-                              child: CustomSideBarDetailsPage(
-                                width: 60,
-                                color: Colors.transparent,
-                                selectIndex: homeController.selectIndexSidebar.value,
-                                space: 40,
-                              ),
-                            ),
+                            width: Get.width * 0.35,
+                            height: Get.height * 0.2,
+                            child: SvgPicture.asset('assets/icons/triangle.svg',
+                                fit: BoxFit.contain,
+                                alignment: Alignment.topCenter),
                           ),
-                          Stack(
-                            alignment: Alignment.topCenter,
-                            children: [
-                              SizedBox(
-                                width: Get.width * 0.35,
-                                height:  Get.height * 0.2,
-                                child: SvgPicture.asset('assets/icons/triangle.svg',fit: BoxFit.contain, alignment: Alignment.topCenter),
-                              ),
-                              Container(
-                                width: Get.width * 0.15,
-                                height: Get.height * 0.1,
-                                margin: const EdgeInsets.only(top: 5),
-                                child: Image.network(Global.image, fit: BoxFit.contain),
-                              ),
-                            ],
+                          Container(
+                            width: Get.width * 0.15,
+                            height: Get.height * 0.1,
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Image.network(Global.image,
+                                fit: BoxFit.contain),
                           ),
-                          const SizedBox(width: 60)
                         ],
                       ),
-                      /// Car Image
-                      Positioned(
-                        left: 50,
-                        top: 20,
-                        child: GestureDetector(
-                          onTap: (){
-                            homeController.selectIndexSidebar.value = -1;
-                            Get.back();
-                          },
-                          child: const SizedBox(
-                            child: Icon(Icons.arrow_back_ios, color: Colors.white,size: 35),
+                      const SizedBox(width: 60)
+                    ],
+                  ),
+                  /// Car Image
+                  Positioned(
+                    left: 50,
+                    top: 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        homeController.selectIndexSidebar.value = -1;
+                        Get.back();
+                      },
+                      child: const SizedBox(
+                        child: Icon(Icons.arrow_back_ios,
+                            color: Colors.white, size: 35),
+                      ),
+                    ),
+                  ),
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 700),
+                    right: detailsPageController.optionChangeTimer.value
+                        ? -80
+                        : 40,
+                    curve: Curves.fastOutSlowIn,
+                    bottom: 0,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 600),
+                      child: !detailsPageController.optionChangeTimer.value
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: Get.width * 0.3,
+                                  bottom: Get.width * 0.1),
+                              width: Get.width * 0.55,
+                              height: Get.height * 0.35,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          '${Api.url}uploads/${car.options[detailsPageController.optionIndex.value].images.split(',')[0]}'))),
+                            )
+                          : const Text(''),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: GestureDetector(onTap: () {
+                      detailsPageController.openGallery.value = true;
+                    }, child: Obx(() {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 1400),
+                        curve: Curves.fastOutSlowIn,
+                        padding: const EdgeInsets.only(bottom: 2),
+                        margin: EdgeInsets.only(
+                            bottom: Get.height * 0.07, right: 70),
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  detailsPageController.changeColor.value
+                                      ? AppStyle.primary
+                                      : AppStyle.primary.withOpacity(0),
+                                  AppStyle.primary.withOpacity(0)
+                                ]),
+                            border: const Border(
+                                bottom: BorderSide(
+                                    width: 2, color: AppStyle.primary))),
+                        child: const Text(
+                          'More Images',
+                          style: TextStyle(
+                            inherit: true,
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontStyle: FontStyle.italic,
                           ),
                         ),
-                      ),
-                      AnimatedPositioned(
-                        duration: const Duration(milliseconds: 700),
-                        right: detailsPageController.optionChangeTimer.value ? -80 : 80,
-                        curve: Curves.fastOutSlowIn,
-                        bottom: 0,
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 600),
-                          child: !detailsPageController.optionChangeTimer.value ? Container(
-                            margin: EdgeInsets.only(left: Get.width * 0.3,bottom: Get.width * 0.1),
-                            width: Get.width * 0.6,
-                            height: Get.height * 0.35,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage('${Api.url}uploads/${car.options[detailsPageController.optionIndex.value].images.split(',')[0]}')
-                                )
-                            ),
-                          ) : const Text(''),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: GestureDetector(
-                            onTap: (){
-                              detailsPageController.openGallery.value = true;
-                            },
-                            child:Obx((){
-                              return  AnimatedContainer(
-                                duration: const Duration(milliseconds: 1400),
-                                curve: Curves.fastOutSlowIn,
-                                padding: const EdgeInsets.only(bottom: 2),
-                                margin: EdgeInsets.only(bottom: Get.height * 0.07, right: 70),
-                                decoration:  BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end:   Alignment.topCenter,
-                                        colors: [
-                                          detailsPageController.changeColor.value ? AppStyle.primary : AppStyle.primary.withOpacity(0),
-                                          AppStyle.primary.withOpacity(0)
-                                        ]
-                                    ),
-                                    border: const Border(
-                                        bottom: BorderSide(width: 2, color: AppStyle.primary)
-                                    )
-                                ),
-                                child: const Text(
-                                  'More Images',
-                                  style: TextStyle(
-                                    inherit: true,
-                                    color: Colors.white ,
-                                    fontSize: 24,
-                                    fontStyle: FontStyle.italic,
-                                  ),
-                                ),
-                              );
-                            })
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: _bottomBar(),
-                      ),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: homeController.themeOpenPage.value ? ThemeCircle() : const Text(''),
-                      ),
-                      oriented == Orientation.portrait
-                          ? CarGalleryPortrait(carImage: car.options[detailsPageController.optionIndex.value].images)
-                          : CarGallery(carImage: car.options[detailsPageController.optionIndex.value].images)
-                    ],
-                  );
-                });
-              },
-            )
-        ),
+                      );
+                    })),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _bottomBar(),
+                  ),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: homeController.themeOpenPage.value
+                        ? ThemeCircle()
+                        : const Text(''),
+                  ),
+                  oriented == Orientation.portrait
+                      ? CarGalleryPortrait(
+                          carImage: car
+                              .options[detailsPageController.optionIndex.value]
+                              .images)
+                      : CarGallery(
+                          carImage: car
+                              .options[detailsPageController.optionIndex.value]
+                              .images),
+                ],
+              );
+            });
+          },
+        )),
       ),
     );
   }
 
-  _carDetailsPortrait(){
+  _carDetailsPortrait() {
     return Container(
       padding: const EdgeInsets.only(left: 100),
       width: Get.width * 0.5,
@@ -201,8 +211,8 @@ class CarDetails extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-             Colors.black.withOpacity(0.9),
-             Colors.black.withOpacity(0.25),
+            Colors.black.withOpacity(0.9),
+            Colors.black.withOpacity(0.25),
           ],
         ),
       ),
@@ -217,14 +227,13 @@ class CarDetails extends StatelessWidget {
               width: Get.width * 0.05,
               height: Get.width * 0.05,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(car.brandImage)
-                )
-              ),
+                  image: DecorationImage(image: NetworkImage(car.brandImage))),
             ),
           ),
           SizedBox(
-            height: car.description.length > 10 ? Get.height * 0.45 : Get.height * 0.3,
+            height: car.description.length > 10
+                ? Get.height * 0.55
+                : Get.height * 0.3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -232,12 +241,13 @@ class CarDetails extends StatelessWidget {
                   width: Get.width * 0.4,
                   child: Text(
                     car.title,
-                    textAlign: car.description.length > 10 ? TextAlign.start : TextAlign.center,
+                    textAlign: car.description.length > 10
+                        ? TextAlign.start
+                        : TextAlign.center,
                     style: const TextStyle(
                         fontSize: 30,
                         color: Colors.white,
-                        fontStyle: FontStyle.italic
-                    ),
+                        fontStyle: FontStyle.italic),
                   ),
                 ),
                 SizedBox(
@@ -246,11 +256,7 @@ class CarDetails extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Html(
                       data: car.description,
-                      style: {
-                        '*' : Style(
-                            color: Colors.white
-                        )
-                      },
+                      style: {'*': Style(color: Colors.white)},
                     ),
                   ),
                 ),
@@ -266,78 +272,95 @@ class CarDetails extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                 width: Get.width * 0.4,
-                 child: Text(
-                   !Global.guest ? 'AED ${car.price.toString()} / Daily' : 'AED **** / Daily',
-                   // 'AED ${car.price.toString()} / Daily',
-                   textAlign: TextAlign.center,
-                   style: const TextStyle(
-                       fontSize: 23,
-                       color: Colors.white,
-                       fontStyle: FontStyle.italic,
-                       fontWeight: FontWeight.bold
-                   ),
-                 ),
-               ),
-               Row(
-                 children: [
-                   GestureDetector(
-                     onTap: (){
-                       if(detailsPageController.optionId.value == -1){
-                         detailsPageController.optionId.value = car.options.first.id;
-                       }
-                       Get.toNamed('/book', arguments: [car]);
-                     },
-                     child: Container(
-                       width: Get.width * 0.16,
-                       height: 50,
-                       decoration: BoxDecoration(
-                           color: AppStyle.primary,
-                           borderRadius: BorderRadius.circular(5)
-                       ),
-                       child: const Center(
-                         child: Text(
-                           'Book now',
-                           style: TextStyle(
-                             fontSize: 17,
-                           ),
-                         ),
-                       ),
-                     ),
-                   ),
-                   const SizedBox(width: 15),
-                   car.shareLink.isNotEmpty
-                       ? GestureDetector(
-                     onTap: () async {
-                       if(detailsPageController.optionId.value == -1){
-                         detailsPageController.optionId.value = car.options.first.id;
-                       }
-                       await detailsPageController.shareCar(car.image, car.title, car.shareLink);
-                     },
-                     child: Container(
-                       width: Get.width * 0.16,
-                       height: 50,
-                       decoration: BoxDecoration(
-                           color: Colors.white,
-                           borderRadius: BorderRadius.circular(5)
-                       ),
-                       child:  Center(
-                         child: Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: const [
-                             Text(
-                               'Share',
-                             ),
-                             SizedBox(width: 5),
-                             Icon(Icons.share, color: AppStyle.grey)
-                           ],
-                         ),
-                       )
-                     ),
-                   )
-                   : const Center(),
-                 ],
-               ),
+                  width: Get.width * 0.4,
+                  child: Text(
+                    !Global.guest
+                        ? 'AED ${car.price.toString()} / Daily'
+                        : 'AED **** / Daily',
+                    // 'AED ${car.price.toString()} / Daily',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 23,
+                        color: Colors.white,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  width: Get.width * 0.5,
+                  child:   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (detailsPageController.optionId.value == -1) {
+                            detailsPageController.optionId.value =
+                                car.options.first.id;
+                          }
+                          Get.toNamed('/book', arguments: [car]);
+                        },
+                        child: Container(
+                          width: Get.width * 0.16,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: AppStyle.primary,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                            child: Text(
+                              'Book now',
+                              style: TextStyle(
+                                fontSize: 17,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      car.shareLink.isNotEmpty
+                          ? GestureDetector(
+                        onTap: () async {
+                          if (detailsPageController.optionId.value == -1) {
+                            detailsPageController.optionId.value =
+                                car.options.first.id;
+                          }
+                          await detailsPageController.shareCar(
+                              car.image, car.title, car.shareLink);
+                        },
+                        child: Container(
+                            width: Get.width * 0.16,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Center(
+                              child: detailsPageController.loading.value
+                                  ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30),
+                                child: const LinearProgressIndicator(
+                                  color: Colors.black,
+                                  backgroundColor: Colors.grey,
+                                ),
+                              )
+                                  : Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'Share',
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(Icons.share,
+                                      color: AppStyle.grey)
+                                ],
+                              ),
+                            )),
+                      )
+                          : const Center(),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -348,7 +371,7 @@ class CarDetails extends StatelessWidget {
     );
   }
 
-  _carDetails(){
+  _carDetails() {
     return Container(
       padding: const EdgeInsets.only(left: 100),
       width: Get.width * 0.5,
@@ -372,10 +395,7 @@ class CarDetails extends StatelessWidget {
               width: Get.width * 0.05,
               height: Get.width * 0.05,
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(car.brandImage)
-                  )
-              ),
+                  image: DecorationImage(image: NetworkImage(car.brandImage))),
             ),
           ),
           SizedBox(
@@ -385,8 +405,7 @@ class CarDetails extends StatelessWidget {
               style: const TextStyle(
                   fontSize: 30,
                   color: Colors.white,
-                  fontStyle: FontStyle.italic
-              ),
+                  fontStyle: FontStyle.italic),
             ),
           ),
           SizedBox(
@@ -395,11 +414,7 @@ class CarDetails extends StatelessWidget {
             child: SingleChildScrollView(
               child: Html(
                 data: car.description,
-                style: {
-                  '*' : Style(
-                      color: Colors.white
-                  )
-                },
+                style: {'*': Style(color: Colors.white)},
               ),
             ),
           ),
@@ -415,20 +430,21 @@ class CarDetails extends StatelessWidget {
             ),
           ),
           Text(
-            !Global.guest ? 'AED ${car.price.toString()} / Daily' : 'AED **** / Daily',
+            !Global.guest
+                ? 'AED ${car.price.toString()} / Daily'
+                : 'AED **** / Daily',
             // 'AED ${car.price.toString()} / Daily',
             style: const TextStyle(
                 fontSize: 31,
                 color: Colors.white,
                 fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold
-            ),
+                fontWeight: FontWeight.bold),
           ),
           Row(
             children: [
               GestureDetector(
-                onTap: (){
-                  if(detailsPageController.optionId.value == -1){
+                onTap: () {
+                  if (detailsPageController.optionId.value == -1) {
                     detailsPageController.optionId.value = car.options.first.id;
                   }
                   Get.toNamed('/book', arguments: [car]);
@@ -438,8 +454,7 @@ class CarDetails extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                       color: AppStyle.primary,
-                      borderRadius: BorderRadius.circular(5)
-                  ),
+                      borderRadius: BorderRadius.circular(5)),
                   child: const Center(
                     child: Text(
                       'Book now',
@@ -453,37 +468,46 @@ class CarDetails extends StatelessWidget {
               const SizedBox(width: 15),
               car.shareLink.isNotEmpty
                   ? GestureDetector(
-                onTap: () async {
-                  if(detailsPageController.optionId.value == -1){
-                    detailsPageController.optionId.value = car.options.first.id;
-                  }
-                  await detailsPageController.shareCar(car.image, car.title, car.shareLink);
-                },
-                child: Container(
-                    width: Get.width * 0.15,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                    child:  Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'Share',
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Icon(Icons.share, color: AppStyle.grey)
-                        ],
-                      ),
+                      onTap: () async {
+                        if (detailsPageController.optionId.value == -1) {
+                          detailsPageController.optionId.value =
+                              car.options.first.id;
+                        }
+                        await detailsPageController.shareCar(
+                            car.image, car.title, car.shareLink);
+                      },
+                      child: Container(
+                          width: Get.width * 0.15,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Center(
+                            child: detailsPageController.loading.value
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    child: const LinearProgressIndicator(
+                                      color: Colors.black,
+                                      backgroundColor: Colors.grey,
+                                    ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        'Share',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Icon(Icons.share, color: AppStyle.grey)
+                                    ],
+                                  ),
+                          )),
                     )
-                ),
-              )
-              : const Center(),
+                  : const Center(),
             ],
           ),
           // GestureDetector(
@@ -517,46 +541,42 @@ class CarDetails extends StatelessWidget {
     );
   }
 
-  _customIcon(String icon, String data){
+  _customIcon(String icon, String data) {
     return Row(
       children: [
-        SvgPicture.asset('assets/icons/$icon.svg', color: AppStyle.primary,width: 20,height: 20,fit: BoxFit.cover),
+        SvgPicture.asset('assets/icons/$icon.svg',
+            color: AppStyle.primary, width: 20, height: 20, fit: BoxFit.cover),
         const SizedBox(width: 10),
         Text(
-            data,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 17
-          ),
+          data,
+          style: const TextStyle(color: Colors.white, fontSize: 17),
         )
       ],
     );
   }
 
-  _bottomBar(){
+  _bottomBar() {
     return Container(
       height: Get.height * 0.07,
       width: Get.width,
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
-                Colors.black.withOpacity(0.7),
-                Colors.black.withOpacity(0.1)
-              ]
-          )
-      ),
+            Colors.black.withOpacity(0.7),
+            Colors.black.withOpacity(0.1)
+          ])),
       child: Center(
         child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemCount: car.options.length,
-          itemBuilder: (BuildContext context, index){
+          itemBuilder: (BuildContext context, index) {
             String color = '0xFF${car.options[index].color.substring(1)}';
             return GestureDetector(
-              onTap: (){
+              onTap: () {
                 detailsPageController.optionId.value = car.options[index].id;
                 detailsPageController.changeOptionColor(index);
               },
@@ -566,13 +586,13 @@ class CarDetails extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 height: Get.height * 0.09,
                 decoration: BoxDecoration(
-                  border: detailsPageController.optionIndex.value == index ? Border(
-                    bottom:  BorderSide(
-                        color: Color(int.parse(color)),
-                      width: 3,
-                    )
-                  ) : null
-                ),
+                    border: detailsPageController.optionIndex.value == index
+                        ? Border(
+                            bottom: BorderSide(
+                            color: Color(int.parse(color)),
+                            width: 3,
+                          ))
+                        : null),
                 child: Center(
                   child: Text(
                     car.options[index].title,
@@ -580,8 +600,7 @@ class CarDetails extends StatelessWidget {
                         color: Colors.grey,
                         fontSize: 25,
                         fontFamily: 'D-DIN-PRO',
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -591,7 +610,4 @@ class CarDetails extends StatelessWidget {
       ),
     );
   }
-
-
 }
-
