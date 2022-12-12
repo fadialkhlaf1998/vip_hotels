@@ -26,16 +26,18 @@ class IntroController extends GetxController{
         brandList.clear();
         allCars.clear();
         searchCarList.clear();
-        bool res = await getLoginData();
-        isTablet ? Get.offNamed('/home') : Get.offNamed('/homeMobile');
-      }else{
+        await getLoginData();
         isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
+      }else{
+      isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
       }
 
   }
 
   Future<bool> getLoginData()async{
-    AllData? data= await Api.login(Global.username, Global.password);
+    print('-------------');
+    AllData? data = await Api.login(Global.username, Global.password);
+    print(data);
     if(data == null){
       return await getLoginData();
     }else{
