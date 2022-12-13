@@ -35,9 +35,7 @@ class IntroController extends GetxController{
   }
 
   Future<bool> getLoginData()async{
-    print('-------------');
     AllData? data = await Api.login(Global.username, Global.password);
-    print(data);
     if(data == null){
       return await getLoginData();
     }else{
