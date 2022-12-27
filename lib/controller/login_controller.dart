@@ -31,6 +31,7 @@ class LoginController extends GetxController{
       await  Api.login(username.text, password.text).then((data) async {
         if(data != null){
           /// get data
+          print(data.username);
           await Global.saveUserInformation(data.id.toString(), data.title, data.username, data.password, data.image, data.companyId,data.email);
           Global.guest = false;
           introController.carCategory.addAll(data.category);

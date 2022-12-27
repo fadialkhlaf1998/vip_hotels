@@ -27,7 +27,7 @@ class IntroController extends GetxController{
         allCars.clear();
         searchCarList.clear();
         await getLoginData();
-        isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
+        isTablet ? Get.offNamed('/home') : Get.offNamed('/homeMobile');
       }else{
       isTablet ? Get.offNamed('/login') : Get.offNamed('/loginMobile');
       }
