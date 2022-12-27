@@ -34,7 +34,8 @@ class Global {
     image = prefs.getString('image') ?? "";
     companyId = prefs.getInt('companyId') ?? -1;
     email = prefs.getString('email') ?? '';
-
+    Global.username = username;
+    Global.password = password;
     return true;
   }
 
