@@ -283,6 +283,7 @@ class BookPage extends StatelessWidget {
                 bottom: Get.height * 0.3,
                 validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
               ),
+              SizedBox(height:MediaQuery.of(context).viewInsets.bottom)
             ],
           ),
         ),
