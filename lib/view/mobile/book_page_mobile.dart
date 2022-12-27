@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vip_hotels/controller/book_page_controller.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
@@ -73,7 +74,22 @@ class BookPageMobile extends StatelessWidget {
                   ),
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
-                    child: bookPageController.loading.value
+                    child: bookPageController.uploadBar.value ?
+                    Container(
+                      width: Get.width,
+                      height: Get.height,
+                      color: Colors.black.withOpacity(0.5),
+                      child: Center(
+                        child: CircularPercentIndicator(
+                          radius: 60.0,
+                          lineWidth: 5.0,
+                          percent: bookPageController.progress.value,
+                          center: Text((bookPageController.progress.value * 100).toStringAsFixed(2)+"%",style: TextStyle(color: AppStyle.primary,fontWeight: FontWeight.bold),),
+                          progressColor: AppStyle.primary,
+                        ),
+                      ),
+                    )
+                        :bookPageController.loading.value
                         ? Container(
                       width: Get.width,
                       height: Get.height,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:vip_hotels/model/all_data.dart';
 import 'package:vip_hotels/services/global.dart';
+import 'package:dio/dio.dart';
 
 class Api {
 
@@ -93,6 +94,47 @@ class Api {
     }
     else {
       print(response.reasonPhrase);
+      return false;
+    }
+
+  }
+
+  static Future addOrderProgress(String from, String to, String carId, String? optionId, List<File> images,String phone, String email, String name ) async {
+    var dio = Dio();
+
+    var formData = FormData.fromMap({
+      '_from': from,
+      '_to': to,
+      'phone': phone,
+      'email': email,
+      'name': name,
+      'car_id': carId,
+      'hotel_id': Global.id,
+      'option_id': optionId!,
+      'company_id': Global.companyId.toString(),
+    });
+    for (int i = 0; i < images.length; i++) {
+      formData.files.addAll([
+        MapEntry('files',await MultipartFile.fromFile(images[i].path)),
+      ]);
+    }
+    print(formData.fields);
+    var response = await dio.post(
+      '${url}api/orders',
+      data: formData,
+
+      onSendProgress: (int sent, int total) {
+        print('time====');
+        print("$sent $total");
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // print(await response.stream.bytesToString());
+      return true;
+    }
+    else {
+      // print(response.reasonPhrase);
       return false;
     }
 

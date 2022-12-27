@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vip_hotels/controller/book_page_controller.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
@@ -32,7 +33,8 @@ class BookPage extends StatelessWidget {
         child: OrientationBuilder(
           builder: (context, oriented){
             return Obx((){
-              return SingleChildScrollView(
+              print(bookPageController.fake.value);
+            return SingleChildScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 child: SizedBox(
                   height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
@@ -45,6 +47,7 @@ class BookPage extends StatelessWidget {
                           Stack(
                             alignment: Alignment.center,
                             children: [
+                              bookPageController.fake.value?Center():Center(),
                               CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
                               oriented == Orientation.portrait ? _bookDetailsPortrait(context) : _bookDetails(context),
                               AnimatedSwitcher(
@@ -80,9 +83,25 @@ class BookPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                      // bookPageController.fake.value?Center():Center(),
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 500),
-                        child: bookPageController.loading.value
+                        child: bookPageController.uploadBar.value ?
+                        Container(
+                          width: Get.width,
+                          height: Get.height,
+                          color: Colors.black.withOpacity(0.5),
+                          child: Center(
+                            child: CircularPercentIndicator(
+                              radius: 60.0,
+                              lineWidth: 5.0,
+                              percent: bookPageController.progress.value,
+                              center: Text((bookPageController.progress.value * 100).toStringAsFixed(2)+"%",style: TextStyle(color: AppStyle.primary,fontWeight: FontWeight.bold),),
+                              progressColor: AppStyle.primary,
+                            ),
+                          ),
+                        )
+                            :bookPageController.loading.value
                             ? Container(
                           width: Get.width,
                           height: Get.height,
@@ -139,53 +158,55 @@ class BookPage extends StatelessWidget {
         ),
         Global.guest
             ? const Center()
-        : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomAnimatedTextField(
-              duration: 900,
-              width: 0.4,
-              height: 70,
-              controller: bookPageController.name,
-              prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
-              keyboardType: TextInputType.text,
-              labelText: 'Enter your name',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right: Get.width * 0.1,
-              bottom: Get.height * 0.5,
-              validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
-            ),
-            const SizedBox(height: 20),
-            CustomAnimatedTextField(
-              duration: 1500,
-              width: 0.4,
-              height: 70,
-              controller: bookPageController.email,
-              prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
-              keyboardType: TextInputType.emailAddress,
-              labelText: 'Enter your email',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right: Get.width * 0.1,
-              bottom: Get.height * 0.4,
-              validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
-                  (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
-            ),
-            const SizedBox(height: 20),
-            CustomAnimatedPhoneField(
-              duration: 1100,
-              width: 0.4,
-              height: 70,
-              controller: bookPageController.phone,
-              prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
-              keyboardType: TextInputType.number,
-              labelText: 'Phone',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right:Get.width * 0.1,
-              bottom: Get.height * 0.3,
-              validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
-            ),
-          ],
+        : SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomAnimatedTextField(
+                duration: 900,
+                width: 0.4,
+                height: 70,
+                controller: bookPageController.name,
+                prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+                keyboardType: TextInputType.text,
+                labelText: 'Enter your name',
+                // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                right: Get.width * 0.1,
+                bottom: Get.height * 0.5,
+                validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
+              ),
+              const SizedBox(height: 20),
+              CustomAnimatedTextField(
+                duration: 1500,
+                width: 0.4,
+                height: 70,
+                controller: bookPageController.email,
+                prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+                keyboardType: TextInputType.emailAddress,
+                labelText: 'Enter your email',
+                // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                right: Get.width * 0.1,
+                bottom: Get.height * 0.4,
+                validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+                    (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
+              ),
+              const SizedBox(height: 20),
+              CustomAnimatedPhoneField(
+                duration: 1100,
+                width: 0.4,
+                height: 70,
+                controller: bookPageController.phone,
+                prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+                keyboardType: TextInputType.number,
+                labelText: 'Phone',
+                // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                right:Get.width * 0.1,
+                bottom: Get.height * 0.3,
+                validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+              ),
+            ],
+          ),
         ),
 
       ],
@@ -215,53 +236,55 @@ class BookPage extends StatelessWidget {
         ),
         Global.guest
         ? const Center()
-        : Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomAnimatedTextField(
-              duration: 900,
-              width: 0.3,
-              height: 60,
-              controller: bookPageController.name,
-              prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
-              keyboardType: TextInputType.text,
-              labelText: 'Enter your name',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right: Get.width * 0.1,
-              bottom: Get.height * 0.5,
-              validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
-            ),
-            const SizedBox(height: 20),
-            CustomAnimatedTextField(
-              duration: 1500,
-              width: 0.3,
-              height: 60,
-              controller: bookPageController.email,
-              prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
-              keyboardType: TextInputType.emailAddress,
-              labelText: 'Enter your email',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right: Get.width * 0.1,
-              bottom: Get.height * 0.4,
-              validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
-                  (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
-            ),
-            const SizedBox(height: 20),
-            CustomAnimatedPhoneField(
-              duration: 1100,
-              width: 0.3,
-              height: 60,
-              controller: bookPageController.phone,
-              prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
-              keyboardType: TextInputType.number,
-              labelText: 'Phone',
-              // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
-              right:Get.width * 0.1,
-              bottom: Get.height * 0.3,
-              validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
-            ),
-          ],
+        : SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomAnimatedTextField(
+                duration: 900,
+                width: 0.3,
+                height: 60,
+                controller: bookPageController.name,
+                prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+                keyboardType: TextInputType.text,
+                labelText: 'Enter your name',
+                // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                right: Get.width * 0.1,
+                bottom: Get.height * 0.5,
+                validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
+              ),
+              const SizedBox(height: 20),
+              CustomAnimatedTextField(
+                duration: 1500,
+                width: 0.3,
+                height: 60,
+                controller: bookPageController.email,
+                prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+                keyboardType: TextInputType.emailAddress,
+                labelText: 'Enter your email',
+                // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                right: Get.width * 0.1,
+                bottom: Get.height * 0.4,
+                validate: (bookPageController.email.text.isEmpty && bookPageController.validate.value) ||
+                    (!RegExp(r'\S+@\S+\.\S+').hasMatch(bookPageController.email.text)&& bookPageController.validate.value) ,
+              ),
+              const SizedBox(height: 20),
+              CustomAnimatedPhoneField(
+                duration: 1100,
+                width: 0.3,
+                height: 60,
+                controller: bookPageController.phone,
+                prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+                keyboardType: TextInputType.number,
+                labelText: 'Phone',
+                // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                right:Get.width * 0.1,
+                bottom: Get.height * 0.3,
+                validate: bookPageController.phone.text.length < 10 && bookPageController.validate.value,
+              ),
+            ],
+          ),
         ),
       ],
     );

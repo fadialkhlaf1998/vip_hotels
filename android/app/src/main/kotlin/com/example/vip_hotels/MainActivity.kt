@@ -1,4 +1,4 @@
-package com.example.vip_hotels
+package com.maxart.vip_hotels
 
 import io.flutter.embedding.android.FlutterActivity
 
