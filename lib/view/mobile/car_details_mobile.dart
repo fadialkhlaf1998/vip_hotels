@@ -104,7 +104,7 @@ class CarDetailsMobile extends StatelessWidget {
                                   Text(
                                       Global.guest ? 'Rent: *** AED' : '${car.price.toString()} AED',
                                     style: const TextStyle(
-                                        color: Colors.white,
+                                        color: AppStyle.primary,
                                         fontSize: 14
                                     ),
                                   )

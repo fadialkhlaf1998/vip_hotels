@@ -63,7 +63,7 @@ class HomeMobile extends StatelessWidget {
                     children: [
                       _topBar(context),
                       CustomBottomNavBar(
-                          height: Get.height * 0.065,
+                          height: Get.height * 0.068,
                           color: Colors.black.withOpacity(0.8),
                           selectIndex: homeController.selectIndexSidebar.value,
                           space: 60
