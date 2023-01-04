@@ -102,9 +102,9 @@ class CarDetailsMobile extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                      Global.guest ? 'Rent: *** AED' : '${car.price.toString()} AED',
+                                      Global.guest ? 'Rent: *** AED / Daily' : '${car.price.toString()} AED / Daily',
                                     style: const TextStyle(
-                                        color: Colors.white,
+                                        color: AppStyle.primary,
                                         fontSize: 14
                                     ),
                                   )

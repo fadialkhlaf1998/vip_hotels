@@ -25,6 +25,7 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(top: 6),
       width: Get.width,
       height: height,
       decoration: BoxDecoration(
@@ -51,25 +52,44 @@ class CustomBottomNavBar extends StatelessWidget {
                 homeController.goToTheTop();
               }
             },
-            child: SizedBox(
-                width: 25,
-                height: 25,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: homeController.searchOpenTextDelegate.value
-                      ? SvgPicture.asset('assets/icons/search.svg', color: Colors.white, key: Key('0'),)
-                      : SvgPicture.asset('assets/icons/search.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+            child: Column(
+              children: [
+                SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: homeController.searchOpenTextDelegate.value
+                          ? SvgPicture.asset('assets/icons/search.svg', color: Colors.white, key: Key('0'),)
+                          : SvgPicture.asset('assets/icons/search.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+                    )
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Search',
+                  style: TextStyle(color: homeController.searchOpenTextDelegate.value ? Colors.white : Colors.grey, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
                 )
+              ],
             ),
-          ),          SizedBox(width: space),
+          ),
+          SizedBox(width: space),
           GestureDetector(
             onTap: (){
               homeController.homeButton();
             },
-            child: SizedBox(
-                width:   25,
-                height:  25,
-                child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
+            child: Column(
+              children: [
+                SizedBox(
+                    width:   25,
+                    height:  25,
+                    child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Home',
+                  style: TextStyle(color: AppStyle.primary, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
+                )
+              ],
             ),
           ),
           SizedBox(width: space),
@@ -77,10 +97,19 @@ class CustomBottomNavBar extends StatelessWidget {
             onTap: (){
               homeController.logoutConfirm.value = true;
             },
-            child: SizedBox(
-                width: 25,
-                height: 25,
-                child: SvgPicture.asset('assets/icons/logout.svg', color: AppStyle.lightGrey,)
+            child: Column(
+              children: [
+                SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: SvgPicture.asset('assets/icons/logout.svg', color: AppStyle.lightGrey,)
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.grey, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
+                )
+              ],
             ),
           ),
           // GestureDetector(
