@@ -277,7 +277,7 @@ class CarDetailsMobile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(bottom: 10),
       width: Get.width,
-      height: 50,
+      height: 55,
       decoration: const BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.only(
@@ -293,15 +293,24 @@ class CarDetailsMobile extends StatelessWidget {
             onTap: (){
               detailsPageController.openGallery.value = true;
             },
-            child: SizedBox(
-                width: 25,
-                height: 25,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: detailsPageController.openGallery.value
-                      ? SvgPicture.asset('assets/icons/gallery.svg', color: Colors.white, key: Key('0'),)
-                      : SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+            child: Column(
+              children: [
+                SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: detailsPageController.openGallery.value
+                          ? SvgPicture.asset('assets/icons/gallery.svg', color: Colors.white, key: Key('0'),)
+                          : SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+                    )
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Gallery',
+                  style: TextStyle(color: detailsPageController.openGallery.value ? Colors.white : Colors.grey, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
                 )
+              ],
             ),
           ),
           GestureDetector(
@@ -309,10 +318,19 @@ class CarDetailsMobile extends StatelessWidget {
               // homeController.homeButton();
               Get.back();
             },
-            child: SizedBox(
-                width:   25,
-                height:  25,
-                child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
+            child: Column(
+              children: [
+                SizedBox(
+                    width:   25,
+                    height:  25,
+                    child: SvgPicture.asset('assets/icons/home.svg', color: AppStyle.primary,  key: Key('1'),)
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Home',
+                  style: TextStyle(color: AppStyle.primary, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
+                )
+              ],
             ),
           ),
 
@@ -320,15 +338,24 @@ class CarDetailsMobile extends StatelessWidget {
             onTap: (){
               homeController.themeOpenPage.value = true;
             },
-            child: Container(
-                width: 25,
-                height: 25,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: homeController.themeOpenPage.value
-                      ? SvgPicture.asset('assets/icons/theme.svg', color: Colors.white, key: Key('0'),)
-                      : SvgPicture.asset('assets/icons/theme.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+            child: Column(
+              children: [
+                Container(
+                    width: 25,
+                    height: 25,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: homeController.themeOpenPage.value
+                          ? SvgPicture.asset('assets/icons/theme.svg', color: Colors.white, key: Key('0'),)
+                          : SvgPicture.asset('assets/icons/theme.svg', color: AppStyle.lightGrey,  key: Key('1'),),
+                    )
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Theme',
+                  style: TextStyle(color: homeController.themeOpenPage.value ? Colors.white : Colors.grey, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
                 )
+              ],
             ),
           ),
         ],
