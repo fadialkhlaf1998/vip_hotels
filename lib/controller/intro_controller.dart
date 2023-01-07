@@ -13,8 +13,8 @@ class IntroController extends GetxController{
 
   @override
   void onInit() {
-    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     super.onInit();
+    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
     getData(isTablet);
   }
 
