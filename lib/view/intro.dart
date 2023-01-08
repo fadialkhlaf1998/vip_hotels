@@ -20,7 +20,7 @@ class _IntroState extends State<Intro> {
     // TODO: implement initState
     super.initState();
     bool isTablet = false;
-    if(MediaQuery.of(context).size.width > 600){
+    if(Get.width > 600){
       isTablet = true;
     }
     introController.getData(isTablet);
