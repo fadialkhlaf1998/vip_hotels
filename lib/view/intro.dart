@@ -8,6 +8,14 @@ import 'package:get/get.dart';
 
 class Intro extends StatelessWidget {
 
+  Intro(){
+    bool isTablet = false;
+    if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
+      isTablet = true;
+    }
+    introController.getData(isTablet);
+  }
+
   IntroController introController = Get.put(IntroController());
   LoginController loginController = Get.put(LoginController());
 

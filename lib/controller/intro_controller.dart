@@ -11,12 +11,12 @@ class IntroController extends GetxController{
   RxList<Car> allCars = <Car>[].obs;
   List<Car> searchCarList = <Car>[];
 
-  @override
-  void onInit() {
-    super.onInit();
-    bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
-    getData(isTablet);
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
+  //   getData(isTablet);
+  // }
 
 
   getData(bool isTablet)async{
