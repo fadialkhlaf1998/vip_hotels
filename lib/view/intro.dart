@@ -6,17 +6,28 @@ import 'package:vip_hotels/widget/custom_image_container.dart';
 import 'package:vip_hotels/widget/custom_logo.dart';
 import 'package:get/get.dart';
 
-class Intro extends StatelessWidget {
+class Intro extends StatefulWidget {
 
-  Intro(){
+  @override
+  State<Intro> createState() => _IntroState();
+}
+
+class _IntroState extends State<Intro> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     bool isTablet = false;
-    if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
+    if(MediaQuery.of(context).size.width > 600){
       isTablet = true;
     }
     introController.getData(isTablet);
   }
 
   IntroController introController = Get.put(IntroController());
+
   LoginController loginController = Get.put(LoginController());
 
   @override
