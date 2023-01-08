@@ -15,13 +15,16 @@ import 'package:vip_hotels/view/mobile/mobile_login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
-    runApp(const MyApp());
-  }else{
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
-          runApp(const MyAppMobile());
-    });
-  }
+  runApp(const VipApp());
+
+  // if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
+  //   runApp(const MyApp());
+  // }else{
+  //   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_){
+  //         runApp(const MyAppMobile());
+  //   });
+  // }
+
   //   SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((_){
   //     runApp(const MyApp());
   //   });
@@ -33,6 +36,73 @@ void main() {
 
 
 }
+
+class VipApp extends StatelessWidget {
+  const VipApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+        getPages: [
+          GetPage(
+              name: '/login',
+              page: ()=>Login(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/home',
+              page: ()=>Home(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/carDetails',
+              page: ()=>CarDetails(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/book',
+              page: ()=>BookPage(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/loginMobile',
+              page: ()=>LoginMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/homeMobile',
+              page: ()=>HomeMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/CarDetailsMobile',
+              page: ()=>CarDetailsMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+          GetPage(
+              name: '/bookMobile',
+              page: ()=>BookPageMobile(),
+              transitionDuration: const Duration(milliseconds: 1000),
+              curve: Curves.fastOutSlowIn
+          ),
+        ],
+        theme: ThemeData(
+          fontFamily: 'conthrax',
+          primaryColor: generateMaterialColor(AppStyle.primary),
+          primarySwatch: generateMaterialColor(AppStyle.primary),
+        ),
+        home: Intro()
+    );
+  }
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
