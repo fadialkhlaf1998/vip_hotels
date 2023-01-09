@@ -265,9 +265,17 @@ class CarDetails extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _customIcon('person', car.seets.toString()),
-                      _customIcon('calendar', car.year.toString()),
-                      _customIcon('doors', car.doors.toString()),
+
+                      Row(
+                        children: [
+                          SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                          SizedBox(width: 5,),
+                          Text(car.seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                        ],
+                      ),
+                      // _customIcon('person', car.seets.toString()),
+                      // _customIcon('calendar', car.year.toString()),
+                      // _customIcon('doors', car.doors.toString()),
                     ],
                   ),
                 ),
@@ -284,6 +292,14 @@ class CarDetails extends StatelessWidget {
                         color: Colors.white,
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Text(
+                  'Insurance Price: AED ${car.insurance_price}',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white.withOpacity(0.7),
+                      fontStyle: FontStyle.italic
                   ),
                 ),
                 SizedBox(
@@ -423,9 +439,16 @@ class CarDetails extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _customIcon('person', car.seets.toString()),
-                _customIcon('calendar', car.year.toString()),
-                _customIcon('doors', car.doors.toString()),
+                Row(
+                  children: [
+                    SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                    SizedBox(width: 5,),
+                    Text(car.seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                  ],
+                ),
+                // _customIcon('person', car.seets.toString()),
+                // _customIcon('calendar', car.year.toString()),
+                // _customIcon('doors', car.doors.toString()),
               ],
             ),
           ),
@@ -439,6 +462,14 @@ class CarDetails extends StatelessWidget {
                 color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Insurance Price: AED ${car.insurance_price}',
+            style: TextStyle(
+                fontSize: 20,
+                color: Colors.white.withOpacity(0.7),
+                fontStyle: FontStyle.italic
+            ),
           ),
           Row(
             children: [

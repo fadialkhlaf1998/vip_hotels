@@ -107,26 +107,57 @@ class CarDetailsMobile extends StatelessWidget {
                                         color: AppStyle.primary,
                                         fontSize: 14
                                     ),
-                                  )
+                                  ),
+
+                                  Text(
+                                    'Insurance Price: AED ${car.insurance_price}',
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.white.withOpacity(0.7),
+                                        fontStyle: FontStyle.italic
+                                    ),
+                                  ),
                                 ],
                               )
                             ],
                           ),
                           Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
-                          Container(
-                            height: car.description.length > 10 ? Get.height * 0.13 : 0,
-                            width: Get.width * 0.7,
-                            child: SingleChildScrollView(
-                              child: Html(
-                                data: car.description,
-                                style: {
-                                  '*' : Style(
-                                      color: Colors.white,
-                                    fontSize: FontSize(12)
-                                  )
-                                },
+                          Column(
+                            children: [
+                              Container(
+                                width: Get.width * 0.7,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                                    SizedBox(width: 5,),
+                                    Text(car.seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                                  ],
+                                ),
                               ),
-                            ),
+                              SizedBox(height: 5,),
+                              Container(
+                                height: car.description.length > 10 ? Get.height * 0.13 - 30 : 0,
+                                width: Get.width * 0.7,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+
+
+                                      Html(
+                                        data: car.description,
+                                        style: {
+                                          '*' : Style(
+                                              color: Colors.white,
+                                            fontSize: FontSize(12),
+                                            margin: Margins.zero
+                                          )
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           car.description.length > 10
                               ? Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1)
@@ -239,6 +270,7 @@ class CarDetailsMobile extends StatelessWidget {
 
                   ],
                 ),
+
                 /// Car Image
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 700),
@@ -263,6 +295,17 @@ class CarDetailsMobile extends StatelessWidget {
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   child: homeController.themeOpenPage.value ? ThemeCircleMobile() : const Text(''),
+                ),
+                Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: Icon(Icons.arrow_back_ios,color: Colors.white,),
+                    )
+                  ],
                 ),
                 CarGalleryMobile(carImage: car.options[detailsPageController.optionIndex.value].images)
               ],

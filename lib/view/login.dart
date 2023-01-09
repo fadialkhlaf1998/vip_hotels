@@ -118,7 +118,7 @@ class Login extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             CustomButton(
-                width: 0.1,
+                width: 0.13,
                 height: 45,
                 text: 'GO NOW',
                 onPressed: (){

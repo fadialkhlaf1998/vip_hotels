@@ -288,7 +288,17 @@ class Home extends StatelessWidget {
                           )
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                    children: [
+                      SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                      SizedBox(width: 5,),
+                      Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                    ],
+                  ),)
                 ],
               ),
             ),
@@ -302,7 +312,7 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       homeController.filterCarList[index].title,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: const TextStyle(
                           fontSize: 15,
                           color: Colors.white,
@@ -311,11 +321,20 @@ class Home extends StatelessWidget {
 
                     ),
                     Text(
-                      !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
+                      !Global.guest ? 'AED ${homeController.filterCarList[index].price} / Daily' : 'AED **** / Daily',
                       // 'AED ${homeController.filterCarList[index].price} / Daily',
                       style: const TextStyle(
                           fontSize: 14,
                           color: AppStyle.primary,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+
+                    Text(
+                      'Insurance Price: AED ${homeController.filterCarList[index].insurance_price}',
+                      style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.white.withOpacity(0.7),
                           fontStyle: FontStyle.italic
                       ),
                     ),
@@ -412,7 +431,17 @@ class Home extends StatelessWidget {
                           )
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                        SizedBox(width: 5,),
+                        Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                      ],
+                    ),)
                 ],
               ),
             ),
@@ -428,7 +457,7 @@ class Home extends StatelessWidget {
                         children: [
                           Text(
                             introController.allCars[index].title,
-                            maxLines: 2,
+                            maxLines: 1,
                             style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.white,
@@ -441,6 +470,15 @@ class Home extends StatelessWidget {
                             style: const TextStyle(
                                 fontSize: 14,
                                 color: AppStyle.primary,
+                                fontStyle: FontStyle.italic
+                            ),
+                          ),
+
+                          Text(
+                            'Insurance Price: AED ${introController.allCars[index].insurance_price}',
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.white.withOpacity(0.7),
                                 fontStyle: FontStyle.italic
                             ),
                           ),
@@ -740,12 +778,22 @@ class Home extends StatelessWidget {
                           )
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                        SizedBox(width: 5,),
+                        Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                      ],
+                    ),)
                 ],
               ),
             ),
             Flexible(
-              flex: 2,
+              flex: 3,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                 child: Column(
@@ -754,7 +802,7 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       homeController.filterCarList[index].title,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,
@@ -763,11 +811,19 @@ class Home extends StatelessWidget {
 
                     ),
                     Text(
-                      !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
+                      !Global.guest ? 'AED ${homeController.filterCarList[index].price} / Daily' : 'AED **** / Daily',
                       // 'AED ${homeController.filterCarList[index].price} / Daily',
                       style: const TextStyle(
                           fontSize: 18,
                           color: AppStyle.primary,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                    Text(
+                      'Insurance Price: AED ${homeController.filterCarList[index].insurance_price}',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white.withOpacity(0.7),
                           fontStyle: FontStyle.italic
                       ),
                     ),
@@ -863,7 +919,17 @@ class Home extends StatelessWidget {
                           )
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                    children: [
+                      SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                      SizedBox(width: 5,),
+                      Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                    ],
+                  ),)
                 ],
               ),
             ),
@@ -879,7 +945,7 @@ class Home extends StatelessWidget {
                       children: [
                         Text(
                           introController.allCars[index].title,
-                          maxLines: 2,
+                          maxLines: 1,
                           style: const TextStyle(
                               fontSize: 21,
                               color: Colors.white,
@@ -892,6 +958,14 @@ class Home extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 18,
                               color: AppStyle.primary,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                        Text(
+                          'Insurance Price: AED ${introController.allCars[index].insurance_price}',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white.withOpacity(0.7),
                               fontStyle: FontStyle.italic
                           ),
                         ),

@@ -150,6 +150,7 @@ class Car {
     required this.price,
     required this.hotelId,
     required this.options,
+    required this.insurance_price,
   });
 
   int carId;
@@ -164,6 +165,7 @@ class Car {
   int id;
   int oldPrice;
   int price;
+  int insurance_price;
   int hotelId;
   List<Option> options;
 
@@ -180,6 +182,7 @@ class Car {
     id: json["id"] ?? -1,
     oldPrice: json["old_price"] ?? -1,
     price: json["price"] ?? -1,
+    insurance_price: json["insurance_price"] ?? -1,
     hotelId: json["hotel_id"] ?? -1,
     options: List<Option>.from(json["options"].map((x) => Option.fromMap(x))),
   );

@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/model/all_data.dart';
@@ -11,12 +12,26 @@ class IntroController extends GetxController{
   RxList<Car> allCars = <Car>[].obs;
   List<Car> searchCarList = <Car>[];
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   bool isTablet = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600;
-  //   getData(isTablet);
-  // }
+  @override
+  void onInit() async{
+    super.onInit();
+    bool isTablet = false;
+    bool iPad = await isIpad();
+    if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600 || iPad){
+      isTablet = true;
+    }
+    getData(isTablet);
+  }
+
+  Future<bool> isIpad() async{
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    IosDeviceInfo info = await deviceInfo.iosInfo;
+    if (info.model!=null && info.model!.toLowerCase().contains("ipad")) {
+      print(info.model);
+      return true;
+    }
+    return false;
+  }
 
 
   getData(bool isTablet)async{

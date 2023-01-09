@@ -15,16 +15,16 @@ class Intro extends StatefulWidget {
 class _IntroState extends State<Intro> {
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    bool isTablet = false;
-    if(Get.width > 600){
-      isTablet = true;
-    }
-    introController.getData(isTablet);
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   bool isTablet = false;
+  //   if(Get.width > 600){
+  //     isTablet = true;
+  //   }
+  //   introController.getData(isTablet);
+  // }
 
   IntroController introController = Get.put(IntroController());
 

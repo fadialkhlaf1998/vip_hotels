@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
@@ -242,7 +243,7 @@ class HomeMobile extends StatelessWidget {
                 crossAxisCount: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 6/4
+                childAspectRatio: 8/6,
               ),
               itemCount: homeController.lazyLoad.value,
               itemBuilder: (BuildContext context, index){
@@ -292,7 +293,7 @@ class HomeMobile extends StatelessWidget {
                 crossAxisCount: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 6/4,
+                childAspectRatio: 8/6,
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
@@ -350,18 +351,29 @@ class HomeMobile extends StatelessWidget {
                           )
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                        SizedBox(width: 5,),
+                        Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                      ],
+                    ),)
                 ],
               ),
             ),
             Flexible(
-              flex: 4,
+              flex: 5,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+
                     Text(
                       homeController.filterCarList[index].title,
                       maxLines: 1,
@@ -371,14 +383,57 @@ class HomeMobile extends StatelessWidget {
                           fontStyle: FontStyle.italic
                       ),
                     ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //
+                    //
+                    //
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/doors.svg"),
+                    //         SizedBox(width: 5,),
+                    //         Text(homeController.filterCarList[index].doors.toString(),style: TextStyle(color: Colors.white),)
+                    //       ],
+                    //     ),
+                    //
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/calendar.svg"),
+                    //         SizedBox(width: 5,),
+                    //         Text(homeController.filterCarList[index].year,style: TextStyle(color: Colors.white),)
+                    //       ],
+                    //     ),
+                    //
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/seat.svg"),
+                    //         SizedBox(width: 5,),
+                    //         Text(homeController.filterCarList[index].seets.toString(),style: TextStyle(color: Colors.white),)
+                    //       ],
+                    //     ),
+                    //
+                    //
+                    //   ],
+                    // ),
                     Text(
-                      !Global.guest ? 'Rent: AED ${introController.allCars[index].price} / Daily' : 'Rent: AED **** / Daily',
+                      !Global.guest ? 'Rent: AED ${homeController.filterCarList[index].price} / Daily' : 'Rent: AED **** / Daily',
                       style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 15,
                           color: AppStyle.primary,
                           fontStyle: FontStyle.italic
                       ),
                     ),
+                    Text(
+                       'Insurance Price: AED ${homeController.filterCarList[index].insurance_price}',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.7),
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+
+                    // SizedBox(height: 5,)
                   ],
                 ),
               ),
@@ -471,12 +526,22 @@ class HomeMobile extends StatelessWidget {
                           )
                       ),
                     ),
-                  )
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                        SizedBox(width: 5,),
+                        Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                      ],
+                    ),)
                 ],
               ),
             ),
             Flexible(
-              flex: 4,
+              flex: 5,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
                 child: Column(
@@ -485,22 +550,59 @@ class HomeMobile extends StatelessWidget {
                   children: [
                     Text(
                       introController.allCars[index].title,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: const TextStyle(
                           fontSize: 15,
                           color: Colors.white,
                           fontStyle: FontStyle.italic
                       ),
                     ),
-
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/doors.svg"),
+                    //         SizedBox(width: 5,),
+                    //         Text(introController.allCars[index].doors.toString(),style: TextStyle(color: Colors.white),)
+                    //       ],
+                    //     ),
+                    //
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/calendar.svg"),
+                    //         SizedBox(width: 5,),
+                    //         Text(introController.allCars[index].year,style: TextStyle(color: Colors.white),)
+                    //       ],
+                    //     ),
+                    //
+                    //     Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/seat.svg"),
+                    //         SizedBox(width: 5,),
+                    //         Text(introController.allCars[index].seets.toString(),style: TextStyle(color: Colors.white),)
+                    //       ],
+                    //     ),
+                    //
+                    //
+                    //   ],
+                    // ),
                     Text(
                       !Global.guest ? 'Rent: AED ${introController.allCars[index].price} / Daily' : 'Rent: AED **** / Daily',
                       style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: 15,
                           color: AppStyle.primary,
-                          fontStyle: FontStyle.italic,
+                          fontStyle: FontStyle.italic
                       ),
-                      maxLines: 1,
+                    ),
+                    Text(
+                      'Insurance Price: AED ${introController.allCars[index].insurance_price}',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withOpacity(0.7),
+                          fontStyle: FontStyle.italic
+                      ),
                     ),
                   ],
                 ),
