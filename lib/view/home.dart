@@ -294,9 +294,9 @@ class Home extends StatelessWidget {
                     right: 10,
                     child: Row(
                     children: [
-                      SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                      SvgPicture.asset("assets/icons/circle_seats.svg",width: 20,),
                       SizedBox(width: 5,),
-                      Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                      Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white,fontSize: 10),)
                     ],
                   ),)
                 ],
@@ -437,9 +437,9 @@ class Home extends StatelessWidget {
                     right: 10,
                     child: Row(
                       children: [
-                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
+                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 20,),
                         SizedBox(width: 5,),
-                        Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
+                        Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white,fontSize: 10),)
                       ],
                     ),)
                 ],
