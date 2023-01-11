@@ -281,21 +281,32 @@ class CarDetails extends StatelessWidget {
                 ),
                 SizedBox(
                   width: Get.width * 0.4,
-                  child: Text(
-                    !Global.guest
-                        ? 'AED ${car.price.toString()} / Daily'
-                        : 'AED **** / Daily',
-                    // 'AED ${car.price.toString()} / Daily',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 23,
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold),
+                  child: Row(
+                    children: [
+                      Text(
+                        !Global.guest
+                            ? 'AED ${car.price.toString()}  '
+                            : 'AED ****  ',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 23,
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+
+                      Text("Daily",
+                        style: const TextStyle(
+                            fontSize: 19,
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
                   ),
                 ),
                 Text(
-                  'Insurance Price: AED ${car.insurance_price}',
+                  'Security Deposit: AED ${car.insurance_price}',
                   style: TextStyle(
                       fontSize: 16,
                       color: Colors.white.withOpacity(0.7),
@@ -452,19 +463,31 @@ class CarDetails extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            !Global.guest
-                ? 'AED ${car.price.toString()} / Daily'
-                : 'AED **** / Daily',
-            // 'AED ${car.price.toString()} / Daily',
-            style: const TextStyle(
-                fontSize: 31,
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              Text(
+                !Global.guest
+                    ? 'AED ${car.price.toString()}  '
+                    : 'AED ****  ',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 31,
+                    color: Colors.white,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
+              ),
+
+              Text("Daily",
+                style: const TextStyle(
+                    fontSize: 27,
+                    color: Colors.white,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
           ),
           Text(
-            'Insurance Price: AED ${car.insurance_price}',
+            'Security Deposit: AED ${car.insurance_price}',
             style: TextStyle(
                 fontSize: 20,
                 color: Colors.white.withOpacity(0.7),

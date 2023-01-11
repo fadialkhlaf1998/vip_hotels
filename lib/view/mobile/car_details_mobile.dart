@@ -101,16 +101,33 @@ class CarDetailsMobile extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Text(
-                                      Global.guest ? 'Rent: *** AED / Daily' : '${car.price.toString()} AED / Daily',
-                                    style: const TextStyle(
-                                        color: AppStyle.primary,
-                                        fontSize: 14
-                                    ),
+
+                                  Row(
+                                    children: [
+                                      Text(
+                                        !Global.guest
+                                            ? 'AED ${car.price.toString()}  '
+                                            : 'AED ****  ',
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.white,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+
+                                      Text("Daily",
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
                                   ),
 
                                   Text(
-                                    'Insurance Price: AED ${car.insurance_price}',
+                                    'Security Deposit: AED ${car.insurance_price}',
                                     style: TextStyle(
                                         fontSize: 11,
                                         color: Colors.white.withOpacity(0.7),

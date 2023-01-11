@@ -320,18 +320,31 @@ class Home extends StatelessWidget {
                       ),
 
                     ),
-                    Text(
-                      !Global.guest ? 'AED ${homeController.filterCarList[index].price} / Daily' : 'AED **** / Daily',
-                      // 'AED ${homeController.filterCarList[index].price} / Daily',
-                      style: const TextStyle(
-                          fontSize: 14,
-                          color: AppStyle.primary,
-                          fontStyle: FontStyle.italic
-                      ),
+
+                    Row(
+                      children: [
+                        Text(
+                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          // 'AED ${introController.allCars[index].price} / Daily',
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: AppStyle.primary,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                         Text(
+                          "Daily",
+                          style:  TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withOpacity(0.7),
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ],
                     ),
 
                     Text(
-                      'Insurance Price: AED ${homeController.filterCarList[index].insurance_price}',
+                      'Security Deposit: AED ${homeController.filterCarList[index].insurance_price}',
                       style: TextStyle(
                           fontSize: 11,
                           color: Colors.white.withOpacity(0.7),
@@ -464,18 +477,31 @@ class Home extends StatelessWidget {
                                 fontStyle: FontStyle.italic
                             ),
                           ),
-                          Text(
-                            !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
-                            // 'AED ${introController.allCars[index].price} / Daily',
-                            style: const TextStyle(
-                                fontSize: 14,
-                                color: AppStyle.primary,
-                                fontStyle: FontStyle.italic
-                            ),
+
+                          Row(
+                            children: [
+                              Text(
+                                !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                                // 'AED ${introController.allCars[index].price} / Daily',
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    color: AppStyle.primary,
+                                    fontStyle: FontStyle.italic
+                                ),
+                              ),
+                              Text(
+                                "Daily",
+                                style:  TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white.withOpacity(0.7),
+                                    fontStyle: FontStyle.italic
+                                ),
+                              ),
+                            ],
                           ),
 
                           Text(
-                            'Insurance Price: AED ${introController.allCars[index].insurance_price}',
+                            'Security Deposit: AED ${introController.allCars[index].insurance_price}',
                             style: TextStyle(
                                 fontSize: 11,
                                 color: Colors.white.withOpacity(0.7),
@@ -508,6 +534,7 @@ class Home extends StatelessWidget {
   }
 
   _bottomBar(){
+
     return Container(
       height: 50,
       width: Get.width,
@@ -810,17 +837,31 @@ class Home extends StatelessWidget {
                       ),
 
                     ),
-                    Text(
-                      !Global.guest ? 'AED ${homeController.filterCarList[index].price} / Daily' : 'AED **** / Daily',
-                      // 'AED ${homeController.filterCarList[index].price} / Daily',
-                      style: const TextStyle(
-                          fontSize: 18,
-                          color: AppStyle.primary,
-                          fontStyle: FontStyle.italic
-                      ),
+
+
+                    Row(
+                      children: [
+                        Text(
+                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          // 'AED ${introController.allCars[index].price} / Daily',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: AppStyle.primary,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                         Text(
+                          "Daily",
+                          style:  TextStyle(
+                              fontSize: 16,
+                              color: Colors.white.withOpacity(0.7),
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Insurance Price: AED ${homeController.filterCarList[index].insurance_price}',
+                      'Security Deposit: AED ${homeController.filterCarList[index].insurance_price}',
                       style: TextStyle(
                           fontSize: 15,
                           color: Colors.white.withOpacity(0.7),
@@ -952,17 +993,30 @@ class Home extends StatelessWidget {
                               fontStyle: FontStyle.italic
                           ),
                         ),
-                        Text(
-                          !Global.guest ? 'AED ${introController.allCars[index].price} / Daily' : 'AED **** / Daily',
-                          // 'AED ${introController.allCars[index].price} / Daily',
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: AppStyle.primary,
-                              fontStyle: FontStyle.italic
-                          ),
+
+                        Row(
+                          children: [
+                            Text(
+                              !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                              // 'AED ${introController.allCars[index].price} / Daily',
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: AppStyle.primary,
+                                  fontStyle: FontStyle.italic
+                              ),
+                            ),
+                             Text(
+                              "Daily",
+                              style:  TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white.withOpacity(0.7),
+                                  fontStyle: FontStyle.italic
+                              ),
+                            ),
+                          ],
                         ),
                         Text(
-                          'Insurance Price: AED ${introController.allCars[index].insurance_price}',
+                          'Security Deposit: AED ${introController.allCars[index].insurance_price}',
                           style: TextStyle(
                               fontSize: 15,
                               color: Colors.white.withOpacity(0.7),
@@ -1316,8 +1370,15 @@ class Home extends StatelessWidget {
               //    ),
               // ),
               child: Row(
-                children: const [
+                children:  [
                   SizedBox(width: 20),
+                  GestureDetector(
+                    onTap: (){
+                      homeController.onTapSideBar(0);
+                    },
+                    child: Icon(Icons.close, size: 40,color: Colors.white),
+                  ),
+                  SizedBox(width: 7),
                   Icon(Icons.search, size: 40,color: Colors.white),
                   SizedBox(width: 7),
                   Text(
@@ -1377,16 +1438,21 @@ class Home extends StatelessWidget {
                 ? GestureDetector(
                     onTap: (){
                       homeController.clearFilter();
+
                     },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: 60,
-                    height: 60,
+                margin: const EdgeInsets.only(left: 25,right: 10),
+                    width: 50,
+                    height: 50,
                     decoration: const BoxDecoration(
-                      color: AppStyle.primary,
+                      color: Colors.transparent,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.filter_list_off),
+                    child: Center(
+                      child: homeController.brandIndex.value!= -1
+                          ? Icon(Icons.close,color: AppStyle.primary,size: 40)
+                          : SvgPicture.asset("assets/icons/filter-Filled.svg", width: 25,color: AppStyle.primary,)
+                    )
                   ),
                 )
                 : GestureDetector(

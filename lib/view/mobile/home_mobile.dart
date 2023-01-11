@@ -416,16 +416,30 @@ class HomeMobile extends StatelessWidget {
                     //
                     //   ],
                     // ),
-                    Text(
-                      !Global.guest ? 'Rent: AED ${homeController.filterCarList[index].price} / Daily' : 'Rent: AED **** / Daily',
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: AppStyle.primary,
-                          fontStyle: FontStyle.italic
-                      ),
+
+                    Row(
+                      children: [
+                        Text(
+                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          // 'AED ${introController.allCars[index].price} / Daily',
+                          style: const TextStyle(
+                              fontSize: 15,
+                              color: AppStyle.primary,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                        Text(
+                          "Daily",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withOpacity(0.7),
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                       'Insurance Price: AED ${homeController.filterCarList[index].insurance_price}',
+                       'Security Deposit: AED ${homeController.filterCarList[index].insurance_price}',
                       style: TextStyle(
                           fontSize: 12,
                           color: Colors.white.withOpacity(0.7),
@@ -588,16 +602,29 @@ class HomeMobile extends StatelessWidget {
                     //
                     //   ],
                     // ),
-                    Text(
-                      !Global.guest ? 'Rent: AED ${introController.allCars[index].price} / Daily' : 'Rent: AED **** / Daily',
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: AppStyle.primary,
-                          fontStyle: FontStyle.italic
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          // 'AED ${introController.allCars[index].price} / Daily',
+                          style: const TextStyle(
+                              fontSize: 15,
+                              color: AppStyle.primary,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                        Text(
+                          "Daily",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white.withOpacity(0.7),
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Insurance Price: AED ${introController.allCars[index].insurance_price}',
+                      'Security Deposit: AED ${introController.allCars[index].insurance_price}',
                       style: TextStyle(
                           fontSize: 12,
                           color: Colors.white.withOpacity(0.7),
@@ -782,8 +809,15 @@ class HomeMobile extends StatelessWidget {
                     )
                 ),
                 child: Row(
-                  children: const [
+                  children: [
                     SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: (){
+                        homeController.onTapSideBar(0);
+                      },
+                      child: Icon(Icons.close, size: 25,color: Colors.white),
+                    ),
+                    SizedBox(width: 5),
                     Icon(Icons.search, size: 25,color: Colors.white),
                     SizedBox(width: 5),
                     Text(
@@ -846,13 +880,17 @@ class HomeMobile extends StatelessWidget {
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
-                width: 40,
-                height: 40,
+                width: 30,
+                height: 30,
                 decoration: const BoxDecoration(
-                    color: AppStyle.primary,
+                    // color: AppStyle.primary,
                     shape: BoxShape.circle
                 ),
-                child: const Icon(Icons.filter_list_off),
+                child: Center(
+                    child: homeController.brandIndex.value!= -1
+                        ? Icon(Icons.close,color: AppStyle.primary,size: 30)
+                        : SvgPicture.asset("assets/icons/filter-Filled.svg", width: 20,color: AppStyle.primary,)
+                )
               ),
             )
                 : AnimatedContainer(
