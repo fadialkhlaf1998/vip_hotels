@@ -80,7 +80,7 @@ class CarGalleryPortrait extends StatelessWidget {
                         color: AppStyle.lightGrey.withOpacity(0.7),
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             image: NetworkImage('${Api.url}uploads/${carImage.split(',')[detailsPageController.mainCarImageIndex.value]}')
                         )
                     ),
