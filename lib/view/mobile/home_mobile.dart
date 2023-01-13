@@ -420,7 +420,7 @@ class HomeMobile extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          !Global.guest ? 'AED ${homeController.filterCarList[index].price}  ' : 'AED ****  ',
                           // 'AED ${introController.allCars[index].price} / Daily',
                           style: const TextStyle(
                               fontSize: 15,
