@@ -13,6 +13,7 @@ import 'package:vip_hotels/view/mobile/car_details_mobile.dart';
 import 'package:vip_hotels/view/mobile/home_mobile.dart';
 import 'package:vip_hotels/view/mobile/mobile_login.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const VipApp());
