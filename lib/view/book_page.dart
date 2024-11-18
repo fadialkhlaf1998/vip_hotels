@@ -769,6 +769,7 @@ class BookPage extends StatelessWidget {
               onSelectionChanged: bookPageController.onSelectionDateChanges,
               selectionMode: DateRangePickerSelectionMode.range,
               minDate: DateTime.now(),
+              backgroundColor: AppStyle.grey,
               view: DateRangePickerView.month,
               monthViewSettings: const DateRangePickerMonthViewSettings(
                 viewHeaderStyle: DateRangePickerViewHeaderStyle(
@@ -821,6 +822,7 @@ class BookPage extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 19,
                 ),
+                backgroundColor: AppStyle.grey,
               ),
             ),
             Padding(
@@ -831,11 +833,13 @@ class BookPage extends StatelessWidget {
                   height: 45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: AppStyle.primary,
-                      onPrimary: AppStyle.primary,
+                      //todo : delete comment
+                      // primary: AppStyle.primary,
+                      // onPrimary: AppStyle.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      backgroundColor: AppStyle.primary
                     ),
                     child: FittedBox(
                         child: Row(

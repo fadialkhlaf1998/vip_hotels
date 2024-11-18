@@ -70,7 +70,7 @@ class LoginMobile extends StatelessWidget {
         ),
         Column(
           children: [
-            CustomLogo(width: 0.7, height: 0.3, tag: 'logo'),
+            CustomLogo(width: 0.3, height: 0.3, tag: 'logo'),
             const SizedBox(height: 20),
             RichText(
               text: const TextSpan(

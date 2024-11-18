@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,12 +28,24 @@ class IntroController extends GetxController{
 
   Future<bool> isIpad() async{
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    IosDeviceInfo info = await deviceInfo.iosInfo;
-    if (info.model!=null && info.model!.toLowerCase().contains("ipad")) {
+    print(deviceInfo);
+    if(Platform.isAndroid){
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
       print(info.model);
-      return true;
+      if (info.model!=null && info.model!.toLowerCase().contains("tablet")) {
+        return true;
+      }
+      return false;
+    }else{
+      IosDeviceInfo info = await deviceInfo.iosInfo;
+      print(info.model);
+      if (info.model!=null && info.model!.toLowerCase().contains("ipad")) {
+        return true;
+      }
+      return false;
     }
-    return false;
+    // print(info);
+
   }
 
 

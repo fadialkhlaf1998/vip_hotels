@@ -32,7 +32,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 33
+    namespace "com.maxart.vip_hotels"
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

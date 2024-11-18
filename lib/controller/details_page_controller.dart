@@ -64,7 +64,7 @@ class DetailsPageController extends GetxController{
     final temp = await getTemporaryDirectory();
     final path = '${temp.path}/image.jpg';
     File(path).writeAsBytesSync(bytes);
-    await Share.shareFiles([path], text: '$name \n\n $shareLink');
+    // await Share.shareFiles([path], text: '$name \n\n $shareLink');
     loading.value = false;
   }
 

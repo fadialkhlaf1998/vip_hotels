@@ -407,6 +407,7 @@ class BookPageMobile extends StatelessWidget {
             SfDateRangePicker(
               onSelectionChanged: bookPageController.onSelectionDateChanges,
               selectionMode: DateRangePickerSelectionMode.range,
+              backgroundColor: AppStyle.grey,
               minDate: DateTime.now(),
               view: DateRangePickerView.month,
               monthViewSettings: const DateRangePickerMonthViewSettings(
@@ -420,7 +421,7 @@ class BookPageMobile extends StatelessWidget {
               ),
               selectionTextStyle: const TextStyle(
                   color: Colors.black,
-                  fontSize: 18
+                  fontSize: 18,
               ),
               monthCellStyle: const DateRangePickerMonthCellStyle(
                 textStyle: TextStyle(
@@ -460,6 +461,7 @@ class BookPageMobile extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 19,
                 ),
+                backgroundColor: AppStyle.grey,
               ),
             ),
             Padding(
@@ -470,8 +472,10 @@ class BookPageMobile extends StatelessWidget {
                   height: 45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: AppStyle.primary,
-                      onPrimary: AppStyle.primary,
+                      //todo : delete comment
+                      // primary: AppStyle.primary,
+                      // onPrimary: AppStyle.primary,
+                      backgroundColor: AppStyle.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

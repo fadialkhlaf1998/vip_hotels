@@ -22,7 +22,8 @@ class CustomLogo extends StatelessWidget {
       child: SizedBox(
         width: Get.width * width,
         height: Get.height * height,
-        child: SvgPicture.asset('assets/icons/logo vip.svg', fit: BoxFit.contain,),
+        // child: SvgPicture.asset('assets/icons/logo vip.svg', fit: BoxFit.contain,),
+        child: SvgPicture.asset('assets/icons/VIP-LOGO2.svg', fit: BoxFit.contain,color: Colors.white,),
       ),
     );
   }
