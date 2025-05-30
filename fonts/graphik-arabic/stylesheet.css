@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Black.eot');
+    src: local('GraphikArabicBlack'), local('GraphikArabic-Black'),
+        url('GraphikArabic-Black.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Black.woff2') format('woff2'),
+        url('GraphikArabic-Black.woff') format('woff'),
+        url('GraphikArabic-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Bold.eot');
+    src: local('GraphikArabicBold'), local('GraphikArabic-Bold'),
+        url('GraphikArabic-Bold.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Bold.woff2') format('woff2'),
+        url('GraphikArabic-Bold.woff') format('woff'),
+        url('GraphikArabic-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Extralight.eot');
+    src: local('GraphikArabicExtralight'), local('GraphikArabic-Extralight'),
+        url('GraphikArabic-Extralight.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Extralight.woff2') format('woff2'),
+        url('GraphikArabic-Extralight.woff') format('woff'),
+        url('GraphikArabic-Extralight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Light.eot');
+    src: local('GraphikArabicLight'), local('GraphikArabic-Light'),
+        url('GraphikArabic-Light.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Light.woff2') format('woff2'),
+        url('GraphikArabic-Light.woff') format('woff'),
+        url('GraphikArabic-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Medium.eot');
+    src: local('GraphikArabicMedium'), local('GraphikArabic-Medium'),
+        url('GraphikArabic-Medium.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Medium.woff2') format('woff2'),
+        url('GraphikArabic-Medium.woff') format('woff'),
+        url('GraphikArabic-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Regular.eot');
+    src: local('GraphikArabicRegular'), local('GraphikArabic-Regular'),
+        url('GraphikArabic-Regular.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Regular.woff2') format('woff2'),
+        url('GraphikArabic-Regular.woff') format('woff'),
+        url('GraphikArabic-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Thin.eot');
+    src: local('GraphikArabicThin'), local('GraphikArabic-Thin'),
+        url('GraphikArabic-Thin.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Thin.woff2') format('woff2'),
+        url('GraphikArabic-Thin.woff') format('woff'),
+        url('GraphikArabic-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Super.eot');
+    src: local('GraphikArabicSuper'), local('GraphikArabic-Super'),
+        url('GraphikArabic-Super.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Super.woff2') format('woff2'),
+        url('GraphikArabic-Super.woff') format('woff'),
+        url('GraphikArabic-Super.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Graphik Arabic';
+    src: url('GraphikArabic-Semibold.eot');
+    src: local('GraphikArabicSemibold'), local('GraphikArabic-Semibold'),
+        url('GraphikArabic-Semibold.eot?#iefix') format('embedded-opentype'),
+        url('GraphikArabic-Semibold.woff2') format('woff2'),
+        url('GraphikArabic-Semibold.woff') format('woff'),
+        url('GraphikArabic-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+

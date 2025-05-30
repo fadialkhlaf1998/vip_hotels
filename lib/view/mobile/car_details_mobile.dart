@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/controller/home_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
+import 'package:vip_hotels/model/backend_style.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/api.dart';
 import 'package:vip_hotels/services/global.dart';
@@ -48,242 +49,266 @@ class CarDetailsMobile extends StatelessWidget {
           }
         },
         child: Scaffold(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.white,
           body: SafeArea(
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
                 BackgroundImage(),
+
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
                     Container(
                       width: Get.width,
-                      height: Get.height * 0.5,
+                      height: 430,
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
+                        color: Color(0xff5959594D),
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30),
                         )
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomLogo(width: 0.4, height: 0.1, tag: 'logo'),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 70,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.contain,
-                                      image: NetworkImage(car.brandImage)
-                                  )
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          Container(
+                            width: Get.width,
+                            height: Get.width/5,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(BackEndStyle.inner_image),
+                                fit: BoxFit.cover
+                              )
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(width: 20,),
+                                GestureDetector(
+                                  onTap: (){
+                                    Get.back();
+                                  },
+                                  child: Icon(Icons.arrow_back_ios,color: Colors.white,),
+                                )
+                              ],
+                            ),
+                          ),
+                          // SizedBox(height: 20,),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                    width: Get.width * 0.6,
-                                    child: Text(
-                                        car.title,
-                                      maxLines: 2,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17
-                                      ),
-                                    ),
-                                  ),
-
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        !Global.guest
-                                            ? 'AED ${car.price.toString()}  '
-                                            : 'AED ****  ',
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold),
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          color: BackEndStyle.card_bg_color.withOpacity(0.5),
+                                          shape: BoxShape.circle
+                                        ),
+                                        child: Center(
+                                          child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    fit: BoxFit.contain,
+                                                    image: NetworkImage(car.brandImage)
+                                                )
+                                            ),
+                                          ),
+                                        ),
                                       ),
-
-                                      Text("Daily",
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.white,
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold),
+                                      const SizedBox(width: 15),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: Get.width * 0.6,
+                                            child: Text(
+                                              car.title,
+                                              maxLines: 2,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ),
+                            
+                            
+                                        ],
                                       )
                                     ],
                                   ),
-
-                                  Text(
-                                    'Security Deposit: AED ${car.insurance_price}',
-                                    style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.white.withOpacity(0.7),
-                                        fontStyle: FontStyle.italic
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1),
-                          Column(
-                            children: [
-                              Container(
-                                width: Get.width * 0.7,
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
-                                    SizedBox(width: 5,),
-                                    Text(car.seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                height: car.description.length > 10 ? Get.height * 0.13 - 30 : 0,
-                                width: Get.width * 0.7,
-                                child: SingleChildScrollView(
-                                  child: Column(
+                            
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-
-
-                                      Html(
-                                        data: car.description,
-                                        style: {
-                                          '*' : Style(
-                                              color: Colors.white,
-                                            fontSize: FontSize(12),
-                                            margin: Margins.zero
-                                          )
-                                        },
+                                      // SizedBox(width: 20,),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(4)
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset("assets/icons/door_icon.svg",width: 15,color: Colors.white,),
+                                            SizedBox(width: 5,),
+                                            Text(car.doors.toString()+" Doors",style: TextStyle(color: Colors.white,fontSize: 12),)
+                                          ],
+                                        ),
+                                      ),
+                                      // SizedBox(width: 15,),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: Colors.white),
+                                            borderRadius: BorderRadius.circular(4)
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset("assets/icons/seat_icon.svg",width: 15,color: Colors.white),
+                                            SizedBox(width: 5,),
+                                            Text(car.seets.toString()+" Seats",style: TextStyle(color: Colors.white,fontSize: 12),)
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          car.description.length > 10
-                              ? Divider(color: Colors.white.withOpacity(0.8), indent: Get.width * 0.15,endIndent:  Get.width * 0.15, thickness: 1)
-                          : Text(''),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: (){
-                                  if(detailsPageController.optionId.value == -1){
-                                    detailsPageController.optionId.value = car.options.first.id;
-                                  }
-                                  Get.toNamed('/bookMobile', arguments: [car]);
-                                },
-                                child: Container(
-                                  width: 120,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      color: AppStyle.primary,
-                                      borderRadius: BorderRadius.circular(10)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text("Price",
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            !Global.guest
+                                                ? 'AED ${car.price.toString()}  '
+                                                : 'AED ****  ',
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                            
+                                          Text("Daily",
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                            
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Security Deposit: AED ${car.insurance_price}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white.withOpacity(0.9),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Book now',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              car.shareLink.isNotEmpty
-                              ? GestureDetector(
-                                onTap: () async {
-                                  if(detailsPageController.optionId.value == -1){
-                                    detailsPageController.optionId.value = car.options.first.id;
-                                  }
-                                  await detailsPageController.shareCar(car.image, car.title, car.shareLink);
-                                },
-                                child: Container(
-                                  width: 120,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: const [
-                                        Text(
-                                          'Share',
-                                        ),
-                                        SizedBox(width: 5),
-                                        Icon(Icons.share, color: AppStyle.grey)
-                                      ],
-                                    ),
-                                  )
-                                ),
-                              )
-                              : const Center(),
-                            ],
-                          ),
-                          SizedBox(
-                            width: Get.width * 0.8,
-                            height: 40,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: car.options.length,
-                              itemBuilder: (BuildContext context, index){
-                                String color = '0xFF${car.options[index].color.substring(1)}';
-                                return GestureDetector(
-                                  onTap: (){
-                                    detailsPageController.optionId.value = car.options[index].id;
-                                    detailsPageController.changeOptionColor(index);
-                                  },
-                                  child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 400),
-                                    curve: Curves.fastOutSlowIn,
-                                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                                    height: Get.height * 0.09,
-                                    decoration: BoxDecoration(
-                                        border: detailsPageController.optionIndex.value == index ? Border(
-                                            bottom:  BorderSide(
-                                              color: Color(int.parse(color)),
-                                              width: 2,
-                                            )
-                                        ) : null
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        car.options[index].title,
-                                        style: const TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                            fontFamily: 'D-DIN-PRO',
-                                            fontWeight: FontWeight.bold
+                            
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 20,),
+                                      GestureDetector(
+                                        onTap: (){
+                                          if(detailsPageController.optionId.value == -1){
+                                            detailsPageController.optionId.value = car.options.first.id;
+                                          }
+                                          Get.toNamed('/bookMobile', arguments: [car]);
+                                        },
+                                        child: Container(
+                                          width: 150,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              color: BackEndStyle.primary_color,
+                                              borderRadius: BorderRadius.circular(20)
+                                          ),
+                                          child: const Center(
+                                            child: Text(
+                                              'Book now',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      const SizedBox(width: 20),
+                            
+                                    ],
                                   ),
-                                );
-                              },
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 20,),
+                                      GestureDetector(
+                                        onTap: (){
+                                          detailsPageController.openGallery.value = true;
+                                        },
+                                        child: Container(
+                                          width: 150,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(20),
+                                              border: Border.all(color: Colors.white)
+                                          ),
+                                          child: const Center(
+                                            child: Text(
+                                              'Mora Images',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20),
+                            
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          )
+                          ),
+                          // SizedBox(height: 20,),
                         ],
                       ),
                     ),
-                    _bottomNavBar(),
+                    // _bottomNavBar(),
 
                   ],
                 ),
@@ -313,17 +338,7 @@ class CarDetailsMobile extends StatelessWidget {
                   duration: const Duration(milliseconds: 500),
                   child: homeController.themeOpenPage.value ? ThemeCircleMobile() : const Text(''),
                 ),
-                Row(
-                  children: [
-                    SizedBox(width: 20,),
-                    GestureDetector(
-                      onTap: (){
-                        Get.back();
-                      },
-                      child: Icon(Icons.arrow_back_ios,color: Colors.white,),
-                    )
-                  ],
-                ),
+
                 CarGalleryMobile(carImage: car.options[detailsPageController.optionIndex.value].images)
               ],
             ),
@@ -368,7 +383,7 @@ class CarDetailsMobile extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   'Gallery',
-                  style: TextStyle(color: detailsPageController.openGallery.value ? Colors.white : Colors.grey, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: detailsPageController.openGallery.value ? Colors.white : Colors.grey, fontFamily: 'graphik', fontSize: 13, fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -388,7 +403,7 @@ class CarDetailsMobile extends StatelessWidget {
                 const SizedBox(height: 5),
                 const Text(
                   'Home',
-                  style: TextStyle(color: AppStyle.primary, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: AppStyle.primary, fontFamily: 'graphik', fontSize: 13, fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -413,7 +428,7 @@ class CarDetailsMobile extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   'Theme',
-                  style: TextStyle(color: homeController.themeOpenPage.value ? Colors.white : Colors.grey, fontFamily: 'D-DIN-PRO', fontSize: 13, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: homeController.themeOpenPage.value ? Colors.white : Colors.grey, fontFamily: 'graphik', fontSize: 13, fontWeight: FontWeight.bold),
                 )
               ],
             ),

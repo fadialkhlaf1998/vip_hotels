@@ -29,6 +29,7 @@ class BookPageController extends GetxController{
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
+  TextEditingController address = TextEditingController();
   TextEditingController msg = TextEditingController();
 
 
@@ -67,7 +68,7 @@ class BookPageController extends GetxController{
   book(String carId,String? optionId,BuildContext context) async {
     try {
       validate.value = true;
-      if(range.isNotEmpty && name.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&RegExp(r'\S+@\S+\.\S+').hasMatch(email.text)){
+      if(range.isNotEmpty && name.text.isNotEmpty &&  address.text.isNotEmpty && phone.text.isNotEmpty && email.text.isNotEmpty &&RegExp(r'\S+@\S+\.\S+').hasMatch(email.text)){
         // loading.value = true;
         uploadBar(true);
         var dio = myDio.Dio();
@@ -78,6 +79,7 @@ class BookPageController extends GetxController{
           'phone': phone.text,
           'email': email.text,
           'name': name.text,
+          'address': address.text,
           'car_id': carId,
           'hotel_id': Global.id,
           'option_id': optionId!,

@@ -12,10 +12,12 @@ class AppStyle{
   static const grey = Color(0xFF323232);
   static const green = Color(0xFF3bd16f);
   static const lightGrey = Color(0xFF888888);
+  static const vipBlue = Color(0xFF0099FF);
+  static const vipGray = Color(0xFFAAB3C0);
 
 
   static const defaultTextStyle = TextStyle(
-      fontFamily: 'D-DIN-PRO',
+      fontFamily: 'graphik',
       fontSize: 30,
       color: lightGrey,
   );

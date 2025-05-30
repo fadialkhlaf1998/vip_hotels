@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/model/all_data.dart';
+import 'package:vip_hotels/model/backend_style.dart';
 import 'package:vip_hotels/services/api.dart';
 import 'package:vip_hotels/services/global.dart';
 
@@ -69,6 +70,19 @@ class IntroController extends GetxController{
     if(data == null){
       return await getLoginData();
     }else{
+
+      BackEndStyle.header_image = data.header_image;
+      BackEndStyle.footer_image = data.footer_image;
+      BackEndStyle.inner_image = data.inner_image;
+      BackEndStyle.selected_brand_bg_color = data.selected_brand_bg_color;
+      BackEndStyle.selected_nav_bg_color = data.selected_nav_bg_color;
+      BackEndStyle.card_border_color = data.card_border_color;
+      BackEndStyle.card_bg_color = data.card_bg_color;
+      BackEndStyle.category_color = data.category_color;
+      BackEndStyle.body_color = data.body_color;
+      BackEndStyle.title_color = data.title_color;
+      BackEndStyle.primary_color = data.primary_color;
+
       carCategory.addAll(data.category);
       brandList.addAll(data.brands);
       for(int i = 0; i < carCategory.length; i++){

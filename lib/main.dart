@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
@@ -14,8 +15,12 @@ import 'package:vip_hotels/view/mobile/home_mobile.dart';
 import 'package:vip_hotels/view/mobile/mobile_login.dart';
 
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    // DeviceOrientation.portraitDown,
+  ]);
   runApp(const VipApp());
 
   // if(MediaQueryData.fromWindow(WidgetsBinding.instance.window).size.shortestSide > 600){
@@ -38,7 +43,7 @@ void main() {
 
 }
 ColorScheme appColors = ColorScheme.fromSwatch(
-  primarySwatch: generateMaterialColor(AppStyle.primary)
+  primarySwatch: generateMaterialColor(AppStyle.vipBlue)
 );
 class VipApp extends StatelessWidget {
   const VipApp({Key? key}) : super(key: key);
@@ -98,11 +103,12 @@ class VipApp extends StatelessWidget {
         ],
         theme: ThemeData(
           colorScheme: appColors,
-          fontFamily: 'conthrax',
-          primaryColor: generateMaterialColor(AppStyle.primary),
-          primarySwatch: generateMaterialColor(AppStyle.primary),
-          primaryColorLight: AppStyle.primary,
-          primaryColorDark: AppStyle.primary
+          // fontFamily: 'conthrax',
+          fontFamily: 'graphik',
+          primaryColor: generateMaterialColor(AppStyle.vipBlue),
+          primarySwatch: generateMaterialColor(AppStyle.vipBlue),
+          primaryColorLight: AppStyle.vipBlue,
+          primaryColorDark: AppStyle.vipBlue
         ),
         home: Intro()
     );

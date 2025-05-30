@@ -158,7 +158,7 @@ class _ThemeCircleState extends State<ThemeCircle> with SingleTickerProviderStat
           'Choose Your Theme And',
           style: TextStyle(
             color: AppStyle.lightGrey,
-            fontFamily: 'D-DIN-PRO',
+            fontFamily: 'graphik',
             fontSize: 30,
           ),
         ),
@@ -167,7 +167,7 @@ class _ThemeCircleState extends State<ThemeCircle> with SingleTickerProviderStat
           'GO WITH US',
           style: TextStyle(
             color: AppStyle.primary,
-            fontFamily: 'D-DIN-PRO',
+            fontFamily: 'graphik',
             fontSize: 35,
             fontWeight: FontWeight.bold
           ),

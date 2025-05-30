@@ -8,6 +8,7 @@ import 'package:vip_hotels/controller/home_controller.dart';
 import 'package:vip_hotels/controller/intro_controller.dart';
 import 'package:vip_hotels/controller/login_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
+import 'package:vip_hotels/model/backend_style.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/global.dart';
 import 'package:vip_hotels/widget/bottomNavBar.dart';
@@ -44,37 +45,32 @@ class HomeMobile extends StatelessWidget {
           return true;
         },
         child: Scaffold(
-          backgroundColor: Colors.black,
-          body: SafeArea(
-              child: Stack(
-                children: [
-                  Container(
-                    width: Get.width,
-                    height: Get.height,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/homeBackground.jpg')
-                        )
+          backgroundColor: BackEndStyle.bgColor,
+          body: Stack(
+            children: [
+              SafeArea(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _topBar(context),
+                    Expanded(
+                      child: _mainObject(context),
                     ),
-                  ),
-                  _mainObject(context),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _topBar(context),
-                      CustomBottomNavBar(
-                          height: Get.height * 0.068,
-                          color: Colors.black.withOpacity(0.8),
-                          selectIndex: homeController.selectIndexSidebar.value,
-                          space: 60
-                      ),
-                      // _bottomBar()
-                    ],
-                  ),
-                  logoutConfirm()
-                ],
-              )
+
+                    CustomBottomNavBar(
+                        height: 55,
+                        color: Colors.white,
+                        selectIndex: homeController.selectIndexSidebar.value,
+                        space: 60
+                    ),
+                    //
+                    // _bottomBar()
+
+                  ],
+                ),
+              ),
+              logoutConfirm(),
+            ],
           ),
         ),
       );
@@ -86,57 +82,53 @@ class HomeMobile extends StatelessWidget {
   _mainObject(context){
     return  SizedBox(
         width: Get.width,
-        child: Center(
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: homeController.chooseBrand.value ? _carFilterList(context) : _carList(context),
-          )
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: homeController.chooseBrand.value ? _carFilterList(context) : _carList(context),
         )
     );
   }
 
 
   _topBar(context){
+    // print(BackEndStyle.header_image);
     return  Container(
-      height: Get.height * 0.08 + 120,
+      // height: Get.height * 0.08 + 120,
       width: Get.width,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [
-                Colors.black,
-                Colors.black.withOpacity(0.8),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter
-          )
-      ),
+      // color: Colors.red,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // const SizedBox(width: 40),
-              Center(
-                  child: Container(
-                    width: Get.width * 0.8,
-                    height: Get.height * 0.08,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Image.network(Global.image),
-                  )
-              ),
-              // GestureDetector(
-              //   onTap: (){
-              //     homeController.logout();
-              //   },
-              //   child: const Padding(
-              //     padding: EdgeInsets.symmetric(horizontal: 10),
-              //       child: Icon(Icons.logout, size: 20,color: Colors.white)),
-              // ),
-            ],
-          ),
-          SizedBox(
+          Container(
+            height: Get.width/4,
             width: Get.width,
-            height: 40,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(BackEndStyle.header_image),
+                fit: BoxFit.cover
+              )
+            ),
+            // child: Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Container(
+            //       margin: EdgeInsets.only(top: 10),
+            //         width: Get.width,
+            //         height: 50,
+            //         child: Image.network(Global.image),
+            //       ),
+            //   ],
+            // ),
+          ),
+
+          const SizedBox(height: 10),
+          _searchTextField(context),
+          _brandMenu(),
+          const SizedBox(height: 10),
+          Container(
+            width: Get.width,
+            height: 35,
+            margin: EdgeInsets.only(bottom: 10),
             child: Center(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -154,21 +146,26 @@ class HomeMobile extends StatelessWidget {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 40,
+                      width: 92,
+                      margin: EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        border: homeController.selectionIndexBottomBar.value == -1
-                            ? const  Border(
-                            bottom: BorderSide(color: AppStyle.primary, width:  2)
-                        ) : null,
+                          color: homeController.selectionIndexBottomBar.value == index - 1?BackEndStyle.primary_color
+                              :Colors.transparent,
+                          border: Border.all(
+                              color:
+                              homeController.selectionIndexBottomBar.value == index - 1?BackEndStyle.primary_color
+                                  :BackEndStyle.category_color
+                          ),
+                          borderRadius: BorderRadius.circular(20)
+
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'All',
                           style: TextStyle(
-                              color: Colors.white,
+                              color: homeController.selectionIndexBottomBar.value == index - 1?Colors.white:BackEndStyle.category_color,
                               fontSize: 15,
-                              fontFamily: 'D-DIN-PRO',
+                              fontFamily: 'graphik',
                               fontWeight: FontWeight.bold
                           ),
                         ),
@@ -185,21 +182,25 @@ class HomeMobile extends StatelessWidget {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 40,
+                      width: 92,
+                      margin: EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                          border: homeController.selectionIndexBottomBar.value == index - 1
-                              ? const  Border(
-                              bottom: BorderSide(color: AppStyle.primary, width:  3)
-                          ) : null
+                        color: homeController.selectionIndexBottomBar.value == index - 1?BackEndStyle.primary_color
+                            :Colors.transparent,
+                        border: Border.all(
+                          color:
+                          homeController.selectionIndexBottomBar.value == index - 1?BackEndStyle.primary_color
+                          :BackEndStyle.category_color
+                        ),
+                          borderRadius: BorderRadius.circular(20)
+
                       ),
                       child: Center(
                         child: Text(
                           introController.carCategory[index - 1].title,
-                          style: const TextStyle(
-                              color: Colors.white,
+                          style: TextStyle(
+                              color: homeController.selectionIndexBottomBar.value == index - 1?Colors.white:BackEndStyle.category_color,
                               fontSize: 15,
-                              fontFamily: 'D-DIN-PRO',
                               fontWeight: FontWeight.bold
                           ),
                         ),
@@ -210,14 +211,34 @@ class HomeMobile extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          _searchTextField(context),
-          _brandMenu(),
         ],
       ),
     );
   }
+  _footer(BuildContext context){
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        double height = width / 5;
+        return GestureDetector(
+          onTap: (){
+            Global.launchMyUrl('https://wa.me/'+Global.phone);
+          },
+          child: Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(BackEndStyle.footer_image),
+                    fit: BoxFit.cover
+                )
+            ),
 
+          ),
+        );
+      },
+    );
+  }
   _carList(context){
     return SizedBox(
       key: const ValueKey(2),
@@ -227,7 +248,7 @@ class HomeMobile extends StatelessWidget {
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.08 + 130),
+            SizedBox(height: 20),
             homeController.loading.value
                 ? SizedBox(
                   width: Get.width - 120,
@@ -240,17 +261,20 @@ class HomeMobile extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
+                crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 8/6,
+                childAspectRatio: 3/5,
               ),
               itemCount: homeController.lazyLoad.value,
               itemBuilder: (BuildContext context, index){
                 return _carCard(index,context);
               },
             ),
-            const SizedBox(height: 60)
+            const SizedBox(height: 10),
+            homeController.loading.value?Center():
+            _footer(context),
+            const SizedBox(height: 20)
           ],
         ),
       ),
@@ -266,7 +290,7 @@ class HomeMobile extends StatelessWidget {
         child: ListView(
           controller: homeController.scrollController,
           children: [
-            SizedBox(height: Get.height * 0.08 + 110),
+            SizedBox(height: 20),
             const SizedBox(height: 20),
             homeController.loading.value
                 ? SizedBox(
@@ -279,10 +303,10 @@ class HomeMobile extends StatelessWidget {
                 ? SizedBox(
                   width: Get.width - 120,
                   height: 200,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       "Oops No Cars For This Selection",
-                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 13),),
+                      style: TextStyle(color: BackEndStyle.title_color,fontWeight: FontWeight.bold,fontSize: 13),),
                   ),
             )
                 :
@@ -290,20 +314,264 @@ class HomeMobile extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
+                crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 8/6,
+                childAspectRatio: 3/5,
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
                 return _carCardFilter(index);
               },
             ),
-            SizedBox(height: Get.height * 0.11)
+            const SizedBox(height: 10),
+            homeController.loading.value?Center():
+            _footer(context),
+            const SizedBox(height: 20)
           ],
         ),
       ),
+    );
+  }
+
+
+
+  _carCard(index,BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        if(introController.allCars[index].options.isNotEmpty){
+          Get.toNamed('/CarDetailsMobile', arguments: [introController.allCars[index]]);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: BackEndStyle.card_bg_color,
+            borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: BackEndStyle.card_border_color)
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Flexible(
+              flex: 4,
+              child: Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius:  BorderRadius.circular(20),
+                  color: BackEndStyle.card_border_color
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network(
+                    fit: BoxFit.cover,
+                    introController.allCars[index].image,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          double width = constraints.maxWidth;
+                          double height = width / 2;
+                          return SizedBox(
+                            width: width,
+                            height: height,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 4,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      children: [
+                        Hero(
+                          tag: introController.allCars[index].carId,
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(introController.allCars[index].brandImage)
+                                )
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                introController.allCars[index].title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: BackEndStyle.title_color,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          // 'AED ${introController.allCars[index].price} / Daily',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: BackEndStyle.body_color,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          "Daily",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: BackEndStyle.body_color,
+                              fontStyle: FontStyle.italic
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      padding: EdgeInsets.symmetric(vertical: 5,),
+                      decoration: BoxDecoration(
+                        border: Border.symmetric(
+                          horizontal: BorderSide(
+                            color: BackEndStyle.body_color
+                          )
+                        )
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/icons/door_icon.svg",width: 15,color: BackEndStyle.body_color),
+                              SizedBox(width: 5,),
+                              Text(introController.allCars[index].doors.toString()+" Doors",style: TextStyle(color: BackEndStyle.body_color,fontSize: 12),)
+                            ],
+                          ),
+                          Text("|",style: TextStyle(color: BackEndStyle.body_color),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/icons/seat_icon.svg",width: 15,color: BackEndStyle.body_color),
+                              SizedBox(width: 5,),
+                              Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: BackEndStyle.body_color,fontSize: 12),)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+
+                  ],
+                ),
+              ),
+            ),
+            Flexible(flex: 1,child:  
+              Padding(padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+                child: _carCardButton(index),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  _carCardButtonFilter(index){
+    return Column(
+      children: [
+        Row(
+          children: [
+            Flexible(
+              flex: 1,
+              child: GestureDetector(
+                onTap: (){
+                  Get.toNamed('/bookMobile', arguments: [homeController.filterCarList[index]]);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                      color: BackEndStyle.primary_color,
+                      borderRadius: BorderRadius.circular(15)
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Rent Now',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 5),
+            Flexible(
+              flex: 1,
+              child: GestureDetector(
+                onTap: (){
+
+                  if(homeController.filterCarList[index].options.isNotEmpty){
+                    Get.toNamed('/CarDetailsMobile', arguments: [homeController.filterCarList[index]]);
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: BackEndStyle.primary_color)
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Car Details',
+                      style: TextStyle(
+                          color: BackEndStyle.primary_color,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -316,204 +584,36 @@ class HomeMobile extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: AppStyle.grey.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(20)
+            color: BackEndStyle.card_bg_color,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: BackEndStyle.card_border_color)
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Flexible(
-              flex: 8,
-              child: Stack(
-                alignment: Alignment.topLeft,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(homeController.filterCarList[index].image),
-                        )
-                    ),
-                  ),
-                  Hero(
-                    tag: homeController.filterCarList[index].carId,
-                    child: Container(
-                      width: Get.width * 0.08,
-                      height: Get.width * 0.08,
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(homeController.filterCarList[index].brandImage)
-                          )
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
-                        SizedBox(width: 5,),
-                        Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
-                      ],
-                    ),)
-                ],
-              ),
-            ),
-            Flexible(
-              flex: 5,
+              flex: 4,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-
-                    Text(
-                      homeController.filterCarList[index].title,
-                      maxLines: 1,
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontStyle: FontStyle.italic
-                      ),
-                    ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //
-                    //
-                    //
-                    //     Row(
-                    //       children: [
-                    //         SvgPicture.asset("assets/icons/doors.svg"),
-                    //         SizedBox(width: 5,),
-                    //         Text(homeController.filterCarList[index].doors.toString(),style: TextStyle(color: Colors.white),)
-                    //       ],
-                    //     ),
-                    //
-                    //     Row(
-                    //       children: [
-                    //         SvgPicture.asset("assets/icons/calendar.svg"),
-                    //         SizedBox(width: 5,),
-                    //         Text(homeController.filterCarList[index].year,style: TextStyle(color: Colors.white),)
-                    //       ],
-                    //     ),
-                    //
-                    //     Row(
-                    //       children: [
-                    //         SvgPicture.asset("assets/icons/seat.svg"),
-                    //         SizedBox(width: 5,),
-                    //         Text(homeController.filterCarList[index].seets.toString(),style: TextStyle(color: Colors.white),)
-                    //       ],
-                    //     ),
-                    //
-                    //
-                    //   ],
-                    // ),
-
-                    Row(
-                      children: [
-                        Text(
-                          !Global.guest ? 'AED ${homeController.filterCarList[index].price}  ' : 'AED ****  ',
-                          // 'AED ${introController.allCars[index].price} / Daily',
-                          style: const TextStyle(
-                              fontSize: 15,
-                              color: AppStyle.primary,
-                              fontStyle: FontStyle.italic
-                          ),
-                        ),
-                        Text(
-                          "Daily",
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.white.withOpacity(0.7),
-                              fontStyle: FontStyle.italic
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                       'Security Deposit: AED ${homeController.filterCarList[index].insurance_price}',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withOpacity(0.7),
-                          fontStyle: FontStyle.italic
-                      ),
-                    ),
-
-                    // SizedBox(height: 5,)
-                  ],
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 2,
-              child: Container(
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    )
+                    borderRadius:  BorderRadius.circular(20),
+                    color: BackEndStyle.card_border_color
                 ),
-                child: _carCardButtonFilter(index),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  _carCard(index,BuildContext context){
-    return GestureDetector(
-      onTap: (){
-        if(introController.allCars[index].options.isNotEmpty){
-          Get.toNamed('/CarDetailsMobile', arguments: [introController.allCars[index]]);
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            color: AppStyle.grey.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(20)
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Flexible(
-              flex: 8,
-              child: Stack(
-                alignment: Alignment.topLeft,
-                children: [
-                  Container(
-                    width: Get.width * 0.9,
-                    height: Get.height * 0.2,
-                    decoration: const BoxDecoration(
-                      borderRadius:  BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                      child: Image.network(
-                        fit: BoxFit.cover,
-                        introController.allCars[index].image,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) return child;
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.network(
+                    fit: BoxFit.cover,
+                    homeController.filterCarList[index].image,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          double width = constraints.maxWidth;
+                          double height = width / 2;
                           return SizedBox(
-                            width: Get.width * 0.3,
-                            height: Get.height * 0.2,
+                            width: width,
+                            height: height,
                             child: Center(
                               child: CircularProgressIndicator(
                                 strokeWidth: 3,
@@ -525,259 +625,189 @@ class HomeMobile extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                  Hero(
-                    tag: introController.allCars[index].carId,
-                    child: Container(
-                      width: Get.width * 0.08,
-                      height: Get.width * 0.08,
-                      margin: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(introController.allCars[index].brandImage)
-                          )
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/circle_seats.svg",width: 22,),
-                        SizedBox(width: 5,),
-                        Text(introController.allCars[index].seets.toString()+" Seats",style: TextStyle(color: Colors.white),)
-                      ],
-                    ),)
-                ],
+                ),
               ),
             ),
             Flexible(
-              flex: 5,
+              flex: 4,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      introController.allCars[index].title,
-                      maxLines: 1,
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontStyle: FontStyle.italic
-                      ),
-                    ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //
-                    //     Row(
-                    //       children: [
-                    //         SvgPicture.asset("assets/icons/doors.svg"),
-                    //         SizedBox(width: 5,),
-                    //         Text(introController.allCars[index].doors.toString(),style: TextStyle(color: Colors.white),)
-                    //       ],
-                    //     ),
-                    //
-                    //     Row(
-                    //       children: [
-                    //         SvgPicture.asset("assets/icons/calendar.svg"),
-                    //         SizedBox(width: 5,),
-                    //         Text(introController.allCars[index].year,style: TextStyle(color: Colors.white),)
-                    //       ],
-                    //     ),
-                    //
-                    //     Row(
-                    //       children: [
-                    //         SvgPicture.asset("assets/icons/seat.svg"),
-                    //         SizedBox(width: 5,),
-                    //         Text(introController.allCars[index].seets.toString(),style: TextStyle(color: Colors.white),)
-                    //       ],
-                    //     ),
-                    //
-                    //
-                    //   ],
-                    // ),
                     Row(
                       children: [
+                        Hero(
+                          tag: homeController.filterCarList[index].carId,
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            margin: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(homeController.filterCarList[index].brandImage)
+                                )
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                homeController.filterCarList[index].title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: BackEndStyle.title_color,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Text(
-                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
-                          // 'AED ${introController.allCars[index].price} / Daily',
-                          style: const TextStyle(
-                              fontSize: 15,
-                              color: AppStyle.primary,
-                              fontStyle: FontStyle.italic
+                          !Global.guest ? 'AED ${homeController.filterCarList[index].price}  ' : 'AED ****  ',
+                          // 'AED ${homeController.filterCarList[index].price} / Daily',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: BackEndStyle.body_color,
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         Text(
                           "Daily",
                           style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white.withOpacity(0.7),
+                              color: BackEndStyle.body_color,
                               fontStyle: FontStyle.italic
                           ),
                         ),
                       ],
                     ),
-                    Text(
-                      'Security Deposit: AED ${introController.allCars[index].insurance_price}',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white.withOpacity(0.7),
-                          fontStyle: FontStyle.italic
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      padding: EdgeInsets.symmetric(vertical: 5,),
+                      decoration: BoxDecoration(
+                          border: Border.symmetric(
+                              horizontal: BorderSide(
+                                  color: BackEndStyle.body_color
+                              )
+                          )
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/icons/door_icon.svg",width: 15,color: BackEndStyle.body_color),
+                              SizedBox(width: 5,),
+                              Text(homeController.filterCarList[index].doors.toString()+" Doors",style: TextStyle(color: BackEndStyle.body_color,fontSize: 12),)
+                            ],
+                          ),
+                          Text("|",style: TextStyle(color: BackEndStyle.body_color),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/icons/seat_icon.svg",width: 15,color: BackEndStyle.body_color),
+                              SizedBox(width: 5,),
+                              Text(homeController.filterCarList[index].seets.toString()+" Seats",style: TextStyle(color: BackEndStyle.body_color,fontSize: 12),)
+                            ],
+                          ),
+                        ],
                       ),
                     ),
+
+
                   ],
                 ),
               ),
             ),
-            Flexible(
-              flex: 2,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    )
-                ),
-                child: _carCardButton(index),
-              ),
+            Flexible(flex: 1,child:
+            Padding(padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+              child: _carCardButtonFilter(index),
+            ),
             )
           ],
         ),
       ),
     );
   }
-
-  _carCardButtonFilter(index){
-    return Row(
-      children: [
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: (){
-              if(homeController.filterCarList[index].options.isNotEmpty){
-                Get.toNamed('/CarDetailsMobile', arguments: [homeController.filterCarList[index]]);
-              }
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: homeController.filterCarList[index].options.isNotEmpty ? Colors.white : Colors.grey,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                  )
-              ),
-              child: Center(
-                child: Text(
-                  'Car Details',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: homeController.filterCarList[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
-                      fontSize: 12
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 5),
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: (){
-              Get.toNamed('/bookMobile', arguments: [homeController.filterCarList[index]]);
-            },
-            child: Container(
-              decoration: const BoxDecoration(
-                  color: AppStyle.primary,
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20)
-                  )
-              ),
-              child: const Center(
-                child: Text(
-                  'Rent Now',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.black,
-                      fontSize: 12
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   _carCardButton(index){
-    return Row(
+    return Column(
       children: [
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: (){
+        Row(
+          children: [
+            Flexible(
+              flex: 1,
+              child: GestureDetector(
+                onTap: (){
+                  Get.toNamed('/bookMobile', arguments: [introController.allCars[index]]);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                      color: BackEndStyle.primary_color,
+                      borderRadius: BorderRadius.circular(15)
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Rent Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 5),
+            Flexible(
+              flex: 1,
+              child: GestureDetector(
+                onTap: (){
 
-              if(introController.allCars[index].options.isNotEmpty){
-                Get.toNamed('/CarDetailsMobile', arguments: [introController.allCars[index]]);
-              }
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: introController.allCars[index].options.isNotEmpty ? Colors.white : Colors.grey,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                  )
-              ),
-              child: Center(
-                child: Text(
-                  'Car Details',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: introController.allCars[index].options.isNotEmpty ? Colors.black : Colors.white.withOpacity(0.5),
-                      fontSize: 12
+                  if(introController.allCars[index].options.isNotEmpty){
+                    Get.toNamed('/CarDetailsMobile', arguments: [introController.allCars[index]]);
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: BackEndStyle.primary_color)
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Car Details',
+                      style: TextStyle(
+                          color: BackEndStyle.primary_color,
+                          fontSize: 12,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
-        const SizedBox(width: 5),
-        Flexible(
-          flex: 1,
-          child: GestureDetector(
-            onTap: (){
-              Get.toNamed('/bookMobile', arguments: [introController.allCars[index]]);
-            },
-            child: Container(
-              decoration: const BoxDecoration(
-                  color: AppStyle.primary,
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20)
-                  )
-              ),
-              child: const Center(
-                child: Text(
-                  'Rent Now',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.black,
-                    fontSize: 12,
-                    // shadows: [
-                    //   Shadow(color: Colors.black,blurRadius: 1)
-                    // ]
-                  ),
-                ),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }
@@ -802,7 +832,7 @@ class HomeMobile extends StatelessWidget {
                 width: Get.width * 0.9 - 70,
                 height: 45,
                 decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.6),
+                    color: BackEndStyle.card_bg_color,
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10)
@@ -815,17 +845,17 @@ class HomeMobile extends StatelessWidget {
                       onTap: (){
                         homeController.onTapSideBar(0);
                       },
-                      child: Icon(Icons.close, size: 25,color: Colors.white),
+                      child: Icon(Icons.close, size: 25,color: BackEndStyle.body_color),
                     ),
                     SizedBox(width: 5),
-                    Icon(Icons.search, size: 25,color: Colors.white),
+                    Icon(Icons.search, size: 25,color: BackEndStyle.body_color),
                     SizedBox(width: 5),
                     Text(
                       'Find Your Car Now',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: BackEndStyle.body_color,
                           fontSize: 14,
-                          fontFamily: 'D-DIN-PRO',
+                          fontFamily: 'graphik',
                           fontWeight: FontWeight.bold
                       ),
                     )
@@ -836,8 +866,8 @@ class HomeMobile extends StatelessWidget {
             Container(
               width: 70,
               height: 45,
-              decoration: const BoxDecoration(
-                  color: AppStyle.primary,
+              decoration: BoxDecoration(
+                  color: BackEndStyle.primary_color,
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(10),
                       topRight: Radius.circular(10)
@@ -847,9 +877,9 @@ class HomeMobile extends StatelessWidget {
                 child: Text(
                   'Search',
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 15,
-                      fontFamily: 'D-DIN-PRO',
+                      fontFamily: 'graphik',
                       fontWeight: FontWeight.bold
                   ),
                 ),
@@ -888,8 +918,8 @@ class HomeMobile extends StatelessWidget {
                 ),
                 child: Center(
                     child: homeController.brandIndex.value!= -1
-                        ? Icon(Icons.close,color: AppStyle.primary,size: 30)
-                        : SvgPicture.asset("assets/icons/filter-Filled.svg", width: 20,color: AppStyle.primary,)
+                        ? Icon(Icons.close,color: Colors.black,size: 30)
+                        : SvgPicture.asset("assets/icons/filter-Filled.svg", width: 20,color: Colors.black,)
                 )
               ),
             )
@@ -900,9 +930,9 @@ class HomeMobile extends StatelessWidget {
               height: 50,
               margin: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
-                border: Border.all(color: homeController.brandIndex.value == index - 1 ?  AppStyle.primary : Colors.grey.withOpacity(0.8)),
                 borderRadius: BorderRadius.circular(10),
-
+                  color: homeController.brandIndex.value == index - 1 ?
+                  BackEndStyle.selected_brand_bg_color : Colors.transparent
               ),
                   child: GestureDetector(
               onTap: (){

@@ -20,7 +20,8 @@ class BackgroundImage extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/images/${homeController.themeImages[homeController.selectImageIndex.value - 1]}.png')
+                // image: AssetImage('assets/images/${homeController.themeImages[homeController.selectImageIndex.value - 1]}.png')
+                image: AssetImage('assets/images/car_details_bg.PNG')
               )
             ),
               ) : Center()

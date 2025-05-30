@@ -1,6 +1,7 @@
 
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Global {
 
@@ -10,6 +11,7 @@ class Global {
   static String password = '';
   static String image = '';
   static String email = '';
+  static String phone = '';
   static int companyId = -1;
   static bool guest = false;
 
@@ -23,6 +25,12 @@ class Global {
     prefs.setString('image', image);
     prefs.setString('email', email);
     prefs.setInt('companyId', companyId);
+  }
+
+  static Future<void> launchMyUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   static Future<bool> loadUserInformation() async {

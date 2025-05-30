@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vip_hotels/model/backend_style.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 
 class CustomAnimatedTextField extends StatelessWidget {
@@ -35,8 +36,8 @@ class CustomAnimatedTextField extends StatelessWidget {
       width: Get.width * width,
       height: height,
       child: TextField(
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: BackEndStyle.title_color,
         ),
         controller: controller,
         decoration:  InputDecoration(
@@ -53,9 +54,9 @@ class CustomAnimatedTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(5)
           )
               :OutlineInputBorder(
-              borderSide: const BorderSide(
+              borderSide: BorderSide(
                   width: 2,
-                  color: AppStyle.lightGrey
+                  color: BackEndStyle.body_color
               ),
               borderRadius: BorderRadius.circular(5)
           ),
@@ -68,15 +69,15 @@ class CustomAnimatedTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(5)
           )
               :OutlineInputBorder(
-              borderSide: const BorderSide(
+              borderSide: BorderSide(
                   width: 2,
-                  color: AppStyle.lightGrey),
+                  color: BackEndStyle.body_color),
               borderRadius: BorderRadius.circular(5)
           ),
           prefixIcon: prefixIcon,
           labelText: labelText,
-          labelStyle: const TextStyle(
-              color: Colors.white,
+          labelStyle: TextStyle(
+              color: BackEndStyle.body_color,
               fontSize: 13
           ),
         ),

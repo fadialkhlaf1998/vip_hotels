@@ -30,11 +30,11 @@ class DetailsPageController extends GetxController{
   }
 
   change() async {
-    while(true){
-      await Future.delayed(const Duration(milliseconds: 1300)).then((value){
-        changeColor.value = !changeColor.value;
-      });
-    }
+    // while(true){
+    //   await Future.delayed(const Duration(milliseconds: 1300)).then((value){
+    //     changeColor.value = !changeColor.value;
+    //   });
+    // }
 
   }
 

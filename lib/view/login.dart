@@ -1,13 +1,10 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vip_hotels/controller/login_controller.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/widget/custom_button.dart';
 import 'package:vip_hotels/widget/custom_image_container.dart';
-import 'package:vip_hotels/widget/custom_logo.dart';
+import 'package:vip_hotels/widget/custom_logo_black.dart';
 import 'package:vip_hotels/widget/custom_text_field.dart';
 import 'package:get/get.dart';
 
@@ -32,23 +29,22 @@ class Login extends StatelessWidget {
                   overScroll.disallowIndicator();
                   return true;
                 },
-                child: SingleChildScrollView(
-                    child: SizedBox(
-                      height: Get.height - (MediaQuery.of(context).padding.bottom + MediaQuery.of(context).padding.top),
-                      child: Row(
-                        children: [
-                          CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background.png'),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
-                              _inputData(),
+                child: SizedBox(
+                  height: Get.height,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Positioned(
+                          top: 0,
+                          child: CustomImageContainer(width: 1, height: 0.5, image: 'assets/images/login_bg.jpg')),
+                      // CustomImageContainer(width: 0.5, height: 1, image: 'assets/images/login_background1.png'),
 
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                      Positioned(
+                        bottom: 0,
+                        child: _inputData(),)
+
+                    ],
+                  ),
                 ),
               ),
               loginController.loading.value ? Container(
@@ -67,89 +63,94 @@ class Login extends StatelessWidget {
   }
 
   _inputData(){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(
-          height: 40,
-        ),
-        Column(
-          children: [
-            CustomLogo(width: 0.3, height: 0.3, tag: 'logo'),
-            const SizedBox(height: 20),
-            RichText(
+    return Container(
+      height: Get.height*0.6,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomLogoBlack(width: 1, height: 0.1, tag: 'logo'),
+          const SizedBox(height: 30),
+          Container(
+            width: 250,
+            child: RichText(
               text: const TextSpan(
                   text: 'Live the Luxury With ',
-                  style: AppStyle.defaultTextStyle,
+                  style: TextStyle(
+                    fontFamily: 'bankgothic',
+                    fontSize: 26,
+                    color: AppStyle.lightGrey,
+                  ),
                   children: [
-                    TextSpan(text: 'VIP', style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold, color: AppStyle.primary)),
+                    TextSpan(text: 'VIP', style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold, color: AppStyle.vipBlue)),
                   ]
               ),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 25),
-            CustomTextField(
-              width: 0.4,
-              height: 55,
-              controller: loginController.username,
-              prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
-              suffixIcon: const Icon(Icons.person, color: AppStyle.primary, size: 0),
-              hintText: 'User name',
-              keyboardType: TextInputType.text,
-              textVisible: false,
-              maxLength: 30,
-            ),
-            const SizedBox(height: 15),
-            CustomTextField(
-              width: 0.4,
-              height: 55,
-              controller: loginController.password,
-              prefixIcon: const Icon(Icons.lock, color: AppStyle.primary),
-              suffixIcon: GestureDetector(
-                onTap: (){
-                  print('-------');
-                  loginController.showPassword.value = !loginController.showPassword.value;
-                },
-                child:  loginController.showPassword.value ? const Icon(Icons.visibility_off, color: AppStyle.primary) : const Icon(Icons.visibility, color: AppStyle.primary),
-              ),
-              hintText: 'Password',
-              keyboardType: TextInputType.text,
-              textVisible: !loginController.showPassword.value,
-              maxLength: 30,
-            ),
-            const SizedBox(height: 30),
-            CustomButton(
-                width: 0.13,
-                height: 45,
-                text: 'GO NOW',
-                onPressed: (){
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  loginController.login();
-                },
-                color: AppStyle.primary,
-                borderRadius: 5,
-                textStyle: const TextStyle(color: Colors.black,fontSize: 15)
-            ),
-          ],
-        ),
-        GestureDetector(
-          onTap: (){
-            FocusManager.instance.primaryFocus?.unfocus();
-            loginController.loginAsGuest();
-          },
-          child: const SizedBox(
-            height: 60,
-            child: Center(
-              child: Text(
-                  'Login as guest',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16
-                ),
-              ),
-            )
           ),
-        )
-      ],
+          const SizedBox(height: 30),
+          CustomTextField(
+            width: 0.6,
+            height: 55,
+            controller: loginController.username,
+            prefixIcon: const Icon(Icons.person, color: AppStyle.vipBlue),
+            suffixIcon: const Icon(Icons.person, color: AppStyle.vipBlue, size: 0),
+            hintText: 'User name',
+            keyboardType: TextInputType.text,
+            textVisible: false,
+            maxLength: 30,
+          ),
+          const SizedBox(height: 15),
+          CustomTextField(
+            width: 0.6,
+            height: 55,
+            controller: loginController.password,
+            prefixIcon: const Icon(Icons.lock, color: AppStyle.vipBlue),
+            suffixIcon: GestureDetector(
+              onTap: (){
+                print('-------');
+                loginController.showPassword.value = !loginController.showPassword.value;
+              },
+              child:  loginController.showPassword.value ? const Icon(Icons.visibility_off, color: AppStyle.vipBlue) : const Icon(Icons.visibility, color: AppStyle.vipBlue),
+            ),
+            hintText: 'Password',
+            keyboardType: TextInputType.text,
+            textVisible: !loginController.showPassword.value,
+            maxLength: 30,
+          ),
+          const SizedBox(height: 30),
+          CustomButton(
+              width: 0.6,
+              height: 45,
+              text: 'GO NOW',
+              onPressed: (){
+                FocusManager.instance.primaryFocus?.unfocus();
+                loginController.login();
+              },
+              color: AppStyle.vipBlue,
+              borderRadius: 5,
+              textStyle: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)
+          ),
+          const SizedBox(height: 15),
+          CustomButton(
+              width: 0.6,
+              height: 45,
+              text: 'Login as guest',
+              onPressed: (){
+                FocusManager.instance.primaryFocus?.unfocus();
+                loginController.loginAsGuest();
+              },
+              color: AppStyle.vipGray,
+              borderRadius: 5,
+              textStyle: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15)
+          ),
+          const SizedBox(height: 15),
+        ],
+      ),
     );
   }
 

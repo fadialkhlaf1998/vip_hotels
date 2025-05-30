@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       height: widget.height,
       child: TextFormField(
         style: const TextStyle(
-          color: Colors.white,
+          color: AppStyle.vipGray,
         ),
         controller: widget.controller,
         validator: (text) {
@@ -61,21 +61,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fontWeight: FontWeight.bold),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-                width: 1, color: AppStyle.lightGrey
+                width: 1, color: AppStyle.vipGray
             ),
             borderRadius: BorderRadius.circular(5)
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
                   width: 1,
-                  color: AppStyle.lightGrey),
+                  color: AppStyle.vipGray),
               borderRadius: BorderRadius.circular(5)
           ),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIcon,
           labelText: widget.hintText,
           labelStyle: const TextStyle(
-              color: Colors.white,
+              color: AppStyle.vipGray,
               fontSize: 14
           ),
         ),

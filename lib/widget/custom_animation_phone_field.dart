@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:vip_hotels/model/backend_style.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 
 class CustomAnimatedPhoneField extends StatefulWidget {
@@ -66,8 +67,8 @@ class _CustomAnimatedPhoneFieldState extends State<CustomAnimatedPhoneField> {
             widget.controller.text =  value.phoneNumber!;
           });
         },
-        textStyle: const TextStyle(
-          color: Colors.white,
+        textStyle: TextStyle(
+          color: BackEndStyle.title_color,
         ),
         selectorTextStyle: const TextStyle(
           color: Colors.grey,

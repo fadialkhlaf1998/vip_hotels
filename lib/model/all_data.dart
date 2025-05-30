@@ -3,6 +3,9 @@
 //     final allData = allDataFromMap(jsonString);
 
 import 'dart:convert';
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 AllData allDataFromMap(String str) => AllData.fromMap(json.decode(str));
 
@@ -20,6 +23,18 @@ class AllData {
     required this.category,
     required this.brands,
     required this.contactPerson,
+    required this.header_image,
+    required this.footer_image,
+    required this.inner_image,
+    required this.phone,
+    required this.selected_brand_bg_color,
+    required this.primary_color,
+    required this.title_color,
+    required this.body_color,
+    required this.card_bg_color,
+    required this.card_border_color,
+    required this.category_color,
+    required this.selected_nav_bg_color,
   });
 
   int id;
@@ -32,6 +47,27 @@ class AllData {
   List<Category> category;
   List<Brand> brands;
   List<Category> contactPerson;
+  String header_image;
+  String footer_image;
+  String inner_image;
+  String phone;
+  Color selected_brand_bg_color;
+  Color primary_color;
+  Color title_color;
+  Color body_color;
+  Color card_bg_color;
+  Color card_border_color;
+  Color category_color;
+  Color selected_nav_bg_color;
+
+
+  static Color hexToColor(String hex) {
+    hex = hex.replaceAll("#", "");
+    if (hex.length == 6) {
+      hex = "FF$hex"; // Add opacity if not included
+    }
+    return Color(int.parse(hex, radix: 16));
+  }
 
   factory AllData.fromMap(Map<String, dynamic> json) => AllData(
     id: json["id"],
@@ -41,6 +77,19 @@ class AllData {
     username: json["username"],
     companyId: json["company_id"],
     email: json["email"],
+    header_image: json["header_image"]!=null?json["header_image"]:"https://www.vipcarrental.ae/wp-content/uploads/2024/10/book-you-car.webp",
+    footer_image: json["footer_image"]!=null?json["footer_image"]:"https://www.vipcarrental.ae/wp-content/uploads/2024/10/book-you-car.webp",
+    inner_image: json["inner_image"]!=null?json["inner_image"]:"https://www.vipcarrental.ae/wp-content/uploads/2024/10/book-you-car.webp",
+    phone: json["phone"]!=null?json["phone"]:"00971582706592",
+    selected_brand_bg_color: json["selected_brand_bg_color"]!=null?hexToColor(json["selected_brand_bg_color"]):Colors.white,
+    primary_color: json["primary_color"]!=null?hexToColor(json["primary_color"]):Colors.white,
+    title_color: json["title_color"]!=null?hexToColor(json["title_color"]):Colors.white,
+    body_color: json["body_color"]!=null?hexToColor(json["body_color"]):Colors.white,
+    card_bg_color: json["card_bg_color"]!=null?hexToColor(json["card_bg_color"]):Colors.white,
+    card_border_color: json["card_border_color"]!=null?hexToColor(json["card_border_color"]):Colors.white,
+    category_color: json["category_color"]!=null?hexToColor(json["category_color"]):Colors.white,
+    selected_nav_bg_color: json["selected_nav_bg_color"]!=null?hexToColor(json["selected_nav_bg_color"]):Colors.white,
+
     category: List<Category>.from(json["category"].map((x) => Category.fromMap(x))),
     brands: List<Brand>.from(json["brands"].map((x) => Brand.fromMap(x))),
     contactPerson: List<Category>.from(json["contact_person"].map((x) => Category.fromMap(x))),

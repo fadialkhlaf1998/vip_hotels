@@ -7,6 +7,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vip_hotels/controller/book_page_controller.dart';
 import 'package:vip_hotels/controller/details_page_controller.dart';
 import 'package:vip_hotels/model/all_data.dart';
+import 'package:vip_hotels/model/backend_style.dart';
 import 'package:vip_hotels/services/AppStyle.dart';
 import 'package:vip_hotels/services/api.dart';
 import 'package:vip_hotels/services/global.dart';
@@ -31,7 +32,7 @@ class BookPageMobile extends StatelessWidget {
     ));
     return Obx((){
       return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
             child: SizedBox(
@@ -42,22 +43,22 @@ class BookPageMobile extends StatelessWidget {
                   Stack(
                     alignment: Alignment.center,
                     children: [
-                      Container(
-                        width: Get.width,
-                        height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(car.image)
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   width: Get.width,
+                      //   height: Get.height - (MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+                      //   decoration: BoxDecoration(
+                      //     image: DecorationImage(
+                      //         fit: BoxFit.cover,
+                      //         image: NetworkImage(car.image)
+                      //     ),
+                      //   ),
+                      // ),
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 1000),
                         curve: Curves.fastOutSlowIn,
                         width: Get.width,
                         height: Get.height,
-                        color: Colors.black.withOpacity(0.7),
+                        // color: Colors.black.withOpacity(0.7),
                       ),
                       _bookDetails(context),
                       AnimatedSwitcher(
@@ -84,8 +85,8 @@ class BookPageMobile extends StatelessWidget {
                           radius: 60.0,
                           lineWidth: 5.0,
                           percent: bookPageController.progress.value,
-                          center: Text((bookPageController.progress.value * 100).toStringAsFixed(2)+"%",style: TextStyle(color: AppStyle.primary,fontWeight: FontWeight.bold),),
-                          progressColor: AppStyle.primary,
+                          center: Text((bookPageController.progress.value * 100).toStringAsFixed(2)+"%",style: TextStyle(color: BackEndStyle.primary_color,fontWeight: FontWeight.bold),),
+                          progressColor: BackEndStyle.primary_color,
                         ),
                       ),
                     )
@@ -94,8 +95,8 @@ class BookPageMobile extends StatelessWidget {
                       width: Get.width,
                       height: Get.height,
                       color: Colors.black.withOpacity(0.5),
-                      child: const Center(
-                        child: CircularProgressIndicator(strokeWidth: 5,color: AppStyle.primary,),
+                      child: Center(
+                        child: CircularProgressIndicator(strokeWidth: 5,color: BackEndStyle.primary_color,),
                       ),
                     ) : const Center(),
                   ),
@@ -125,12 +126,12 @@ class BookPageMobile extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: Get.width * 0.1, top: 20),
-                child: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.white),
+                child: const Icon(Icons.arrow_back_ios, size: 30, color: Colors.black),
               ),
             ),
           ),
             SizedBox(
-              height: Get.height * 0.6,
+              height: Get.height * 0.7,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -147,23 +148,23 @@ class BookPageMobile extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Colors.transparent,
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: AppStyle.lightGrey, width: 2)
+                            border: Border.all(color: BackEndStyle.body_color, width: 2)
                         ),
                         child: Center(
                           child: bookPageController.range.isEmpty
-                              ? const Text(
+                              ? Text(
                               'Pickup & Dropoff Date',
                               style: TextStyle(
-                                  color: AppStyle.lightGrey,
-                                  fontFamily: 'D-DIN-PRO',
+                                  color: BackEndStyle.body_color,
+                                  fontFamily: 'graphik',
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold
                               ))
                               :  Text(
                               'From ${bookPageController.range.value.split('-')[0]} To ${bookPageController.range.value.split('-')[1]}',
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'D-DIN-PRO',
+                              style: TextStyle(
+                                  color: BackEndStyle.title_color,
+                                  fontFamily: 'graphik',
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold
                               )),
@@ -174,7 +175,7 @@ class BookPageMobile extends StatelessWidget {
                   Global.guest
                       ? const Center()
                       : DottedBorder(
-                      color: AppStyle.primary,
+                      color: BackEndStyle.primary_color,
                       dashPattern: const [10, 4],
                       strokeWidth: 2,
                       child: Container(
@@ -192,14 +193,14 @@ class BookPageMobile extends StatelessWidget {
                                     onTap: (){
                                       bookPageController.selectImage();
                                     },
-                                    child: SvgPicture.asset('assets/icons/gallery.svg', color: AppStyle.primary, width: 35,height: 35,fit: BoxFit.contain,),
+                                    child: SvgPicture.asset('assets/icons/gallery.svg', color: BackEndStyle.primary_color, width: 35,height: 35,fit: BoxFit.contain,),
                                   ),
                                   const SizedBox(width: 40),
                                   GestureDetector(
                                     onTap: (){
                                       bookPageController.selectPhotosFromCamera();
                                     },
-                                    child: const Icon(Icons.camera_alt, color: AppStyle.primary,size: 40,),
+                                    child: Icon(Icons.camera_alt, color: BackEndStyle.primary_color,size: 40,),
                                   ),
                                 ],
                               ),
@@ -236,7 +237,7 @@ class BookPageMobile extends StatelessWidget {
                     width: 0.8,
                     height: 50,
                     controller: bookPageController.name,
-                    prefixIcon: const Icon(Icons.person, color: AppStyle.primary),
+                    prefixIcon: Icon(Icons.person, color: BackEndStyle.primary_color),
                     keyboardType: TextInputType.text,
                     labelText: 'Enter your name',
                     // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
@@ -245,11 +246,24 @@ class BookPageMobile extends StatelessWidget {
                     validate: bookPageController.name.text.isEmpty && bookPageController.validate.value,
                   ),
                   CustomAnimatedTextField(
+                    duration: 900,
+                    width: 0.8,
+                    height: 50,
+                    controller: bookPageController.address,
+                    prefixIcon: Icon(Icons.location_on, color: BackEndStyle.primary_color),
+                    keyboardType: TextInputType.text,
+                    labelText: 'Enter your Address',
+                    // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
+                    right: Get.width * 0.1,
+                    bottom: Get.height * 0.5,
+                    validate: bookPageController.address.text.isEmpty && bookPageController.validate.value,
+                  ),
+                  CustomAnimatedTextField(
                     duration: 1500,
                     width: 0.8,
                     height: 50,
                     controller: bookPageController.email,
-                    prefixIcon: const Icon(Icons.email, color: AppStyle.primary),
+                    prefixIcon: Icon(Icons.email, color: BackEndStyle.primary_color),
                     keyboardType: TextInputType.emailAddress,
                     labelText: 'Enter your email',
                     // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
@@ -263,7 +277,7 @@ class BookPageMobile extends StatelessWidget {
                     width: 0.8,
                     height: 52,
                     controller: bookPageController.phone,
-                    prefixIcon: const Icon(Icons.phone, color: AppStyle.primary),
+                    prefixIcon: Icon(Icons.phone, color: BackEndStyle.primary_color),
                     keyboardType: TextInputType.number,
                     labelText: 'Phone',
                     // right: bookPageController.range.isEmpty ? - Get.width * 0.3 : Get.width * 0.1,
@@ -295,14 +309,14 @@ class BookPageMobile extends StatelessWidget {
                                 color: AppStyle.lightGrey),
                             borderRadius: BorderRadius.circular(5)
                         ),
-                        prefixIcon: const Icon(Icons.message, color: AppStyle.primary,),
+                        prefixIcon: Icon(Icons.message, color: BackEndStyle.primary_color,),
                         labelText: 'Message',
-                        labelStyle: const TextStyle(
-                            color: Colors.white,
+                        labelStyle: TextStyle(
+                            color: BackEndStyle.body_color,
                             fontSize: 13
                         ),
                       ),
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: BackEndStyle.title_color),
                     ),
                   )
                   : const Center(),
@@ -334,22 +348,47 @@ class BookPageMobile extends StatelessWidget {
                 ],
               ),
             ),
-            CustomButton(
-                width: 0.5,
-                height: 40,
-                text: Global.guest ? 'INQUIRE NOW' : 'BOOK NOW',
-                onPressed: () async {
-                  if(Global.guest){
-                     bookPageController.addOrderGuest(car.title);
-                  }else{
-                    await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
-                    detailsPageController.optionId.value = -1;
-                    detailsPageController.optionIndex.value = 0;
-                  }
-                },
-                color: AppStyle.primary,
-                borderRadius: 5,
-                textStyle: const TextStyle(color: Colors.black, fontSize: 14)
+            Container(
+              width: Get.width * 0.8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      Get.back();
+                    },
+                    child: Container(
+                      width: Get.width* 0.3,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: BackEndStyle.primary_color),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text("Cancel",style: TextStyle(color: BackEndStyle.primary_color,fontSize: 16),),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 15,),
+                  CustomButton(
+                      width: 0.3,
+                      height: 40,
+                      text: Global.guest ? 'INQUIRE NOW' : 'BOOK NOW',
+                      onPressed: () async {
+                        if(Global.guest){
+                           bookPageController.addOrderGuest(car.title);
+                        }else{
+                          await bookPageController.book(car.carId.toString(), detailsPageController.optionId.value.toString(),context);
+                          detailsPageController.optionId.value = -1;
+                          detailsPageController.optionIndex.value = 0;
+                        }
+                      },
+                      color: BackEndStyle.primary_color,
+                      borderRadius: 20,
+                      textStyle: const TextStyle(color: Colors.white, fontSize: 14)
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 0)
           ],
@@ -364,7 +403,12 @@ class BookPageMobile extends StatelessWidget {
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Image.asset('assets/icons/$icon.png', width: 25,height: 25),
+          // Image.asset('assets/icons/$icon.png', width: 25,height: 25),
+
+          icon == 'id'?Icon(Icons.perm_identity,size: 25,color: BackEndStyle.primary_color,):
+          icon == 'passport'?Icon(Icons.account_box_outlined,size: 25,color: BackEndStyle.primary_color,) :
+          icon == 'visa'?Icon(Icons.airplane_ticket_outlined,size: 25,color: BackEndStyle.primary_color,) :
+          Icon(Icons.drive_eta_outlined,size: 25,color: BackEndStyle.primary_color,),
           const SizedBox(width: 5),
           Text(
             text,
@@ -473,9 +517,9 @@ class BookPageMobile extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       //todo : delete comment
-                      // primary: AppStyle.primary,
-                      // onPrimary: AppStyle.primary,
-                      backgroundColor: AppStyle.primary,
+                      // primary: BackEndStyle.primary_color,
+                      // onPrimary: BackEndStyle.primary_color,
+                      backgroundColor: BackEndStyle.primary_color,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
