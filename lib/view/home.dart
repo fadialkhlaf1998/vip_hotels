@@ -110,10 +110,10 @@ class Home extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 4/6,
+                childAspectRatio: 4/4,
               ),
               itemCount: homeController.lazyLoad.value,
               itemBuilder: (BuildContext context, index){
@@ -163,10 +163,10 @@ class Home extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 10),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 4/6,
+                childAspectRatio: 4/4,
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
@@ -455,7 +455,7 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -495,7 +495,7 @@ class Home extends StatelessWidget {
               ),
             ),
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
@@ -537,22 +537,26 @@ class Home extends StatelessWidget {
                         ),
                       ],
                     ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SvgPicture.asset("assets/icons/AED.svg",width: 17,color: BackEndStyle.body_color,),
+                        SizedBox(width: 5,),
                         Text(
-                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          !Global.guest ? '${introController.allCars[index].price}' : '****',
                           // 'AED ${introController.allCars[index].price} / Daily',
                           style: TextStyle(
-                              fontSize: 14,
-                              color: BackEndStyle.body_color,
+                              fontSize: 30,
+                              color: BackEndStyle.title_color,
                               fontWeight: FontWeight.bold
                           ),
                         ),
+                        SizedBox(width: 5,),
                         Text(
                           "Daily",
                           style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 17,
                               color: BackEndStyle.body_color,
                               fontStyle: FontStyle.italic
                           ),
@@ -593,17 +597,13 @@ class Home extends StatelessWidget {
                         ],
                       ),
                     ),
-
+                    _carCardButton(index)
 
                   ],
                 ),
               ),
             ),
-            Flexible(flex: 1,child:
-            Padding(padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-              child: _carCardButton(index),
-            ),
-            )
+
           ],
         ),
       ),
@@ -693,7 +693,7 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -733,7 +733,7 @@ class Home extends StatelessWidget {
               ),
             ),
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
@@ -778,19 +778,22 @@ class Home extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SvgPicture.asset("assets/icons/AED.svg",width: 17,color: BackEndStyle.body_color,),
+                        SizedBox(width: 5,),
                         Text(
-                          !Global.guest ? 'AED ${homeController.filterCarList[index].price}  ' : 'AED ****  ',
-                          // 'AED ${homeController.filterCarList[index].price} / Daily',
+                          !Global.guest ? '${homeController.filterCarList[index].price}' : '****',
+                          // 'AED ${introController.allCars[index].price} / Daily',
                           style: TextStyle(
-                              fontSize: 14,
-                              color: BackEndStyle.body_color,
+                              fontSize: 30,
+                              color: BackEndStyle.title_color,
                               fontWeight: FontWeight.bold
                           ),
                         ),
+                        SizedBox(width: 5,),
                         Text(
                           "Daily",
                           style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 17,
                               color: BackEndStyle.body_color,
                               fontStyle: FontStyle.italic
                           ),
@@ -831,17 +834,13 @@ class Home extends StatelessWidget {
                         ],
                       ),
                     ),
-
+                    _carCardButtonFilter(index),
 
                   ],
                 ),
               ),
             ),
-            Flexible(flex: 1,child:
-            Padding(padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-              child: _carCardButtonFilter(index),
-            ),
-            )
+
           ],
         ),
       ),

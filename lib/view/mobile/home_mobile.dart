@@ -261,10 +261,10 @@ class HomeMobile extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 3/5,
+                childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoad.value,
               itemBuilder: (BuildContext context, index){
@@ -314,10 +314,10 @@ class HomeMobile extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 3/5,
+                childAspectRatio: 3/3,
               ),
               itemCount: homeController.lazyLoadFilter.value,
               itemBuilder: (BuildContext context, index){
@@ -350,10 +350,10 @@ class HomeMobile extends StatelessWidget {
           border: Border.all(color: BackEndStyle.card_border_color)
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -393,7 +393,7 @@ class HomeMobile extends StatelessWidget {
               ),
             ),
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
@@ -438,19 +438,22 @@ class HomeMobile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SvgPicture.asset("assets/icons/AED.svg",width: 17,color: BackEndStyle.body_color,),
+                        SizedBox(width: 5,),
                         Text(
-                          !Global.guest ? 'AED ${introController.allCars[index].price}  ' : 'AED ****  ',
+                          !Global.guest ? '${introController.allCars[index].price}' : '****',
                           // 'AED ${introController.allCars[index].price} / Daily',
                           style: TextStyle(
-                              fontSize: 14,
-                              color: BackEndStyle.body_color,
+                              fontSize: 30,
+                              color: BackEndStyle.title_color,
                             fontWeight: FontWeight.bold
                           ),
                         ),
+                        SizedBox(width: 5,),
                         Text(
                           "Daily",
                           style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 17,
                               color: BackEndStyle.body_color,
                               fontStyle: FontStyle.italic
                           ),
@@ -491,17 +494,13 @@ class HomeMobile extends StatelessWidget {
                         ],
                       ),
                     ),
-
+                    _carCardButton(index),
 
                   ],
                 ),
               ),
             ),
-            Flexible(flex: 1,child:  
-              Padding(padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-                child: _carCardButton(index),
-              ),
-            )
+
           ],
         ),
       ),
@@ -589,10 +588,10 @@ class HomeMobile extends StatelessWidget {
             border: Border.all(color: BackEndStyle.card_border_color)
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -632,7 +631,7 @@ class HomeMobile extends StatelessWidget {
               ),
             ),
             Flexible(
-              flex: 4,
+              flex: 1,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Column(
@@ -677,25 +676,29 @@ class HomeMobile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SvgPicture.asset("assets/icons/AED.svg",width: 17,color: BackEndStyle.body_color,),
+                        SizedBox(width: 5,),
                         Text(
-                          !Global.guest ? 'AED ${homeController.filterCarList[index].price}  ' : 'AED ****  ',
-                          // 'AED ${homeController.filterCarList[index].price} / Daily',
+                          !Global.guest ? '${homeController.filterCarList[index].price}' : '****',
+                          // 'AED ${introController.allCars[index].price} / Daily',
                           style: TextStyle(
-                              fontSize: 14,
-                              color: BackEndStyle.body_color,
+                              fontSize: 30,
+                              color: BackEndStyle.title_color,
                               fontWeight: FontWeight.bold
                           ),
                         ),
+                        SizedBox(width: 5,),
                         Text(
                           "Daily",
                           style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 17,
                               color: BackEndStyle.body_color,
                               fontStyle: FontStyle.italic
                           ),
                         ),
                       ],
                     ),
+
 
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 4),
@@ -731,16 +734,12 @@ class HomeMobile extends StatelessWidget {
                       ),
                     ),
 
-
+                    _carCardButtonFilter(index),
                   ],
                 ),
               ),
             ),
-            Flexible(flex: 1,child:
-            Padding(padding: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-              child: _carCardButtonFilter(index),
-            ),
-            )
+
           ],
         ),
       ),
